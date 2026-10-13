@@ -1,0 +1,27 @@
+{
+  "method": "default",
+  "seed": 123,
+  "trial": -1,
+  "params": {
+    "n_estimators": 100,
+    "max_depth": null,
+    "min_samples_leaf": 1,
+    "max_features": "sqrt"
+  },
+  "cv_f1": 0.9706155160199129,
+  "cv_fold_std": 0.002050039385372063,
+  "fold_scores": [
+    0.9685005713675003,
+    0.9707521635422068,
+    0.9725938131500316
+  ],
+  "cv_seconds": 0.525591499870643,
+  "refit_seconds": 0.20644790004007518,
+  "feasible": true,
+  "model_bytes": 4975993,
+  "total_nodes": 34234,
+  "batch_predict_ms_median": 5.178600084036589,
+  "batch_predict_ms_p95": 5.966230109333992,
+  "batch_samples": 256,
+  "ms_per_sample": 0.020228906578267924
+}

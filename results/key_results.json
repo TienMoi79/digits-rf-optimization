@@ -1,0 +1,25 @@
+{
+  "selected_test_f1": 0.9717872416072222,
+  "selected_test_accuracy": 0.9722222222222222,
+  "selected_model_mb": 4.975993,
+  "size_reduction_vs_default_percent": 0.0,
+  "cv_gap_to_best": 0.0042328603555731315,
+  "search_seed_summary": [
+    {
+      "method": "random",
+      "best_cv_f1_mean": 0.9734021920072121,
+      "best_cv_f1_std": 0.0014596830291535902,
+      "cv_seconds_mean": 48.7512231337217,
+      "cv_seconds_std": 13.497283819087043,
+      "runs": 3
+    },
+    {
+      "method": "tpe",
+      "best_cv_f1_mean": 0.9722079420079858,
+      "best_cv_f1_std": 0.002695465221800807,
+      "cv_seconds_mean": 40.46504253304253,
+      "cv_seconds_std": 26.14932756957182,
+      "runs": 3
+    }
+  ]
+}
