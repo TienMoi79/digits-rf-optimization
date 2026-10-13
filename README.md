@@ -164,11 +164,11 @@ Thời gian train/evaluate thực tế: **431.2 giây** trên máy được ghi 
 
 <!-- RESULTS_END -->
 
-![Search history](results/figures/search_history.png)
+![Search history](figures/search_history.png)
 
-![Quality size trade off](results/figures/quality_size_tradeoff.png)
+![Quality size trade off](figures/quality_size_tradeoff.png)
 
-![Held out confusion matrix](results/figures/confusion_matrix.png)
+![Held out confusion matrix](figures/confusion_matrix.png)
 
 ## How to Run
 
@@ -210,6 +210,9 @@ digits-rf-optimization/
   demo.py                          # Predict with the saved model
   setup.ps1                        # Local Windows venv and installation
   run_demo.bat                     # Double-click demo after setup
+  update_github.ps1                 # Check, commit and push each update
+  AGENTS.md                        # Project workflow for future code updates
+  figures/*.png                    # Figures shown in README and notebook
   notebooks/optimization_walkthrough.ipynb
   scripts/build_notebook.py         # Rebuild the walkthrough source
   tests/test_protocol.py            # Isolation, selection, baseline, Pareto
@@ -228,7 +231,6 @@ digits-rf-optimization/
     classification_*.json, confusion_matrix.csv
     key_results.json, metrics_table.md, validation.json
     models/selected.joblib
-    figures/*.png
   requirements.txt, requirements-lock.txt, requirements-notebook.txt
   .gitignore, LICENSE, README.md
 ```
@@ -247,28 +249,37 @@ development 80% để các dự đoán test và model bàn giao khớp nhau.
 
 ## GitHub Portfolio
 
-Code sẵn sàng để đưa lên repo `digits-rf-optimization`. Gợi ý About:
-"Random Forest hyperparameter optimization on Digits with fair search budgets
-and a validation-based model-size decision."
+Repository public: **https://github.com/TienMoi79/digits-rf-optimization**.
+Thư mục hiện tại là Git checkout của repo này. Mã nguồn, notebook, logs và
+biểu đồ được quản lý trong cùng repo; môi trường `.venv` và cache được bỏ qua.
+
+Cấu trúc cấp gốc theo hướng dẫn của môn: `src/`, `notebooks/`, `results/`,
+`figures/`, `data/`, `README.md`, `requirements.txt` và `.gitignore`.
+Phạm vi nộp hiện tại là code và kết quả thực nghiệm.
+
+Mỗi lần hoàn thành một cập nhật, commit và push để GitHub phản ánh đúng bản
+đang làm. Lệnh tiện ích trên Windows kiểm tra tests và kết quả trước khi push:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\update_github.ps1 -Message "Describe the actual update"
+```
+
+Hoặc thực hiện thủ công:
+
+```bash
+git status
+git add .
+git commit -m "Describe the actual update"
+git push
+```
+
+Lịch sử Git bắt đầu từ ngày 13/10/2026. Các commit phản ánh thay đổi thực tế,
+không giả lập tiến độ của các tuần trước. Các mốc cập nhật tiếp theo cần tiếp
+tục ghi nhận trong quá trình làm project. Cấu trúc và nội dung đã chuẩn bị
+không tự thay thế yêu cầu tiến độ mà giảng viên đánh giá.
 
 Topics: `optimization`, `machine-learning`, `random-forest`, `optuna`,
 `hyperparameter-optimization`, `reproducibility`.
-
-Tạo repo public trên tài khoản của bạn, sau đó tại thư mục project:
-
-```bash
-git init
-git add .
-git commit -m "Add reproducible Digits RF optimization experiment"
-git branch -M main
-git remote add origin YOUR_GITHUB_REPOSITORY_URL
-git push -u origin main
-```
-
-Thay URL bằng URL repo thực tế. Không đưa `.venv` lên GitHub. Commit các cập
-nhật thực tế khi bạn học, chỉnh config hoặc cải tiến project. Bộ code này
-không giả lập lịch sử làm việc trong 5 tuần và chưa tự tạo repo GitHub public.
-Yêu cầu về GitHub/commit history cần xác nhận theo hướng dẫn mới nhất của cô.
 
 ## AI assistance
 

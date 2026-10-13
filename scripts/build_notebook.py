@@ -102,7 +102,7 @@ if RUN_NEW_EXPERIMENT:
     md("## Lịch sử tìm kiếm và độ ổn định\nDải màu thể hiện ±1 độ lệch chuẩn qua ba search seed. Đây không phải khoảng tin cậy."),
     code("""display(pd.read_csv(OUTPUT / 'search_summary.csv'))
 display(pd.read_csv(OUTPUT / 'best_per_seed.csv'))
-display(Image(filename=str(OUTPUT / 'figures/search_history.png')))"""),
+display(Image(filename=str(ROOT / 'figures/search_history.png')))"""),
     md("""## Trade off chất lượng và kích thước
 
 Đồ thị sử dụng **điểm CV**, đo kích thước joblib không nén theo MB thập phân.
@@ -111,13 +111,13 @@ Thời gian dự đoán đo trên batch development cố định 256 ảnh, 3 l�
 15 lần lặp. `ms_per_sample` là thời gian batch chia số mẫu, không phải latency
 của một request riêng lẻ. Thời gian có thể thay đổi theo máy và tải hệ thống.
 """),
-    code("""display(Image(filename=str(OUTPUT / 'figures/quality_size_tradeoff.png')))
+    code("""display(Image(filename=str(ROOT / 'figures/quality_size_tradeoff.png')))
 decision = json.loads((OUTPUT / 'selection.json').read_text(encoding='utf-8'))
 print('Best CV score:', decision['best_cv_f1'])
 print('Minimum acceptable CV score:', decision['minimum_acceptable_cv_f1'])
 print('Chosen parameters:', decision['selected_params'])
 display(pd.read_csv(OUTPUT / 'epsilon_sensitivity.csv'))
-display(Image(filename=str(OUTPUT / 'figures/epsilon_sensitivity.png')))"""),
+display(Image(filename=str(ROOT / 'figures/epsilon_sensitivity.png')))"""),
     md("""## Đánh giá test sau khi chốt cấu hình
 
 Mặc định, cấu hình tốt nhất của Random Search, cấu hình tốt nhất của TPE và
@@ -126,7 +126,7 @@ diện bằng CV rồi mới đánh giá test. Không đổi cấu hình dựa t
 Tất cả mô hình huấn luyện trên development 80%, không refit lên test.
 """),
     code("""display(pd.read_csv(OUTPUT / 'final_metrics.csv'))
-display(Image(filename=str(OUTPUT / 'figures/confusion_matrix.png')))
+display(Image(filename=str(ROOT / 'figures/confusion_matrix.png')))
 display(pd.read_json(OUTPUT / 'classification_selected.json').T)
 key_results = json.loads((OUTPUT / 'key_results.json').read_text(encoding='utf-8'))
 key_results"""),

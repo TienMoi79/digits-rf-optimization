@@ -35,7 +35,9 @@ def analyze(output):
     df = pd.read_csv(output / "trials.csv")
     search = df[df.method != "default"].copy()
     final = pd.read_csv(output / "final_metrics.csv")
-    figs = output / "figures"
+    # Keep the submitted repo layout aligned with the course template.
+    # Independent reproduction runs keep their figures beside their own logs.
+    figs = ROOT / "figures" if output.resolve() == (ROOT / "results").resolve() else output / "figures"
     figs.mkdir(exist_ok=True)
     plt.rcParams.update({"font.size": 11, "axes.spines.top": False,
                          "axes.spines.right": False, "figure.dpi": 140})

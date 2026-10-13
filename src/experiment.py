@@ -97,7 +97,7 @@ def run_experiment(config, output):
     if output.exists() and any(output.iterdir()):
         raise FileExistsError(f"Output is not empty: {output}. Use a NEW --output folder to preserve existing results.")
     output.mkdir(parents=True, exist_ok=True)
-    for name in ["models", "figures"]:
+    for name in ["models"]:
         (output / name).mkdir()
     manifest = {
         "started_at_utc": datetime.now(timezone.utc).isoformat(),
