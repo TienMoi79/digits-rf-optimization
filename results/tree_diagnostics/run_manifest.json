@@ -1,0 +1,22 @@
+{
+  "scope": "development_only",
+  "test_evaluations": 0,
+  "params": {
+    "n_estimators": 100,
+    "max_depth": null,
+    "min_samples_leaf": 1,
+    "max_features": "sqrt"
+  },
+  "development_sha256": "48335613b8bc3f2571d8506e7c6931d08cf5e3729cddc7ece195d3fb6162cc6b",
+  "folds": 3,
+  "curve_axis": "Number of trees, not epochs or optimization trials",
+  "loss_definition": "Mean negative log likelihood evaluated by sklearn.metrics.log_loss; not the Gini split objective.",
+  "band": "One sample SD across the three fixed folds, not a confidence interval.",
+  "validation_accuracy_at_full_forest": 0.9707724425887264,
+  "validation_log_loss_at_full_forest": 0.3500357756282975,
+  "checks": {
+    "prefix_probabilities_match_full_forest": true,
+    "final_cv_f1_matches_original": true,
+    "published_artifacts_preserved": true
+  }
+}

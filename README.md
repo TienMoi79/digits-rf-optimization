@@ -233,6 +233,29 @@ Phiên chạy hoàn tất mất **1205.6 giây**. Kiểm chứng đạt **3278 c
 
 ![Paired startup ablation](figures/robustness/startup_ablation.png)
 
+## Accuracy and loss curves
+
+Two diagnostic plots use the fixed selected Random Forest in the original
+three development folds. The horizontal axis is the number of trees averaged
+in the forest, not epochs or hyperparameter-search trials. Bands show one SD
+across folds. Log loss measures predictive probabilities; the trees themselves
+use the default Gini split criterion. No new test evaluation is performed.
+
+```powershell
+.\.venv\Scripts\python.exe -m src.tree_diagnostics
+```
+
+Logs: `results/tree_diagnostics/metrics_per_fold.csv` and `metrics_summary.csv`.
+The script checks that prefix probability accumulation matches the full forest
+and that final CV Macro-F1 reproduces the originally published fold scores.
+At 100 trees, mean training accuracy is 1.00000 and validation accuracy 0.97077;
+mean train/validation log losses are 0.10277/0.35004. These are development CV
+metrics, separate from the frozen 97.22% held-out test accuracy.
+
+![Training and validation accuracy](figures/tree_diagnostics/accuracy.png)
+
+![Training and validation log loss](figures/tree_diagnostics/log_loss.png)
+
 ## Automated checks
 
 GitHub Actions chạy trên Windows và Ubuntu, Python 3.12 trong venv riêng, sau
