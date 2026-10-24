@@ -21,6 +21,8 @@ if (-not (Test-Path -LiteralPath '.venv\Scripts\python.exe')) { throw 'Run setup
 if ($LASTEXITCODE -ne 0) { throw 'Tests failed. Nothing was committed or pushed.' }
 & '.\.venv\Scripts\python.exe' -m src.validation
 if ($LASTEXITCODE -ne 0) { throw 'Result validation failed. Nothing was committed or pushed.' }
+& '.\.venv\Scripts\python.exe' -m src.robustness_validation --if-exists
+if ($LASTEXITCODE -ne 0) { throw 'Development study validation failed. Nothing was committed or pushed.' }
 
 & git add --all
 if ($LASTEXITCODE -ne 0) { throw 'Git staging failed.' }

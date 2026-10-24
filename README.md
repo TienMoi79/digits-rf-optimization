@@ -1,10 +1,14 @@
 # Digits Random Forest Optimization
 
+[![Project checks](https://github.com/TienMoi79/digits-rf-optimization/actions/workflows/ci.yml/badge.svg)](https://github.com/TienMoi79/digits-rf-optimization/actions/workflows/ci.yml)
+
 **Đồ án cá nhân môn Nhập môn tối ưu hóa.** Tối ưu siêu tham số Random Forest
 cho nhận dạng chữ số viết tay, so sánh Random Search với Optuna TPE và chọn
 mô hình nhỏ theo một giới hạn suy giảm Macro-F1 validation định trước.
 
 Repo gồm code, notebook có kết quả, log thực nghiệm và mô hình đã huấn luyện.
+Phần mở rộng so sánh 5 search seeds, TPE startup 5/10 và ngân sách trials/thời gian;
+kết quả test của thí nghiệm ban đầu được bảo toàn.
 Theo phạm vi nộp hiện tại, không có báo cáo Word/PDF hoặc slide.
 
 ## Chạy nhanh trên Windows
@@ -28,10 +32,12 @@ Sau khi setup, nhấp đúp `run_demo.bat` cũng chạy demo được.
 Mở notebook:
 
 ```powershell
-.\.venv\Scripts\jupyter-lab.exe notebooks\optimization_walkthrough.ipynb
+.\.venv\Scripts\jupyter-lab.exe notebooks\robustness_study.ipynb
 ```
 
-Chọn kernel **Python (Digits RF)**. Run All đọc kết quả có sẵn và kiểm chứng;
+Chọn kernel **Python (Digits RF)**. Notebook `optimization_walkthrough.ipynb`
+lưu thí nghiệm ban đầu; `robustness_study.ipynb` trình bày phần mở rộng.
+Run All đọc kết quả có sẵn và kiểm chứng;
 không tự chạy lại toàn bộ quá trình tìm kiếm.
 
 Chạy lại thực nghiệm đầy đủ vào một thư mục MỚI:
@@ -170,6 +176,71 @@ Thời gian train/evaluate thực tế: **431.2 giây** trên máy được ghi 
 
 ![Held out confusion matrix](figures/confusion_matrix.png)
 
+## Development-only extension
+
+Thiết kế phần mở rộng được lưu trong `configs/robustness.json` trước khi chạy:
+Random Search, TPE startup 5, TPE startup 10; seeds 11,22,33,44,55;
+30 trials/method/seed, tổng 450 trials và 1.350 lần fit CV, cộng 3 fits baseline.
+Miền tìm kiếm, development, folds, Macro-F1 và RF seed giữ nguyên như thí nghiệm gốc.
+
+Mọi study chạy mới, tuần tự, n_jobs=1 trong cùng phiên. Thứ tự phương pháp xoay
+vòng theo seed để tránh luôn chạy một phương pháp cuối cùng. Không ghép thời gian
+của lần chạy cũ với lần chạy mới. Chỉ thực hiện CV, không refit/profiling mô hình
+hoặc đánh giá thêm trên test. Mô hình demo vẫn là model của thí nghiệm gốc.
+
+Các checkpoint 10,20,30 chỉ dùng prefix trials tương ứng. Đường theo thời gian
+sử dụng thời điểm hoàn tất trial trong miền thời gian giao nhau của tất cả runs,
+không nội suy score, điền ngược hoặc ngoại suy sau khi study kết thúc.
+Elapsed time gồm sampler, CV, bookkeeping và chi phí ghi log trước đó.
+Không so trực tiếp thời gian CV-only này với tổng runtime pipeline ban đầu.
+
+Ablation ghép startup 5 và 10 theo cùng seed. Delta là best CV F1 của startup 5
+trừ startup 10 tại cùng ngân sách 30. Mean và SD qua search seeds mang tính mô tả,
+không phải khoảng tin cậy trên các dataset hoặc kiểm định ý nghĩa thống kê.
+
+Các artifact gốc được kiểm tra SHA-256 trước/sau studies và khi xác thực kết quả.
+Hash văn bản chuẩn hóa CRLF thành LF để tương thích checkout Windows/Linux;
+model nhị phân được hash nguyên bytes. `results/validation.json` là chẩn đoán
+có thể ghi lại khi kiểm tra nên không nằm trong tập kết quả đóng băng.
+
+<!-- ROBUSTNESS_RESULTS_START -->
+
+| Method | Trials/run | Seeds | Best CV F1 mean ± SD | Elapsed mean ± SD (s) | Elapsed median (s) |
+|---|---:|---:|---:|---:|---:|
+| random | 10 | 5 | 0.96751 ± 0.00157 | 13.74 ± 3.95 | 11.74 |
+| random | 20 | 5 | 0.97118 ± 0.00253 | 32.32 ± 17.94 | 26.41 |
+| random | 30 | 5 | 0.97231 ± 0.00207 | 53.72 ± 41.34 | 35.45 |
+| tpe_startup_10 | 10 | 5 | 0.96751 ± 0.00157 | 13.56 ± 4.29 | 11.28 |
+| tpe_startup_10 | 20 | 5 | 0.97228 ± 0.00223 | 27.55 ± 18.08 | 20.72 |
+| tpe_startup_10 | 30 | 5 | 0.97282 ± 0.00210 | 138.27 ± 200.84 | 28.31 |
+| tpe_startup_5 | 10 | 5 | 0.97159 ± 0.00375 | 11.81 ± 4.64 | 10.67 |
+| tpe_startup_5 | 20 | 5 | 0.97385 ± 0.00083 | 28.12 ± 18.21 | 21.35 |
+| tpe_startup_5 | 30 | 5 | 0.97442 ± 0.00039 | 48.90 ± 39.84 | 33.27 |
+
+Ở 30 trials/run, **tpe_startup_5** có điểm CV trung bình cao nhất trong năm search seeds của lần chạy này. TPE startup 5 hơn startup 10 ở **3/5 seed**, hòa **2/5**; chênh lệch CV F1 trung bình là **0.00160** (0.160 điểm phần trăm tuyệt đối). Đây là bằng chứng mô tả cho protocol và ngân sách hiện tại, chưa phải kết luận tổng quát hoặc kiểm định ý nghĩa thống kê.
+
+Thêm hai search seeds làm thứ hạng CV trung bình của Random Search và TPE startup 10 đổi so với thí nghiệm ba seeds ban đầu. Điều này cho thấy cần xem độ ổn định qua nhiều seed thay vì chỉ dựa vào một nhóm nhỏ.
+
+**Giới hạn phép đo thời gian:** TPE startup 10 ở seed 44 mất 490.17 giây, trong khi các seed còn lại của cùng phương pháp mất khoảng 24.79 đến 120.37 giây. Phần thời gian CV cũng biến động lớn. Logs không đủ để xác định nguyên nhân; vì vậy thời gian là kết quả đo của phiên chạy này, cần lặp trên môi trường ít biến động để đánh giá tốc độ chắc chắn hơn. Bảng giữ nguyên mọi run, kèm SD và median để thể hiện mức biến động.
+
+Phiên chạy hoàn tất mất **1205.6 giây**. Kiểm chứng đạt **3278 checks**, bảo toàn **26 artifacts gốc**, và không đánh giá thêm mô hình mới trên test.
+
+<!-- ROBUSTNESS_RESULTS_END -->
+
+![Five seed trial budget](figures/robustness/search_budget.png)
+
+![Common elapsed time budget](figures/robustness/time_budget.png)
+
+![Paired startup ablation](figures/robustness/startup_ablation.png)
+
+## Automated checks
+
+GitHub Actions chạy trên Windows và Ubuntu, Python 3.12 trong venv riêng, sau
+mỗi push/pull request. Workflow cài dependencies đã khóa, chạy `pip check`,
+unit tests, xác thực kết quả gốc và phần mở rộng đã công bố, rồi chạy smoke test
+18 trials bằng `configs/robustness-smoke.json`. Smoke results nằm trong thư mục
+tạm của runner, không thay thế bộ kết quả chính thức 450 trials.
+
 ## How to Run
 
 ```powershell
@@ -179,7 +250,13 @@ Thời gian train/evaluate thực tế: **431.2 giây** trên máy được ghi 
 # Vẽ lại biểu đồ, tính lại bảng từ logs, không retrain
 .\.venv\Scripts\python.exe -m src.analysis
 
-# Tìm kiếm đầy đủ trong một thư mục mới
+# Chạy lại phần mở rộng development-only vào thư mục mới
+.\.venv\Scripts\python.exe run_robustness.py --output results/robustness-reproduction-01
+
+# Kiểm tra phần mở rộng đã lưu
+.\.venv\Scripts\python.exe -m src.robustness_validation
+
+# Tìm kiếm pipeline ban đầu trong một thư mục mới
 .\.venv\Scripts\python.exe run_experiment.py --config configs/experiment.json --output results/reproduction-01
 
 # Kiểm tra một bộ thực nghiệm chạy lại
@@ -201,20 +278,29 @@ xác suất của RF; các xác suất chưa được calibration.
 
 ```text
 digits-rf-optimization/
-  configs/experiment.json           # Budget, seeds, search space, epsilon
+  configs/experiment.json           # Original three-seed experiment
+  configs/robustness.json           # Five-seed comparison and startup treatments
+  configs/robustness-smoke.json     # Small CI integration budget
   src/common.py                    # Config, data split, RF construction
   src/experiment.py                # CV, Random/TPE, locked selection, test
   src/analysis.py                  # Summaries, observed Pareto, figures
   src/validation.py                # Independent result integrity checks
-  run_experiment.py                # Main CLI
+  run_experiment.py                # Original train/select/test pipeline
+  run_robustness.py                # Development-only extension CLI
+  src/robustness*.py               # Study runner, analysis and validation
+  .github/workflows/ci.yml         # Windows and Ubuntu checks
   demo.py                          # Predict with the saved model
   setup.ps1                        # Local Windows venv and installation
   run_demo.bat                     # Double-click demo after setup
   update_github.ps1                 # Check, commit and push each update
   AGENTS.md                        # Project workflow for future code updates
-  figures/*.png                    # Figures shown in README and notebook
-  notebooks/optimization_walkthrough.ipynb
-  scripts/build_notebook.py         # Rebuild the walkthrough source
+  figures/*.png                    # Original figures
+  figures/robustness/*.png         # Budget and startup ablation figures
+  notebooks/optimization_walkthrough.ipynb  # Original experiment
+  notebooks/robustness_study.ipynb           # Five-seed extension
+  scripts/build_notebook.py         # Rebuild original notebook source
+  scripts/build_robustness_notebook.py
+  tests/test_robustness.py          # Pairing, prefixes, time, provenance, logging
   tests/test_protocol.py            # Isolation, selection, baseline, Pareto
   data/README.md                   # Provenance and preprocessing
   results/
@@ -231,14 +317,22 @@ digits-rf-optimization/
     classification_*.json, confusion_matrix.csv
     key_results.json, metrics_table.md, validation.json
     models/selected.joblib
+    robustness/                   # New CV-only logs and analysis
+      run_manifest.json, baseline_cv.json
+      trials.json, trials.csv, optuna_*.csv
+      budget_per_seed.csv, budget_summary.csv
+      time_budget_per_seed.csv, time_comparison.json
+      startup_ablation_pairs.csv, startup_ablation_summary.json
+      metrics_table.md, validation.json
   requirements.txt, requirements-lock.txt, requirements-notebook.txt
   .gitignore, LICENSE, README.md
 ```
 
 ## Limitations
 
-Một dataset nhỏ, một test split và 3 search seeds chưa đủ để khẳng định một
-phương pháp tốt hơn trên mọi bài toán. HPO có thể thích nghi quá mức với CV;
+Thí nghiệm gốc có 3 search seeds; phần mở rộng có 5 search seeds trên cùng
+development và folds. Một dataset nhỏ và một test split chưa đủ để khẳng định
+một phương pháp tốt hơn trên mọi bài toán. HPO có thể thích nghi quá mức với CV;
 test chỉ cung cấp một đánh giá held-out cho protocol hiện tại. Dải ±SD không
 phải confidence interval. Quy tắc epsilon thể hiện ưu tiên triển khai, không
 chứng minh tương đương thống kê. Sensitivity chỉ tái chọn trên các logs đã lưu,

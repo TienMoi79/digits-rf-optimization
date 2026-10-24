@@ -71,9 +71,14 @@ def validate_robustness(output=None, base=None):
     summary = pd.read_csv(output / "budget_summary.csv")
     require(len(summary) == len(methods)*len(plan["checkpoints"]), "Complete method and budget summaries")
     for r in summary.itertuples():
-        scores = budgets[(budgets.method==r.method)&(budgets.budget==r.budget)].best_cv_f1
+        subset = budgets[(budgets.method==r.method)&(budgets.budget==r.budget)]
+        scores = subset.best_cv_f1
         require(r.seeds == len(plan["search_seeds"]) and np.isclose(r.best_cv_f1_mean,scores.mean(),rtol=0,atol=1e-12)
                 and np.isclose(r.best_cv_f1_std,scores.std(ddof=1),rtol=0,atol=1e-12), "Mean and sample SD recompute across search seeds")
+        require(np.isclose(r.elapsed_seconds_mean,subset.elapsed_seconds.mean(),rtol=0,atol=1e-9)
+                and np.isclose(r.elapsed_seconds_std,subset.elapsed_seconds.std(ddof=1),rtol=0,atol=1e-9)
+                and np.isclose(r.elapsed_seconds_median,subset.elapsed_seconds.median(),rtol=0,atol=1e-9),
+                "Elapsed mean, SD and median recompute across search seeds")
     pairs = pd.read_csv(output / "startup_ablation_pairs.csv")
     low, high = sorted(plan["tpe_startup_trials"])
     require(set(pairs.seed) == set(plan["search_seeds"]) and len(pairs) == len(plan["search_seeds"]), "Ablation uses complete matched-seed pairs")

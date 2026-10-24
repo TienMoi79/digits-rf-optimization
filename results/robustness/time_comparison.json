@@ -1,0 +1,7 @@
+{
+  "available": true,
+  "start_seconds": 3.1190609999466687,
+  "stop_seconds": 21.397616099915467,
+  "grid_points": 60,
+  "policy": "Common overlap only; no interpolation, backfill, or extrapolation of trial scores."
+}

@@ -1,0 +1,194 @@
+{
+  "status": "completed",
+  "started_at_utc": "2026-10-24T12:20:08.465620+00:00",
+  "scope": "development_only",
+  "test_evaluations": 0,
+  "plan": {
+    "search_seeds": [
+      11,
+      22,
+      33,
+      44,
+      55
+    ],
+    "trials_per_method": 30,
+    "tpe_startup_trials": [
+      5,
+      10
+    ],
+    "checkpoints": [
+      10,
+      20,
+      30
+    ],
+    "time_grid_points": 60
+  },
+  "plan_sha256": "05be2380eaa70b63df954c28a67e6b684eb047db660670ec0c80886f39f152b5",
+  "base_config": {
+    "dataset": "sklearn_digits",
+    "test_size": 0.2,
+    "split_seed": 42,
+    "cv_folds": 3,
+    "cv_seed": 42,
+    "model_seed": 123,
+    "search_seeds": [
+      11,
+      22,
+      33
+    ],
+    "trials_per_method": 30,
+    "tpe_startup_trials": 10,
+    "epsilon": 0.005,
+    "n_jobs": 1,
+    "latency_repeats": 15,
+    "search_space": {
+      "n_estimators": {
+        "low": 50,
+        "high": 200,
+        "step": 25
+      },
+      "max_depth": [
+        5,
+        10,
+        15,
+        20,
+        null
+      ],
+      "min_samples_leaf": {
+        "low": 1,
+        "high": 4
+      },
+      "max_features": [
+        "sqrt",
+        "log2",
+        "half",
+        "all"
+      ]
+    }
+  },
+  "base_config_sha256": "ef06bf172c1ce37d3cdfedd2f2fd1fb761bb6dd4bf09117394bcde87d5f268ec",
+  "development_sha256": "48335613b8bc3f2571d8506e7c6931d08cf5e3729cddc7ece195d3fb6162cc6b",
+  "development_samples": 1437,
+  "schedule": [
+    {
+      "seed": 11,
+      "method": "random",
+      "startup": null
+    },
+    {
+      "seed": 11,
+      "method": "tpe_startup_5",
+      "startup": 5
+    },
+    {
+      "seed": 11,
+      "method": "tpe_startup_10",
+      "startup": 10
+    },
+    {
+      "seed": 22,
+      "method": "tpe_startup_5",
+      "startup": 5
+    },
+    {
+      "seed": 22,
+      "method": "tpe_startup_10",
+      "startup": 10
+    },
+    {
+      "seed": 22,
+      "method": "random",
+      "startup": null
+    },
+    {
+      "seed": 33,
+      "method": "tpe_startup_10",
+      "startup": 10
+    },
+    {
+      "seed": 33,
+      "method": "random",
+      "startup": null
+    },
+    {
+      "seed": 33,
+      "method": "tpe_startup_5",
+      "startup": 5
+    },
+    {
+      "seed": 44,
+      "method": "random",
+      "startup": null
+    },
+    {
+      "seed": 44,
+      "method": "tpe_startup_5",
+      "startup": 5
+    },
+    {
+      "seed": 44,
+      "method": "tpe_startup_10",
+      "startup": 10
+    },
+    {
+      "seed": 55,
+      "method": "tpe_startup_5",
+      "startup": 5
+    },
+    {
+      "seed": 55,
+      "method": "tpe_startup_10",
+      "startup": 10
+    },
+    {
+      "seed": 55,
+      "method": "random",
+      "startup": null
+    }
+  ],
+  "frozen_artifacts": {
+    "baseline.json": "32b680a6d7acda36bdac40eb250f73e1b3f626beee63a965524c29d2e0fc264b",
+    "best_per_seed.csv": "3ecfa5668e01efbae204f8ab2b8c6e102b6551cbbbd8719ff0a0234ca6a842aa",
+    "classification_default.json": "18d3f9053d0a1e8f27514543ed72296b970bda2b22e2046f3e14f247f9d83128",
+    "classification_random.json": "9b75ea638178f66626971d2878c5549138716ac7d32fee805cc3cb3179912c0f",
+    "classification_selected.json": "18d3f9053d0a1e8f27514543ed72296b970bda2b22e2046f3e14f247f9d83128",
+    "classification_tpe.json": "18d3f9053d0a1e8f27514543ed72296b970bda2b22e2046f3e14f247f9d83128",
+    "confusion_matrix.csv": "b5998dd1c9d8a069068255b289b29e38f86cacbc4292a4259b6852ec645e064f",
+    "epsilon_sensitivity.csv": "c28d0cabd472b798c0c23d7aafbb867d07750ba4f8926d7c68f187c1a0a540b6",
+    "final_metrics.csv": "aff40b65af0364bb0850e4516734ff846cb1d34c7b6d607f573187a98e89bbd6",
+    "key_results.json": "85af22a0e93208eb42fd222aa9f5432721a60c2c2cb14829da853df266046ec6",
+    "metrics_table.md": "6cad4c9db8c7132004c19dfe2f0b5057a0417d6296d9ee32bd4d5f027a6c05de",
+    "models/selected.joblib": "a2304e5fd0cba5f6274aaa791491dbe4de5ac1f960012f782b6d08a368efaca9",
+    "optuna_random_11.csv": "74816a672fde20218601a8bea598643aad0c990c06cc1ff5940e29401ccee589",
+    "optuna_random_22.csv": "0fbd2a878b9d485e0ed58962b9e0d000ef3187990893866be4a1f3c027384a67",
+    "optuna_random_33.csv": "921c06acd3b9503d59d18f357ef8c7c398b344cc8e7eb07fbf6f5790f8776a09",
+    "optuna_tpe_11.csv": "01943a00ce38433a030dca5c18f58b64f74bdceac2d3ea23419b5cb8b6061eda",
+    "optuna_tpe_22.csv": "2d537165fb1dd93a7c4e2dd98602f9c9befd0b7b26af2970a76ad7e048b485ad",
+    "optuna_tpe_33.csv": "d6d843eafbf3c15db51a6a3b7e2af21b7aa8831b6a64a282cc896054544361b2",
+    "pareto_candidates.csv": "80180fd7d25f6081ebcb5e2835434f7d48f47915d515b0236c876fc399880e4e",
+    "run_manifest.json": "4c57230c6526f11503abcd7cba663926d4c3f46b6fdb44e589a219149897197d",
+    "search_summary.csv": "7db9e4a54912f82c7a5837b34881f5c4f3ab66a344ae8454b519016e9e63240f",
+    "selection.json": "2f85660bdf24e8b9da6677f0e6b559689a402288a5d5d3c8d292a74f0f98ae65",
+    "split_indices.json": "8f6ef28c031cc607528edd90ad0e682731cbbe54b6d207773be10c15e9d88b98",
+    "test_predictions.csv": "ac5fa4bf7fbee58b0a55dd565b708e2cef6bfc534618250478c27ae56b908f08",
+    "trials.csv": "a24d3732f64c853a4e521965c95c811dd99a519e29f592d93606440d283e3b93",
+    "trials.json": "0e355a3a1f80e2aa07502e3753b3c15ac13e5041af6c636533e4a1f94766a7a4"
+  },
+  "frozen_hash_policy": "UTF-8 text normalizes CRLF to LF; model binary hashes exact bytes.",
+  "python": "3.12.5 (tags/v3.12.5:ff3bc82, Aug  6 2024, 20:45:27) [MSC v.1940 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "cpu": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+  "logical_cpu_count": 12,
+  "versions": {
+    "numpy": "2.2.2",
+    "pandas": "2.2.3",
+    "scikit-learn": "1.8.0",
+    "optuna": "5.0.0",
+    "matplotlib": "3.10.0",
+    "joblib": "1.5.3"
+  },
+  "timing": "Fresh serial CV-only studies, n_jobs=1, no refit/profiling. Elapsed time recorded on completed-trial callback, including sampler and earlier logging overhead.",
+  "completed_trials": 450,
+  "runtime_seconds": 1205.620819899952,
+  "ended_at_utc": "2026-10-24T12:40:14.212743+00:00"
+}

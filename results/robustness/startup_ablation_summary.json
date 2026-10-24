@@ -1,0 +1,10 @@
+{
+  "comparison": "TPE startup 5 minus startup 10",
+  "paired_seeds": 5,
+  "mean_delta_cv_f1": 0.0016010312320964282,
+  "std_delta_cv_f1": 0.0023851457952060733,
+  "low_startup_wins": 3,
+  "high_startup_wins": 0,
+  "ties": 2,
+  "interpretation": "Paired descriptive differences over search seeds, not a significance test or dataset-level confidence interval."
+}

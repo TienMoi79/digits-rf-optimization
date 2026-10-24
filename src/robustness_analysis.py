@@ -41,6 +41,7 @@ def aggregate_budgets(records):
     return records.groupby(["method", "budget"], as_index=False).agg(
         best_cv_f1_mean=("best_cv_f1", "mean"), best_cv_f1_std=("best_cv_f1", "std"),
         elapsed_seconds_mean=("elapsed_seconds", "mean"), elapsed_seconds_std=("elapsed_seconds", "std"),
+        elapsed_seconds_median=("elapsed_seconds", "median"),
         cv_seconds_mean=("cv_seconds", "mean"), unique_configs_mean=("unique_configs", "mean"),
         seeds=("seed", "count"))
 
@@ -149,8 +150,8 @@ def analyze_robustness(output, figures=None):
         for method, color in zip(methods, COLORS):
             values = timed[timed.method == method].groupby("elapsed_seconds").best_cv_f1.agg(["mean", "std"]).fillna(0)
             axis = values.index.to_numpy()
-            ax.plot(axis, values["mean"], color=color, lw=2, label=method)
-            ax.fill_between(axis, values["mean"]-values["std"], values["mean"]+values["std"], color=color, alpha=.12)
+            ax.step(axis, values["mean"], where="post", color=color, lw=2, label=method)
+            ax.fill_between(axis, values["mean"]-values["std"], values["mean"]+values["std"], step="post", color=color, alpha=.12)
         ax.axhline(baseline, color="gray", ls="--", label="Frozen default RF CV score")
         ax.legend(fontsize=9)
     timed.to_csv(output / "time_budget_per_seed.csv", index=False)
@@ -171,10 +172,10 @@ def analyze_robustness(output, figures=None):
     fig.tight_layout()
     fig.savefig(figures / "startup_ablation.png")
     plt.close(fig)
-    lines = ["| Method | Trials/run | Seeds | Best CV F1 mean | SD | Mean elapsed seconds |",
+    lines = ["| Method | Trials/run | Seeds | Best CV F1 mean ± SD | Elapsed mean ± SD (s) | Elapsed median (s) |",
              "|---|---:|---:|---:|---:|---:|"]
     for r in summary.itertuples():
-        lines.append(f"| {r.method} | {r.budget} | {r.seeds} | {r.best_cv_f1_mean:.5f} | {r.best_cv_f1_std:.5f} | {r.elapsed_seconds_mean:.2f} |")
+        lines.append(f"| {r.method} | {r.budget} | {r.seeds} | {r.best_cv_f1_mean:.5f} ± {r.best_cv_f1_std:.5f} | {r.elapsed_seconds_mean:.2f} ± {r.elapsed_seconds_std:.2f} | {r.elapsed_seconds_median:.2f} |")
     (output / "metrics_table.md").write_text("\n".join(lines)+"\n", encoding="utf-8")
     print("Development-only budget and ablation analysis saved.", flush=True)
 
