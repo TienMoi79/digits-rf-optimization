@@ -256,6 +256,52 @@ metrics, separate from the frozen 97.22% held-out test accuracy.
 
 ![Training and validation log loss](figures/tree_diagnostics/log_loss.png)
 
+### Kiểm tra độc lập dữ liệu và đường cong
+
+Biểu đồ trên chỉ vẽ 21 mốc số cây và trung bình của 3 folds. Không dùng spline,
+bộ lọc hoặc sửa điểm số, nhưng phép lấy trung bình và thang loss toàn dải làm
+dao động nhỏ khó nhìn thấy. Đây là đường theo **số cây**, không phải lịch sử
+accuracy/loss theo epoch của mạng nơ-ron. Log loss là chỉ số đánh giá xác suất,
+không phải hàm mà Random Forest trực tiếp tối ưu khi xây cây.
+
+Chạy kiểm tra độc lập (cần Internet để đối chiếu nguồn UCI):
+
+```powershell
+.\.venv\Scripts\python.exe -m src.curve_audit
+```
+
+`src/curve_audit.py` tải file gốc `optdigits.tes` từ
+[UCI](https://archive.ics.uci.edu/dataset/80/optical+recognition+of+handwritten+digits),
+đối chiếu từng pixel và nhãn với `load_digits()`, tái tạo split/folds không qua
+helper chia dữ liệu của project, rồi fit mới 63 Random Forest tại các mốc đã
+công bố. Accuracy được tính bằng tỷ lệ nhãn đúng, log loss bằng công thức
+trực tiếp từ xác suất nhãn thật. Toàn bộ 126 dòng kết quả theo fold/split và
+mean/SD đều tái tạo khớp; sai lệch số thực lớn nhất là **1.78e-15**.
+Hash trước/sau xác nhận bộ kết quả, model và hai biểu đồ ban đầu được giữ nguyên.
+Không đánh giá thêm trên test.
+
+Bản chi tiết dưới đây giữ đủ 100 mốc và đường của từng fold. Accuracy validation
+trung bình có **31 bước giảm**, loss validation có **34 bước tăng**: đường thực
+tế có dao động. Loss ở một cây lớn vì lần lượt 122/118/142 mẫu validation có
+xác suất lớp thật bằng 0; phép tính log loss chặn xác suất ở machine epsilon.
+Khung zoom hiển thị rõ vùng loss nhỏ sau 20 cây, bên cạnh khung toàn dải.
+
+Training accuracy 100% ở cuối là điểm trên chính dữ liệu đã fit, với cây không
+giới hạn độ sâu và `min_samples_leaf=1`; không có nghĩa validation/test đạt
+100% hay không có overfitting. Đối chứng bổ sung fit trên **bản sao nhãn train
+được hoán vị**, chỉ để kiểm tra pipeline: accuracy validation trung bình 11.48%,
+gần mức đoán ngẫu nhiên 10 lớp. Dữ liệu và nhãn của thí nghiệm chính không đổi.
+
+![Accuracy at every tree count and each fold](figures/curve_audit/accuracy_all_folds.png)
+
+![Full range and zoomed log loss](figures/curve_audit/log_loss_full_and_zoom.png)
+
+Chi tiết kiểm tra và hashes: `results/curve_audit/audit_checks.json`.
+Các CSV đi kèm lưu điểm fit độc lập, điểm tại mỗi số cây và đối chứng riêng.
+Đây là bằng chứng kiểm tra khả năng tái tạo, không phải bảo đảm mọi dạng sai
+lệch đều đã bị loại trừ. CV đã được dùng khi chọn cấu hình nên các đường này
+là chẩn đoán trên development, không phải ước lượng mới trên tập test độc lập.
+
 ## Automated checks
 
 GitHub Actions chạy trên Windows và Ubuntu, Python 3.12 trong venv riêng, sau

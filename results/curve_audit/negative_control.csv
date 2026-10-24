@@ -1,0 +1,4 @@
+fold,purpose,validation_accuracy
+0,negative control with shuffled copied training labels,0.1022964509394572
+1,negative control with shuffled copied training labels,0.081419624217119
+2,negative control with shuffled copied training labels,0.16075156576200417
