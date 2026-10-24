@@ -1,0 +1,7 @@
+{
+  "search_seeds": [11, 22],
+  "trials_per_method": 3,
+  "tpe_startup_trials": [1, 2],
+  "checkpoints": [1, 2, 3],
+  "time_grid_points": 8
+}
