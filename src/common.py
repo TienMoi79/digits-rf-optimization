@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import time
 from pathlib import Path
 
 import numpy as np
@@ -24,9 +25,18 @@ def write_json(path, value):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_suffix(path.suffix + ".tmp")
-    temporary.write_text(json.dumps(value, ensure_ascii=False, indent=2,
-                                     allow_nan=False), encoding="utf-8")
-    temporary.replace(path)
+    payload = json.dumps(value, ensure_ascii=False, indent=2, allow_nan=False)
+    # Cloud sync and antivirus can briefly lock a destination on Windows.
+    # Preserve the previous complete log and retry the atomic replacement.
+    for attempt in range(8):
+        try:
+            temporary.write_text(payload, encoding="utf-8")
+            temporary.replace(path)
+            return
+        except PermissionError:
+            if attempt == 7:
+                raise
+            time.sleep(.025 * 2**attempt)
 
 
 def load_config(path=None):

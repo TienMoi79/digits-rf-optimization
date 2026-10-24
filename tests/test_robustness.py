@@ -9,7 +9,7 @@ from unittest.mock import patch
 import numpy as np
 import pandas as pd
 
-from src.common import ROOT
+from src.common import ROOT, write_json
 from src.robustness import (canonical_sha256, frozen_artifacts, load_development,
                             load_plan, make_schedule, score_development, verify_frozen)
 from src.robustness_analysis import budget_records, common_time_curves, paired_ablation
@@ -21,6 +21,23 @@ def sample_row(method, seed, trial, score, elapsed):
 
 
 class RobustnessTests(unittest.TestCase):
+    def test_atomic_logging_recovers_from_a_temporary_windows_lock(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path=Path(temp)/"log.json"
+            write_json(path,{"completed":1})
+            original=Path.replace
+            attempts=[]
+            def locked_twice(source,target):
+                attempts.append(source)
+                if len(attempts)<3:
+                    self.assertEqual(json.loads(path.read_text()),{"completed":1})
+                    raise PermissionError("simulated cloud-sync lock")
+                return original(source,target)
+            with patch.object(Path,"replace",autospec=True,side_effect=locked_twice), patch("src.common.time.sleep"):
+                write_json(path,{"completed":2})
+            self.assertEqual(json.loads(path.read_text()),{"completed":2})
+            self.assertEqual(len(attempts),3)
+
     def test_checkpoints_cannot_see_a_future_good_trial(self):
         rows = [sample_row("random",11,0,.8,1),sample_row("random",11,1,.7,2),sample_row("random",11,2,.99,3)]
         frame = budget_records(rows,[1,2,3])
