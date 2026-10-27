@@ -30,6 +30,11 @@ work only. Use meaningful messages describing the actual change.
 - When the student provides instructor feedback, record the feedback and the
   corresponding fixes and validation. Never invent instructor feedback or
   mark a checkpoint approved without the student's confirmation.
+- Check reported numbers with `python -m src.report_facts --check`. The marked
+  numeric section in the week-8 report is generated from frozen logs/model;
+  refresh it with --write instead of entering replacement values by hand.
+  Distinguish a best individual trial from a mean over search seeds. Do not
+  change experiment results to match a report revision or feedback.
 
 The Windows helper `update_github.ps1 -Message "Describe the real change"`
 checks the project, creates a commit when needed, and pushes the current branch.

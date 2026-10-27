@@ -25,7 +25,19 @@ Lịch sử hiện có không tự chứng minh đã được giảng viên duy�
 Báo cáo phần vừa hoàn thành:
 [Rà soát và tổ chức checkpoint tuần 8](report/checkpoint-tuan-8-2026-10-27.md).
 Báo cáo ghi riêng nội dung mới, bằng chứng có sẵn, kết quả kiểm tra và các
-điểm cần cô góp ý. Chưa có phản hồi của cô hoặc xác nhận duyệt checkpoint.
+điểm cần cô góp ý. Đã nhận bản biên tập do sinh viên chuyển ngày 27/10 và ghi
+nhận là cô gửi; [bảng đối chiếu và xử lý](report/feedback-tuan-8-2026-10-27.md)
+lưu các chỉnh sửa cùng bằng chứng. Chưa có xác nhận duyệt checkpoint.
+
+Phần số liệu trong báo cáo tuần 8 được sinh trực tiếp từ logs/model đã lưu:
+
+```powershell
+.\.venv\Scripts\python.exe -m src.report_facts --check
+```
+
+Lệnh kiểm tra không train hoặc thay đổi kết quả. Nếu cần đồng bộ phần số
+liệu sau khi rà soát logs, dùng `--write`; chỉ vùng giữa hai marker số liệu
+được thay, các nhận xét và trạng thái duyệt bên ngoài vùng đó được giữ nguyên.
 
 ## Sơ đồ pipeline
 
@@ -357,6 +369,8 @@ mỗi push/pull request. Workflow cài dependencies đã khóa, chạy `pip chec
 unit tests, xác thực kết quả gốc và phần mở rộng đã công bố, rồi chạy smoke test
 18 trials bằng `configs/robustness-smoke.json`. Smoke results nằm trong thư mục
 tạm của runner, không thay thế bộ kết quả chính thức 450 trials.
+Workflow cũng đối chiếu vùng số liệu tự sinh của báo cáo tuần 8 với logs và
+kích thước model; kiểm tra này không xác thực toàn bộ diễn giải ngoài vùng đó.
 
 ## How to Run
 
@@ -402,6 +416,7 @@ digits-rf-optimization/
   src/experiment.py                # CV, Random/TPE, locked selection, test
   src/analysis.py                  # Summaries, observed Pareto, figures
   src/validation.py                # Independent result integrity checks
+  src/report_facts.py              # Generate/check report evidence from saved logs
   run_experiment.py                # Original train/select/test pipeline
   run_robustness.py                # Development-only extension CLI
   src/robustness*.py               # Study runner, analysis and validation

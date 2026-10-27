@@ -6,7 +6,8 @@
 - **Repo:** [TienMoi79/digits-rf-optimization](https://github.com/TienMoi79/digits-rf-optimization).
 - **Mốc hiện tại:** tuần học 8; hạn nộp theo thông tin sinh viên là tuần học 11.
 - **Phần hoàn thành trong đợt này:** rà soát yêu cầu, bổ sung sơ đồ pipeline, lập kế hoạch checkpoint còn lại và kiểm chứng bộ kết quả đã có.
-- **Trạng thái giảng viên phản hồi/duyệt:** chưa có phản hồi được chuyển lại.
+- **Trạng thái phản hồi:** đã nhận bản biên tập do sinh viên chuyển ngày 27/10 và ghi nhận là cô gửi; đã đối chiếu với logs và sửa các điểm chưa khớp. Chưa có xác nhận duyệt checkpoint.
+- **Chi tiết xử lý:** [Đối chiếu bản biên tập và sửa báo cáo](feedback-tuan-8-2026-10-27.md).
 
 ## 1 Phạm vi gửi cô kiểm tra
 
@@ -28,9 +29,13 @@ Theo cập nhật của sinh viên, phạm vi nộp của đề tài tập trung
 
 Trong đợt này không cài lại thuật toán, không chạy lại toàn bộ HPO, không thay đổi nhãn/dữ liệu và không dùng tập test để điều chỉnh tham số. Các kết quả thực nghiệm được dẫn chứng minh bạch từ lịch sử chạy trước đợt rà soát.
 
+Sau khi nhận bản biên tập, bổ sung `src/report_facts.py` để sinh và kiểm tra
+phần số liệu bên dưới trực tiếp từ logs/model. Đây là công cụ kiểm chứng báo
+cáo, không phải thay đổi thuật toán tối ưu hoặc chạy thêm thực nghiệm.
+
 ## 3 Bài toán và formulation tối ưu hóa
 
-Dữ liệu thực nghiệm là tập **Digits** từ scikit-learn (phái sinh từ benchmark UCI ML Repository), gồm 1.797 ảnh chữ số 8×8, 64 đặc trưng pixel và 10 lớp cân bằng. Chi tiết provenance được lưu tại [`data/README.md`](../data/README.md).
+Dữ liệu thực nghiệm là tập **Digits** từ scikit-learn (phái sinh từ benchmark UCI ML Repository), gồm 1.797 ảnh chữ số 8×8, 64 đặc trưng pixel và 10 lớp gần cân bằng, không bằng nhau tuyệt đối. Chi tiết provenance được lưu tại [`data/README.md`](../data/README.md).
 
 ### 3.1 Giai đoạn 1: Tìm kiếm cấu hình cực đại chất lượng dự đoán
 
@@ -55,12 +60,20 @@ Sau khi hoàn thành ngân sách tìm kiếm, bài toán chuyển sang bài toá
 $$\min_{x \in \text{Observed}} \text{Size}(x)$$
 $$\text{subject to } f(x) \ge f^*_{\text{observed}} - \epsilon$$
 
-* Ngưỡng dung sai hiệu năng được ấn định trước là $\epsilon = 0.005$ (tương đương mức suy giảm Macro-F1 không quá 0.5% tuyệt đối so với điểm CV cao nhất đã quan sát).
+* Ngưỡng dung sai hiệu năng được ấn định trước là $\epsilon = 0.005$, tức 0,5 điểm phần trăm Macro-F1 tuyệt đối; không phải giảm 0,5% tương đối. Quy tắc áp dụng cho các ứng viên khả thi đã quan sát, bao gồm baseline, không phải toàn bộ miền chưa thử.
 
 ### 3.3 Protocol chống rò rỉ dữ liệu (No Test Leakage)
 Toàn bộ tập dữ liệu được phân chia ngay từ đầu (Stratified Split, seed 42) thành:
 * **Development Set (1.437 mẫu - 80%):** Dùng toàn bộ cho 3-fold CV trong quá trình tối ưu và refit mô hình đại diện.
-* **Test Set (360 mẫu - 20%):** Bị cô lập hoàn toàn; chỉ được nạp đúng một lần duy nhất để đánh giá mô hình cuối cùng sau khi file `selection.json` đã được khóa cứng.
+* **Test Set (360 mẫu - 20%):** Không được truyền vào objective hoặc dùng để chọn cấu hình. Pipeline gốc lưu lựa chọn trong `selection.json`, sau đó đánh giá bốn đại diện định trước: default, Random tốt nhất theo CV, TPE tốt nhất theo CV và selected.
+
+Loader đọc dataset đầy đủ từ đầu để tạo stratified split; phần tìm kiếm chỉ
+nhận các lát cắt development. Việc lưu `selection.json` ghi nhận quyết định
+trước đánh giá, không phải cơ chế khóa file chống chỉnh sửa. Bộ kiểm chứng
+còn tái tạo dự đoán từ model đã lưu trên cùng test để đối chiếu, vì vậy không
+khẳng định test chỉ được đọc hoặc dự đoán đúng một lần trong toàn bộ dự án.
+Kết quả test gốc đã được xem và công bố; các lần kiểm tra sau đó không phải
+đánh giá độc lập mới và không dùng để đổi cấu hình hoặc epsilon.
 
 ## 4 Bằng chứng kỹ thuật và phân tích nghiệm
 
@@ -74,20 +87,50 @@ Toàn bộ tập dữ liệu được phân chia ngay từ đầu (Stratified Sp
 | Kiểm tra đường cong chẩn đoán | `src/curve_audit.py`, `results/curve_audit/`, `figures/curve_audit/` |
 | Công cụ demo và tái lập | `setup.ps1`, `run_experiment.py`, `run_robustness.py`, `demo.py` |
 
-### Phân tích ý nghĩa việc chọn nghiệm cuối:
-* Cấu hình đạt Macro-F1 CV cao nhất quan sát được qua TPE đạt $f^* \approx 0.9734$, nhưng đòi hỏi số lượng cây lớn và kích thước mô hình cồng kềnh.
-* Cấu hình Baseline mặc định đạt CV Macro-F1 $\approx 0.97062$ (độ chênh lệch so với đỉnh chỉ là $0.0028 < \epsilon = 0.005$) nhưng có dung lượng file chỉ khoảng **1.05 MB** (nhỏ nhất trong toàn bộ nhóm thỏa mãn điều kiện).
-* **Giá trị thực tiễn của tối ưu hóa:** Quá trình HPO đã chứng minh bằng số liệu khách quan rằng không gian siêu tham số đã tiệm cận vùng bão hòa hiệu năng. Việc áp dụng bài toán $\epsilon$-constraint giúp hệ thống tự động loại bỏ các mô hình cồng kềnh, đưa ra quyết định chọn cấu hình gọn nhẹ tối ưu chi phí lưu trữ/suy luận mà không đánh đổi độ chính xác (Test Accuracy đạt **97.22%**).
+### Phân tích ý nghĩa việc chọn nghiệm cuối
+
+<!-- EXPERIMENT_FACTS_START -->
+
+Các số dưới đây được sinh từ `selection.json`, `trials.json`,
+`final_metrics.csv`, `search_summary.csv` và kích thước file model đã lưu.
+Đây là kết quả của thí nghiệm gốc 180 trials, không trộn với nghiên cứu 450 trials.
+
+| Đại diện | CV Macro-F1 | Model MB | Test accuracy |
+|---|---:|---:|---:|
+| default | 0.97061552 | 4.975993 | 97.22222% |
+| random | 0.97484838 | 8.332873 | 97.50000% |
+| tpe | 0.97414233 | 8.730601 | 97.22222% |
+| selected | 0.97061552 | 4.975993 | 97.22222% |
+
+MB dùng đơn vị thập phân: 1 MB = 1.000.000 byte, joblib không nén.
+
+- Điểm cao nhất đã quan sát là **0.97484838**, thuộc **random**, seed **22**, trial **21** (trial đánh số từ 0).
+- Mean của best CV qua ba search seeds: Random **0.97340**, TPE **0.97221**. Mean qua seeds khác với điểm tốt nhất của một cấu hình.
+- Epsilon cố định **0.005**; ngưỡng chấp nhận **0.96984838**.
+- Selected đạt CV **0.97061552**; khoảng cách đến điểm cao nhất **0.00423286**, tương đương **0.42329 điểm phần trăm**.
+- File selected có **4,975,993 byte**, tức **4.975993 MB**.
+- So với đại diện Random tốt nhất, selected nhỏ hơn **40.28%**. So với baseline mặc định, mức giảm là **0.00%**; selected chính là cấu hình baseline.
+
+Test accuracy của selected là **97.22222%**, của đại diện Random là **97.50000%**, chênh **0.27778 điểm phần trăm**. Bảng test chỉ dùng để báo cáo sau khi khóa lựa chọn, không dùng chọn cấu hình.
+
+Quy tắc epsilon chấp nhận một khoảng giảm CV để ưu tiên model nhỏ. Kết quả chỉ
+xác định model nhỏ nhất trong các ứng viên đã quan sát đáp ứng ngưỡng; không
+chứng minh toàn bộ miền đã bão hòa, tìm được tối ưu toàn cục, hoặc không có
+đánh đổi chất lượng. Chưa có cơ sở suy rộng chi phí suy luận sang môi trường triển khai khác.
+
+<!-- EXPERIMENT_FACTS_END -->
 
 ## 5 Kết quả kiểm tra trong đợt này
 
-Các lệnh kiểm tra tự động đã chạy thành công trên môi trường chuẩn `.venv` (Python 3.12, `-X utf8`):
+Lần rà soát đầu ngày 27/10 đạt 14 tests. Sau khi đối chiếu bản biên tập,
+thêm hai kiểm tra báo cáo và chạy lại trên `.venv` (Python 3.12, `-X utf8`):
 
 | Lệnh thực thi | Kết quả thực tế |
 |---|---|
-| `python -m unittest discover -s tests -v` | **14/14 tests PASSED** |
+| `python -m unittest discover -s tests -v` | **16/16 tests PASSED** |
 | `python -m src.validation` | **401/401 checks PASSED** (kiểm chứng toàn bộ bộ kết quả gốc) |
 | `python -m src.robustness_validation` | **3.278/3.278 checks PASSED** (bảo toàn tính toàn vẹn nghiên cứu mở rộng) |
+| `python -m src.report_facts --check` | **PASSED**, vùng số liệu khớp logs và kích thước model |
 | `git diff --check` | **Không phát hiện lỗi whitespace** |
 
 Các kiểm chứng bao gồm: tính độc lập của tập test, kiểm tra giới hạn ngân sách 30 trials, tính khả thi của biến quyết định, kiểm tra logic $\epsilon$-constraint và tính nhất quán giữa logs JSON và bảng tổng hợp. Không chạy lại 180 hoặc 450 trials trong đợt này.
@@ -98,13 +141,20 @@ Trước đợt rà soát tuần 8, repository có 7 commits được tạo trê
 * **13/10/2026:** `f7ea277`, `73271cf` — Khởi tạo pipeline tối ưu Random Forest trên Digits và chuẩn hóa repo.
 * **24/10/2026:** `2ab1a4c`, `4c1b160`, `b41a801`, `c4cecec`, `1e18603` — Mở rộng nghiên cứu 5 seeds, xử lý khóa file CI, bổ sung notebook phân tích ngân sách và audit đường cong.
 
-Sinh viên hiểu rõ các mốc trên là bằng chứng kỹ thuật đã làm nhưng tập trung trong 2 ngày, không thể tự gán ghép thành 5 checkpoint ở 5 tuần học khác nhau. Đợt cập nhật này bắt đầu quy trình báo cáo minh bạch cho giai đoạn còn lại (Tuần 8 đến Tuần 11) để xin ý kiến và đánh giá thực tế từ giảng viên.
+Các mốc trên là bằng chứng kỹ thuật đã làm nhưng tập trung trong 2 ngày,
+không tự chứng minh năm checkpoint ở năm tuần học khác nhau. Chưa có xác nhận
+sinh viên đã tự giải thích/bảo vệ các mốc này. Quy trình báo cáo tuần 8–11
+ghi nhận công việc và phản hồi thực tế; việc chấp thuận tiến độ cần cô xác nhận.
+
+Sau đợt đầu còn có commit `39c4a00` về kế hoạch/pipeline và `36861ba` về bản
+biên tập báo cáo ngày 27/10. Lần sửa hiện tại giữ nguyên lịch sử này, đối chiếu
+lại số liệu trong bản biên tập và không gán chúng thành checkpoint tuần khác.
 
 ## 7 Kế hoạch hoàn thiện tuần học 8 đến 11
 
 | Tuần học | Trọng tâm công việc | Sản phẩm / Bằng chứng kiểm tra | Trạng thái |
 |---|---|---|---|
-| **Tuần 8 (Hiện tại)** | Rà soát yêu cầu rubric; bổ sung sơ đồ pipeline; kiểm chứng toàn vẹn số liệu; lập kế hoạch checkpoint | README có pipeline; `PROGRESS.md`; báo cáo tuần 8; 100% tests pass | **Đã hoàn thành phần kỹ thuật; chờ cô góp ý** |
+| **Tuần 8 (Hiện tại)** | Rà soát yêu cầu rubric; bổ sung sơ đồ pipeline; kiểm chứng toàn vẹn số liệu; lập kế hoạch checkpoint | README có pipeline; `PROGRESS.md`; báo cáo tuần 8; checks đạt | **Đã hoàn thành phần rà soát và kiểm chứng; chưa xác nhận sinh viên tự chạy/giải thích hoặc cô duyệt** |
 | **Tuần 9** | Làm rõ cơ chế thuật toán Optuna TPE (phân bố $l(x)$ và $g(x)$, Expected Improvement); xây dựng kịch bản demo trực tiếp quá trình tối ưu trong 5–7 phút | Cập nhật README/Notebook phần nguyên lý TPE; kịch bản demo tìm kiếm và chọn nghiệm $\epsilon$ | Dự kiến |
 | **Tuần 10** | Sinh viên tự chạy tái lập thực nghiệm vào thư mục độc lập mới; phân tích trường hợp phân loại sai (confusion matrix/failure cases); đo độ ổn định runtime | Log chạy mới độc lập; phân tích chi tiết lỗi nhận dạng chữ số; commit thực tế | Dự kiến |
 | **Tuần 11 (Nộp bài)** | Kiểm tra tổng duyệt; chốt model và cấu hình; gắn Git Tag `v1.0`; sinh viên luyện tập bảo vệ và demo cá nhân | Git Release `v1.0`; đường dẫn repo public; hoàn tất bảo vệ | Dự kiến |
@@ -118,11 +168,18 @@ Sinh viên hiểu rõ các mốc trên là bằng chứng kỹ thuật đã làm
 
 ## 9 Bảng theo dõi phản hồi và sửa đổi
 
-Hiện chưa có phản hồi của cô được sinh viên chuyển lại cho đợt này. Khi nhận phản hồi, ghi từng ý cùng cách xử lý, artifact thay đổi và kiểm tra sau sửa. Không đánh dấu đã sửa hoặc đã được duyệt trước khi thực hiện/xác nhận.
+Đã nhận bản biên tập do sinh viên chuyển ngày 27/10 và ghi nhận là cô gửi.
+Bản này vẫn có câu hỏi xin góp ý và bảng chờ phản hồi, chưa có xác nhận duyệt
+checkpoint hoặc chỉ đạo riêng ngoài nội dung được biên tập. Bảng dưới ghi
+những điểm đã tiếp thu/đối chiếu, không gán các phát hiện kiểm tra thành lời cô.
 
 | Mã phản hồi | Nội dung cô góp ý | Cách sửa và Artifact tương ứng | Kết quả kiểm tra sau sửa | Trạng thái |
 |---|---|---|---|---|
-| *FB-01* | *(Chờ phản hồi thực tế từ cô)* | *(Sẽ cập nhật sau khi cô phản hồi)* | *(Chạy lại kiểm chứng)* | Chờ phản hồi |
+| FB-01 | Bản biên tập làm rõ bài toán hai giai đoạn và epsilon | Giữ cấu trúc; làm rõ tập ứng viên và đơn vị điểm phần trăm | Đối chiếu formulation với `choose_candidates` | Đã cập nhật nội dung |
+| FB-02 | Bản biên tập ghi TPE 0.9734, gap 0.0028 và model 1.05 MB | Sửa bằng logs/model thật; thêm `src/report_facts.py` | Lệnh và kết quả sau sửa tại báo cáo xử lý riêng | Đã sửa số liệu; chưa có cô xác nhận |
+| FB-03 | Các câu về test đọc một lần, bão hòa và không đánh đổi accuracy | Mô tả đúng bốn đại diện, kiểm chứng lại và giới hạn kết luận | Đối chiếu source, predictions và bảng kết quả | Đã sửa diễn giải |
+| FB-04 | Bản biên tập khẳng định sinh viên đã tự kiểm chứng toàn bộ | Ghi đúng phần trợ lý đã kiểm tra, phần sinh viên chưa xác nhận | Cần sinh viên tự chạy và giải thích | Còn chờ xác nhận của sinh viên |
+| FB-05 | Kế hoạch tuần 9 đào sâu TPE và demo 5–7 phút | Giữ kế hoạch, chưa đánh dấu triển khai hoặc duyệt | Sẽ kiểm tra khi thực hiện | Dự kiến |
 
 ## 10 Nguồn tài liệu tham khảo và công cụ hỗ trợ
 
@@ -131,4 +188,4 @@ Hiện chưa có phản hồi của cô được sinh viên chuyển lại cho �
 - Scikit-learn documentation: [RandomForestClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html) và [Digits Dataset](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_digits.html).
 - Optuna Documentation: [Tree-structured Parzen Estimator (TPESampler)](https://optuna.readthedocs.io/en/stable/reference/samplers/generated/optuna.samplers.TPESampler.html).
 - Bergstra et al. (2011), *"Algorithms for Hyper-Parameter Optimization"*, NeurIPS 2011.
-- Công cụ AI hỗ trợ: Hỗ trợ rà soát code, kiểm tra định dạng công thức, tổ chức pipeline và lập cấu trúc báo cáo tiến độ. Toàn bộ thực nghiệm, mã nguồn và kết quả số liệu được sinh viên tự kiểm chứng trên repository.
+- Công cụ AI hỗ trợ: Codex hỗ trợ viết/rà soát code, thiết lập và chạy thực nghiệm, kiểm chứng logs/model, tổ chức pipeline và soạn/sửa báo cáo tiến độ. Các kiểm chứng tự động do trợ lý chạy không thay thế việc sinh viên tự chạy, hiểu và giải thích; phần sinh viên tự kiểm chứng toàn bộ chưa được xác nhận.

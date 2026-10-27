@@ -103,3 +103,31 @@ bằng chứng từ lần chạy cũ, không ghi thành kết quả mới ngày 
   đánh dấu giảng viên đã duyệt khi chưa có xác nhận.
 - Trong tuần 11 mới chốt tag/release bản nộp sau khi kiểm tra, không gắn tag
   hoàn thành ngay khi các việc còn lại vẫn đang ở trạng thái dự kiến.
+
+## Tiếp nhận bản biên tập và sửa báo cáo ngày 27/10/2026
+
+Sinh viên chuyển một bản biên tập và ghi nhận là cô gửi nhận xét. Bản này
+vẫn có phần chờ phản hồi, chưa có xác nhận duyệt checkpoint. Đã đối chiếu với
+code/logs và ghi rõ từng điểm trong
+[báo cáo xử lý](report/feedback-tuan-8-2026-10-27.md).
+
+Công việc mới:
+
+1. Giữ cấu trúc formulation hai giai đoạn; làm rõ tập ứng viên quan sát và
+   đơn vị epsilon. Sửa mô tả test theo bốn đại diện và hoạt động kiểm chứng.
+2. Sửa số liệu trong bản biên tập theo logs: model 4.975993 MB, best CV
+   0.97484838 của Random, gap CV 0.00423286; không thay số liệu thực nghiệm.
+3. Bỏ kết luận bão hòa/không đánh đổi chất lượng; ghi rõ phần sinh viên tự
+   kiểm chứng và việc cô duyệt vẫn chưa được xác nhận.
+4. Thêm `src/report_facts.py` để sinh/kiểm tra vùng số liệu trong báo cáo từ
+   logs/model; thêm hai kiểm tra hồi quy, đưa lệnh check vào CI và helper push.
+5. Cập nhật báo cáo Markdown và nhật ký phản hồi. Giữ lịch sử trước sửa ở
+   commit `36861ba`; không sửa hoặc bỏ commit đã public.
+
+Phần TPE sâu hơn/demo và các công việc tuần 9–11 tiếp tục là dự kiến. Lần
+xử lý này không được ghi thành một checkpoint tuần học mới hoặc duyệt của cô.
+
+Kiểm tra sau sửa: 16 unit tests đạt (thay cho 14 ở lần rà soát đầu), 401 kiểm
+tra kết quả gốc đạt, 3.278 kiểm tra nghiên cứu mở rộng đạt; lệnh
+`python -m src.report_facts --check` xác nhận vùng số liệu khớp logs/model.
+Không chạy lại HPO hoặc điều chỉnh kết quả thực nghiệm trong đợt này.
