@@ -17,6 +17,19 @@ work only. Use meaningful messages describing the actual change.
 - Do not rerun the full HPO just to update docs or repository structure.
 - Push completed changes using ordinary git push. Do not force-push or rewrite
   published history. Report the commit and synchronization result.
+- Follow PROGRESS.md for the remaining academic-week 8–11 checkpoints. Record
+  the actual date, completed work, evidence and validation in that file on each
+  meaningful update. Planned tasks must not be marked complete in advance.
+- Existing code/results predate this checkpoint review. Do not describe them
+  as newly implemented in a later week. Student understanding, instructor
+  approval and LMS submission require the student's confirmation.
+- After each completed part, provide a Markdown progress report in report/
+  for the student to share with the instructor. Include new work, evidence,
+  actual validation, remaining gaps and review questions. Use .md only; do not
+  create Word/PDF reports or slides. Keep prior checkpoint reports available.
+- When the student provides instructor feedback, record the feedback and the
+  corresponding fixes and validation. Never invent instructor feedback or
+  mark a checkpoint approved without the student's confirmation.
 
 The Windows helper `update_github.ps1 -Message "Describe the real change"`
 checks the project, creates a commit when needed, and pushes the current branch.

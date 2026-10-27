@@ -9,7 +9,55 @@ mô hình nhỏ theo một giới hạn suy giảm Macro-F1 validation định t
 Repo gồm code, notebook có kết quả, log thực nghiệm và mô hình đã huấn luyện.
 Phần mở rộng so sánh 5 search seeds, TPE startup 5/10 và ngân sách trials/thời gian;
 kết quả test của thí nghiệm ban đầu được bảo toàn.
-Theo phạm vi nộp hiện tại, không có báo cáo Word/PDF hoặc slide.
+Theo phạm vi nộp hiện tại, không tạo báo cáo Word/PDF hoặc slide. Theo yêu cầu
+của sinh viên, mỗi phần hoàn thành có báo cáo tiến độ `.md` trong `report/`
+để gửi giảng viên kiểm tra và phản hồi.
+
+## Tiến độ và checkpoint hiện tại
+
+Theo thông tin sinh viên cung cấp ngày **27/10/2026**, lớp đang ở **tuần 8**,
+hạn nộp là **tuần 11**. [PROGRESS.md](PROGRESS.md) ghi các bằng chứng có sẵn,
+phần vừa bổ sung và kế hoạch còn lại theo tuần học. Đây là đợt rà soát và hoàn
+thiện từ bản đã có, không phải khởi tạo một đồ án chưa từng chạy.
+Lịch sử hiện có không tự chứng minh đã được giảng viên duyệt đủ checkpoint
+5 tuần. Các mốc dự kiến chỉ được ghi hoàn thành sau khi thực hiện thực tế.
+
+Báo cáo phần vừa hoàn thành:
+[Rà soát và tổ chức checkpoint tuần 8](report/checkpoint-tuan-8-2026-10-27.md).
+Báo cáo ghi riêng nội dung mới, bằng chứng có sẵn, kết quả kiểm tra và các
+điểm cần cô góp ý. Chưa có phản hồi của cô hoặc xác nhận duyệt checkpoint.
+
+## Sơ đồ pipeline
+
+```mermaid
+flowchart TD
+    A[Digits: 1797 ảnh, 64 đặc trưng, 10 lớp] --> B[Stratified split, seed 42]
+    B --> C[Development: 1437 mẫu]
+    B --> D[Test: 360 mẫu được giữ riêng]
+    C --> E[3 stratified CV folds, seed 42]
+    E --> F[Baseline RF mặc định]
+    E --> G[Random Search và TPE]
+    G --> H[30 trials mỗi phương pháp và search seed]
+    F --> I[Log CV Macro-F1 và kích thước model]
+    H --> I
+    I --> J[Kiểm tra miền khả thi và ngân sách]
+    J --> K[Chọn model nhỏ nhất trong ngưỡng epsilon 0.005]
+    K --> L[Lưu selection.json, khóa cấu hình và các đại diện]
+    L --> M[Refit đại diện trên development]
+    D --> N[Đánh giá test sau khi khóa lựa chọn]
+    M --> N
+    N --> O[Lưu predictions, model, bảng và hình]
+    O --> P[Kiểm chứng kết quả và demo]
+    E --> Q[Phần mở rộng: 5 seeds, TPE startup 5 và 10]
+    Q --> R[Chỉ CV: ablation và phân tích ngân sách]
+```
+
+Sơ đồ mô tả pipeline đã cài đặt trong `run_experiment.py` và `src/experiment.py`.
+Trong thí nghiệm gốc, các trials còn refit trên development để đo kích thước
+và thời gian dự đoán; phần mở rộng chỉ chạy CV. Kết quả test gốc đã được xem
+và công bố nên đợt rà soát không coi đó là một tập test mới chưa từng quan sát.
+Giữ nguyên lựa chọn mô hình và số liệu gốc; không dùng điểm test đã biết để
+điều chỉnh cấu hình hoặc epsilon.
 
 ## Chạy nhanh trên Windows
 
@@ -363,6 +411,8 @@ digits-rf-optimization/
   run_demo.bat                     # Double-click demo after setup
   update_github.ps1                 # Check, commit and push each update
   AGENTS.md                        # Project workflow for future code updates
+  PROGRESS.md                      # Actual checkpoints and academic-week 8–11 plan
+  report/*.md                      # Completed-part updates for instructor feedback
   figures/*.png                    # Original figures
   figures/robustness/*.png         # Budget and startup ablation figures
   notebooks/optimization_walkthrough.ipynb  # Original experiment
