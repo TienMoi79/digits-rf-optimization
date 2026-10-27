@@ -8,7 +8,7 @@ $env:PYTHONUTF8 = '1'
 $env:GIT_TERMINAL_PROMPT = '0'
 Set-Location -LiteralPath $PSScriptRoot
 
-$repositoryRoot = & git rev-parse --show-toplevel
+$repositoryRoot = (& git rev-parse --show-toplevel).Replace('/', '\')
 if ($LASTEXITCODE -ne 0) { throw 'This project is not a Git repository.' }
 if ((Resolve-Path -LiteralPath $repositoryRoot).Path -ne (Resolve-Path -LiteralPath $PSScriptRoot).Path) {
     throw 'Git root does not match the project folder.'

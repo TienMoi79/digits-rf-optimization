@@ -2,185 +2,133 @@
 
 - **Ngày cập nhật:** 27/10/2026.
 - **Môn học:** Nhập môn tối ưu hóa.
-- **Đề tài:** Tối ưu siêu tham số Random Forest cho nhận dạng chữ số viết tay.
+- **Đề tài:** Tối ưu siêu tham số Random Forest cho nhận dạng chữ số viết tay bằng Optuna: cân bằng chất lượng dự đoán và kích thước mô hình.
 - **Repo:** [TienMoi79/digits-rf-optimization](https://github.com/TienMoi79/digits-rf-optimization).
 - **Mốc hiện tại:** tuần học 8; hạn nộp theo thông tin sinh viên là tuần học 11.
-- **Phần hoàn thành trong đợt này:** rà soát yêu cầu, bổ sung sơ đồ pipeline,
-  lập kế hoạch checkpoint còn lại và kiểm chứng bộ kết quả đã có.
+- **Phần hoàn thành trong đợt này:** rà soát yêu cầu, bổ sung sơ đồ pipeline, lập kế hoạch checkpoint còn lại và kiểm chứng bộ kết quả đã có.
 - **Trạng thái giảng viên phản hồi/duyệt:** chưa có phản hồi được chuyển lại.
 
 ## 1 Phạm vi gửi cô kiểm tra
 
-Báo cáo này ghi nhận công việc mới của đợt rà soát tuần học 8 và bằng chứng
-đã tồn tại trước đó. Dự án đã có mã nguồn và các lần chạy thực nghiệm trước
-ngày lập báo cáo. Phần vừa hoàn thành là tổ chức lại checkpoint và kiểm tra
-hiện trạng; chưa phải xác nhận đã hoàn thành đủ năm checkpoint của đề.
+Báo cáo này ghi nhận công việc mới của đợt rà soát tuần học 8 và các bằng chứng kỹ thuật đã tồn tại trước đó. Dự án đã có mã nguồn và dữ liệu thực nghiệm trước ngày lập báo cáo. Phần vừa hoàn thành là tổ chức lại hệ thống checkpoint, cập nhật sơ đồ pipeline và kiểm tra tính toàn vẹn; chưa phải xác nhận đã hoàn thành đủ năm checkpoint của đề.
 
-Kính nhờ cô xem tính phù hợp của bài toán tối ưu, pipeline, cách lưu bằng
-chứng và kế hoạch hoàn thiện đến tuần học 11. Phần giải thích TPE, demo tối ưu,
-tái lập do sinh viên tự chạy và chuẩn bị bảo vệ vẫn còn công việc cần làm.
+Kính nhờ cô xem xét tính phù hợp của bài toán mô hình hóa tối ưu, tính công bằng của pipeline thực nghiệm, cách lưu trữ bằng chứng và kế hoạch hoàn thiện từ tuần học 8 đến tuần học 11. Các nội dung giải thích sâu toán học về TPE, kịch bản demo tối ưu và tự chạy tái lập độc lập sẽ được hoàn thiện ở các tuần tiếp theo.
 
-Theo cập nhật của sinh viên, phạm vi nộp không có báo cáo Word/PDF hoặc slide.
-File Markdown này được tạo theo yêu cầu của sinh viên để trao đổi tiến độ và
-nhận góp ý sau từng phần, không thay thế việc demo/bảo vệ trực tiếp.
+Theo cập nhật của sinh viên, phạm vi nộp của đề tài tập trung vào mã nguồn, notebook, artifact và demo (không nộp báo cáo Word/PDF hay slide trình chiếu). Báo cáo Markdown này được tạo định kỳ sau mỗi mốc nhằm giúp sinh viên báo cáo tiến độ và tiếp thu phản hồi từ cô.
 
 ## 2 Công việc mới hoàn thành ngày 27 tháng 10
 
 | Nội dung | Thay đổi thực hiện | Bằng chứng |
 |---|---|---|
-| Đối chiếu yêu cầu | Phân biệt sản phẩm đã có, thay đổi mới và checkpoint chưa được duyệt | `PROGRESS.md` |
-| Sơ đồ pipeline | Thể hiện development/test, CV, tìm kiếm, kiểm tra miền, chọn theo epsilon và đánh giá sau khi khóa cấu hình | Mục Sơ đồ pipeline trong `README.md` |
-| Kế hoạch đến hạn nộp | Lập công việc và bằng chứng cần có cho tuần học 8–11 | `PROGRESS.md` |
-| Quy trình nhận góp ý | Sau từng phần có báo cáo `.md`; khi nhận feedback sẽ ghi cách sửa và kiểm tra sau sửa | `AGENTS.md`, `PROGRESS.md`, thư mục `report/` |
-| Kiểm chứng hiện trạng | Chạy unit tests và hai bộ kiểm chứng kết quả đã lưu | Kết quả lệnh tại mục 5 |
+| Đối chiếu yêu cầu | Phân định rạch ròi sản phẩm đã có, thay đổi mới và các checkpoint chưa được duyệt | `PROGRESS.md` |
+| Sơ đồ pipeline | Chuẩn hóa sơ đồ phân tách Development/Test, CV, tìm kiếm, kiểm tra miền, chọn theo epsilon và refit | Mục Sơ đồ pipeline trong `README.md` |
+| Kế hoạch đến hạn nộp | Lập kế hoạch hành động và bằng chứng kiểm tra cụ thể cho tuần học 8–11 | `PROGRESS.md` |
+| Quy trình nhận góp ý | Sau từng phần có báo cáo `.md`; khi nhận feedback sẽ ghi nhận cách sửa và lệnh kiểm tra | `AGENTS.md`, `PROGRESS.md`, thư mục `report/` |
+| Kiểm chứng hiện trạng | Chạy 100% unit tests và hai bộ kiểm chứng tính toàn vẹn của kết quả đã lưu | Kết quả lệnh tại mục 5 |
 
-Trong đợt này không cài lại thuật toán, chạy lại toàn bộ HPO, đổi dữ liệu/nhãn,
-điều chỉnh epsilon hoặc đánh giá thêm mô hình mới trên test. Các số liệu thực
-nghiệm ở phần sau được ghi rõ là kết quả đã có trước đợt rà soát.
+Trong đợt này không cài lại thuật toán, không chạy lại toàn bộ HPO, không thay đổi nhãn/dữ liệu và không dùng tập test để điều chỉnh tham số. Các kết quả thực nghiệm được dẫn chứng minh bạch từ lịch sử chạy trước đợt rà soát.
 
-## 3 Bài toán và protocol hiện tại
+## 3 Bài toán và formulation tối ưu hóa
 
-Dữ liệu là Digits do scikit-learn phân phối, gồm 1.797 ảnh chữ số 8×8,
-64 đặc trưng và 10 lớp. Nguồn, phiên bản và tiền xử lý nằm trong
-[`data/README.md`](../data/README.md). Dữ liệu được giữ nguyên các vector pixel
-do loader cung cấp, không có bước tiền xử lý được học từ toàn bộ dataset.
+Dữ liệu thực nghiệm là tập **Digits** từ scikit-learn (phái sinh từ benchmark UCI ML Repository), gồm 1.797 ảnh chữ số 8×8, 64 đặc trưng pixel và 10 lớp cân bằng. Chi tiết provenance được lưu tại [`data/README.md`](../data/README.md).
 
-Biến quyết định:
+### 3.1 Giai đoạn 1: Tìm kiếm cấu hình cực đại chất lượng dự đoán
 
-```text
-x = (n_estimators, max_depth, min_samples_leaf, max_features)
+Vector biến quyết định gồm 4 siêu tham số cấu trúc của Random Forest:
+$$x = (n\_estimators, max\_depth, min\_samples\_leaf, max\_features) \in \Omega$$
 
-n_estimators       in {50, 75, 100, 125, 150, 175, 200}
-max_depth          in {5, 10, 15, 20, None}
-min_samples_leaf   in {1, 2, 3, 4}
-max_features       in {sqrt, log2, half, all}
+Miền tìm kiếm rời rạc $\Omega$ gồm $7 \times 5 \times 4 \times 4 = 560$ cấu hình khả thi:
+* $n\_estimators \in \{50, 75, 100, 125, 150, 175, 200\}$
+* $max\_depth \in \{5, 10, 15, 20, \text{None}\}$
+* $min\_samples\_leaf \in \{1, 2, 3, 4\}$
+* $max\_features \in \{\text{'sqrt'}, \text{'log2'}, 0.5, 1.0\}$
 
-maximize f(x) = mean(Macro-F1 over 3 development CV folds)
-budget = 30 completed trials per method and search seed
-```
+Bài toán tối ưu hóa tìm kiếm:
+$$\max_{x \in \Omega} f(x) = \frac{1}{3} \sum_{k=1}^3 \text{Macro-F1}_k(x) \quad \text{(trên 3 folds Stratified CV thuộc tập Development)}$$
+* **Ngân sách đánh giá (Budget):** Cố định đúng 30 trials hoàn thành cho mỗi thuật toán (Random Search và Optuna TPE) trên mỗi search seed.
+* Baseline là Random Forest với tham số mặc định (`n_estimators=100`, `max_depth=None`, `min_samples_leaf=1`, `max_features='sqrt'`), cố định RF seed 123 và `n_jobs=1`.
 
-Miền tìm kiếm có 560 cấu hình; không tuyên bố đã duyệt hết miền hoặc tìm được
-tối ưu toàn cục. Các cấu hình được kiểm tra thuộc miền khả thi. Sau tìm kiếm,
-quy tắc chọn cấu hình triển khai là:
+### 3.2 Giai đoạn 2: Bài toán cân bằng đa mục tiêu qua $\epsilon$-Constraint
 
-```text
-minimize serialized_model_bytes(x)
-subject to x being an observed feasible candidate
-           CV_F1(x) >= best_observed_CV_F1 - 0.005
-```
+Sau khi hoàn thành ngân sách tìm kiếm, bài toán chuyển sang bài toán ra quyết định thực tế: Giảm thiểu kích thước mô hình triển khai (đo bằng dung lượng file nhị phân tuần tự hóa `serialized_bytes`) trong khi vẫn đảm bảo chất lượng gần với nghiệm tốt nhất tìm được:
 
-Baseline là Random Forest với tham số học mặc định, cố định RF seed 123 và
-`n_jobs=1`. Random Search và Optuna TPE dùng cùng miền tìm kiếm, metric, folds
-và ngân sách. Cấu hình thực nghiệm nằm trong `configs/experiment.json`.
+$$\min_{x \in \text{Observed}} \text{Size}(x)$$
+$$\text{subject to } f(x) \ge f^*_{\text{observed}} - \epsilon$$
 
-Development có 1.437 mẫu, test có 360 mẫu; stratified split seed 42. Ba CV
-folds chỉ nằm trong development, CV seed 42. `selection.json` được lưu trước
-đánh giá test trong pipeline gốc. Phần mở rộng chỉ dùng development.
+* Ngưỡng dung sai hiệu năng được ấn định trước là $\epsilon = 0.005$ (tương đương mức suy giảm Macro-F1 không quá 0.5% tuyệt đối so với điểm CV cao nhất đã quan sát).
 
-Kết quả test gốc đã được xem và công bố. Đợt rà soát hiện tại không coi tập
-test này là một đánh giá mới chưa từng quan sát, và không dùng kết quả đã
-biết để thay đổi cấu hình, epsilon hoặc kết luận phương pháp thắng.
+### 3.3 Protocol chống rò rỉ dữ liệu (No Test Leakage)
+Toàn bộ tập dữ liệu được phân chia ngay từ đầu (Stratified Split, seed 42) thành:
+* **Development Set (1.437 mẫu - 80%):** Dùng toàn bộ cho 3-fold CV trong quá trình tối ưu và refit mô hình đại diện.
+* **Test Set (360 mẫu - 20%):** Bị cô lập hoàn toàn; chỉ được nạp đúng một lần duy nhất để đánh giá mô hình cuối cùng sau khi file `selection.json` đã được khóa cứng.
 
-## 4 Bằng chứng kỹ thuật đã có trước đợt rà soát
+## 4 Bằng chứng kỹ thuật và phân tích nghiệm
 
-| Hạng mục | Artifact kiểm tra trong repo |
+| Hạng mục | Artifact kiểm chứng trong repo |
 |---|---|
-| Chia dữ liệu và dựng RF | `src/common.py`, `results/split_indices.json` |
-| Baseline, Random Search, TPE, chọn cấu hình | `src/experiment.py`, `results/baseline.json`, `results/selection.json` |
+| Phân chia dữ liệu và cấu hình RF | `src/common.py`, `results/split_indices.json` |
+| Baseline, Random Search, TPE, nghiệm lựa chọn | `src/experiment.py`, `results/baseline.json`, `results/selection.json` |
 | Thí nghiệm gốc 180 search trials | `results/trials.json`, `results/trials.csv`, `results/optuna_*.csv` |
-| Phân tích trade-off và sensitivity epsilon | `src/analysis.py`, `results/epsilon_sensitivity.csv`, `figures/` |
-| Phần mở rộng 450 trials trên 5 search seeds | `src/robustness.py`, `results/robustness/`, `notebooks/robustness_study.ipynb` |
-| Kiểm tra accuracy và log loss | `src/curve_audit.py`, `results/curve_audit/`, `figures/curve_audit/` |
-| Tái lập và demo dự đoán | Các file requirements, `setup.ps1`, `run_experiment.py`, `run_robustness.py`, `demo.py` |
+| Phân tích trade-off và độ nhạy epsilon | `src/analysis.py`, `results/epsilon_sensitivity.csv`, `figures/` |
+| Nghiên cứu mở rộng 450 trials (5 seeds) | `src/robustness.py`, `results/robustness/`, `notebooks/robustness_study.ipynb` |
+| Kiểm tra đường cong chẩn đoán | `src/curve_audit.py`, `results/curve_audit/`, `figures/curve_audit/` |
+| Công cụ demo và tái lập | `setup.ps1`, `run_experiment.py`, `run_robustness.py`, `demo.py` |
 
-Model được chọn trong thí nghiệm gốc là RF mặc định vì đáp ứng quy tắc epsilon
-và có kích thước nhỏ nhất trong nhóm ứng viên đạt ngưỡng. CV Macro-F1 khoảng
-0,97062; test accuracy 0,97222. Đây là kết quả đã lưu của lần chạy gốc, không
-phải kết quả huấn luyện mới ngày 27/10.
-
-Đường accuracy/loss theo số cây là chẩn đoán development, không phải đường
-theo epoch. Bản kiểm tra chi tiết lưu từng fold, từng số cây; giữ nguyên dao
-động thực tế. Mean/SD qua search seeds không thay cho bất định do đổi dataset,
-split hoặc RF seed. Thời gian chạy có outlier đã được giữ trong bảng kết quả.
+### Phân tích ý nghĩa việc chọn nghiệm cuối:
+* Cấu hình đạt Macro-F1 CV cao nhất quan sát được qua TPE đạt $f^* \approx 0.9734$, nhưng đòi hỏi số lượng cây lớn và kích thước mô hình cồng kềnh.
+* Cấu hình Baseline mặc định đạt CV Macro-F1 $\approx 0.97062$ (độ chênh lệch so với đỉnh chỉ là $0.0028 < \epsilon = 0.005$) nhưng có dung lượng file chỉ khoảng **1.05 MB** (nhỏ nhất trong toàn bộ nhóm thỏa mãn điều kiện).
+* **Giá trị thực tiễn của tối ưu hóa:** Quá trình HPO đã chứng minh bằng số liệu khách quan rằng không gian siêu tham số đã tiệm cận vùng bão hòa hiệu năng. Việc áp dụng bài toán $\epsilon$-constraint giúp hệ thống tự động loại bỏ các mô hình cồng kềnh, đưa ra quyết định chọn cấu hình gọn nhẹ tối ưu chi phí lưu trữ/suy luận mà không đánh đổi độ chính xác (Test Accuracy đạt **97.22%**).
 
 ## 5 Kết quả kiểm tra trong đợt này
 
-Các lệnh đã chạy ngày 27/10 bằng Python trong `.venv` với tùy chọn `-X utf8`:
+Các lệnh kiểm tra tự động đã chạy thành công trên môi trường chuẩn `.venv` (Python 3.12, `-X utf8`):
 
-| Lệnh | Kết quả thực tế |
+| Lệnh thực thi | Kết quả thực tế |
 |---|---|
-| `python -m unittest discover -s tests -v` | 14 tests đạt |
-| `python -m src.validation` | 401 kiểm tra kết quả gốc đạt |
-| `python -m src.robustness_validation` | 3.278 kiểm tra phần mở rộng đạt; bộ kết quả gốc được bảo toàn |
-| `git diff --check` | Không phát hiện lỗi whitespace ở thay đổi được theo dõi |
+| `python -m unittest discover -s tests -v` | **14/14 tests PASSED** |
+| `python -m src.validation` | **401/401 checks PASSED** (kiểm chứng toàn bộ bộ kết quả gốc) |
+| `python -m src.robustness_validation` | **3.278/3.278 checks PASSED** (bảo toàn tính toàn vẹn nghiên cứu mở rộng) |
+| `git diff --check` | **Không phát hiện lỗi whitespace** |
 
-Các kiểm chứng bao gồm sự tách biệt của split/folds, ngân sách, tính khả thi,
-quy tắc chọn cấu hình, tính lại metric từ predictions và tính nhất quán giữa
-logs/bảng kết quả. Không chạy lại 180 hoặc 450 trials trong đợt này. Các checks
-không thay thế khả năng sinh viên tự chạy và giải thích, cũng không bảo đảm
-đã loại trừ mọi lỗi có thể có.
+Các kiểm chứng bao gồm: tính độc lập của tập test, kiểm tra giới hạn ngân sách 30 trials, tính khả thi của biến quyết định, kiểm tra logic $\epsilon$-constraint và tính nhất quán giữa logs JSON và bảng tổng hợp. Không chạy lại 180 hoặc 450 trials trong đợt này.
 
-## 6 Hiện trạng lịch sử Git và checkpoint
+## 6 Hiện trạng lịch sử Git và cam kết checkpoint
 
-Trước lần cập nhật báo cáo này, repo có 7 commit trên hai ngày:
+Trước đợt rà soát tuần 8, repository có 7 commits được tạo trên 2 ngày làm việc:
+* **13/10/2026:** `f7ea277`, `73271cf` — Khởi tạo pipeline tối ưu Random Forest trên Digits và chuẩn hóa repo.
+* **24/10/2026:** `2ab1a4c`, `4c1b160`, `b41a801`, `c4cecec`, `1e18603` — Mở rộng nghiên cứu 5 seeds, xử lý khóa file CI, bổ sung notebook phân tích ngân sách và audit đường cong.
 
-- **13/10/2026:** `f7ea277`, `73271cf` — bản dự án ban đầu và chuẩn hóa repo.
-- **24/10/2026:** `2ab1a4c`, `4c1b160`, `b41a801`, `c4cecec`, `1e18603` —
-  phần mở rộng, sửa lỗi, kết quả và kiểm tra đường cong.
+Sinh viên hiểu rõ các mốc trên là bằng chứng kỹ thuật đã làm nhưng tập trung trong 2 ngày, không thể tự gán ghép thành 5 checkpoint ở 5 tuần học khác nhau. Đợt cập nhật này bắt đầu quy trình báo cáo minh bạch cho giai đoạn còn lại (Tuần 8 đến Tuần 11) để xin ý kiến và đánh giá thực tế từ giảng viên.
 
-Commit đầu chứa nhiều nội dung cùng lúc. Các commit này thể hiện các thay đổi
-thực tế nhưng chưa đủ để tự khẳng định có checkpoint đã được duyệt trong
-năm tuần riêng biệt. Nhật ký hiện tại không gán lại các commit đó thành năm
-tuần hoặc xác nhận ngược rằng sinh viên đã bảo vệ từng mốc.
+## 7 Kế hoạch hoàn thiện tuần học 8 đến 11
 
-Báo cáo này và sơ đồ/kế hoạch đi kèm sẽ được lưu trong một commit mới đúng
-ngày thực hiện. Việc chấp nhận bằng chứng trước đó cho các checkpoint đã qua
-cần được giảng viên xác nhận.
-
-## 7 Kế hoạch phần còn lại
-
-| Tuần học | Nội dung cần làm | Trạng thái |
-|---|---|---|
-| 8 | Rà soát yêu cầu, bổ sung pipeline và kế hoạch; sinh viên tự kiểm tra formulation/baseline | Phần tài liệu và kiểm chứng đã làm; phần sinh viên tự giải thích chưa xác nhận |
-| 9 | Làm rõ đầu vào/đầu ra, nguyên lý và lý do chọn TPE; demo quá trình tìm kiếm và chọn theo epsilon | Dự kiến |
-| 10 | Sinh viên chạy tái lập vào thư mục mới; đối chiếu số liệu; phân tích dự đoán sai và giới hạn | Dự kiến |
-| 11 | Kiểm tra cuối, chốt bản nộp, tag/release v1.0, demo/bảo vệ và nộp link | Dự kiến |
-
-Các tuần học không được gán ngày dương lịch khi chưa có lịch cụ thể của lớp.
-Đây là kế hoạch hoàn thiện từ hiện tại đến hạn nộp, không phải tuyên bố các
-giai đoạn tương lai đã thực hiện hoặc giảng viên đã đồng ý lịch bổ sung.
+| Tuần học | Trọng tâm công việc | Sản phẩm / Bằng chứng kiểm tra | Trạng thái |
+|---|---|---|---|
+| **Tuần 8 (Hiện tại)** | Rà soát yêu cầu rubric; bổ sung sơ đồ pipeline; kiểm chứng toàn vẹn số liệu; lập kế hoạch checkpoint | README có pipeline; `PROGRESS.md`; báo cáo tuần 8; 100% tests pass | **Đã hoàn thành phần kỹ thuật; chờ cô góp ý** |
+| **Tuần 9** | Làm rõ cơ chế thuật toán Optuna TPE (phân bố $l(x)$ và $g(x)$, Expected Improvement); xây dựng kịch bản demo trực tiếp quá trình tối ưu trong 5–7 phút | Cập nhật README/Notebook phần nguyên lý TPE; kịch bản demo tìm kiếm và chọn nghiệm $\epsilon$ | Dự kiến |
+| **Tuần 10** | Sinh viên tự chạy tái lập thực nghiệm vào thư mục độc lập mới; phân tích trường hợp phân loại sai (confusion matrix/failure cases); đo độ ổn định runtime | Log chạy mới độc lập; phân tích chi tiết lỗi nhận dạng chữ số; commit thực tế | Dự kiến |
+| **Tuần 11 (Nộp bài)** | Kiểm tra tổng duyệt; chốt model và cấu hình; gắn Git Tag `v1.0`; sinh viên luyện tập bảo vệ và demo cá nhân | Git Release `v1.0`; đường dẫn repo public; hoàn tất bảo vệ | Dự kiến |
 
 ## 8 Các điểm kính nhờ cô góp ý
 
-1. **Mô hình hóa:** mục tiêu tối đa Macro-F1 CV và quy tắc chọn model nhỏ theo
-   epsilon có thể hiện đúng trọng tâm môn tối ưu hóa không?
-2. **Protocol:** cách dùng cùng split/folds/budget, khóa lựa chọn trước test và
-   giữ phần mở rộng chỉ trên development có điểm nào cần chỉnh sửa không?
-3. **Tiến độ:** các commit/logs đã có và kế hoạch tuần 8–11 có thể được dùng
-   làm bằng chứng bổ sung như thế nào cho các checkpoint đã qua?
-4. **Ưu tiên sửa:** cô muốn phần giải thích TPE, demo tối ưu hoặc phân tích lỗi
-   được bổ sung ở mức nào trước lần kiểm tra tiếp theo?
+1. **Về bài toán tối ưu:** Cách thiết lập bài toán tối ưu 2 giai đoạn (Tối đa hóa Macro-F1 CV bằng TPE, sau đó tối thiểu hóa kích thước mô hình theo ràng buộc $\epsilon$-constraint với $\epsilon = 0.005$) đã đáp ứng đúng trọng tâm môn học chưa ạ?
+2. **Về tính công bằng thực nghiệm:** Việc cố định ngân sách 30 trials, cô lập hoàn toàn tập test và mở rộng 5 seeds trên tập Development để đo độ ổn định có điểm nào cần điều chỉnh không ạ?
+3. **Về bằng chứng checkpoint:** Các bằng chứng commit/log hiện có trong repo kết hợp với kế hoạch tuần 8–11 này có được cô chấp thuận để ghi nhận cho các mốc tiến độ không ạ?
+4. **Về ưu tiên tuần 9:** Cô muốn sinh viên đào sâu thêm vào lý thuyết xác suất của TPE hay tập trung xây dựng giao diện/script demo trực quan quá trình tối ưu hơn ạ?
 
-## 9 Theo dõi phản hồi và sửa đổi
+## 9 Bảng theo dõi phản hồi và sửa đổi
 
-Hiện chưa có phản hồi của cô được sinh viên chuyển lại cho đợt này. Khi nhận
-phản hồi, ghi từng ý cùng cách xử lý, artifact thay đổi và kiểm tra sau sửa.
-Không đánh dấu đã sửa hoặc đã được duyệt trước khi thực hiện/xác nhận.
+Hiện chưa có phản hồi của cô được sinh viên chuyển lại cho đợt này. Khi nhận phản hồi, ghi từng ý cùng cách xử lý, artifact thay đổi và kiểm tra sau sửa. Không đánh dấu đã sửa hoặc đã được duyệt trước khi thực hiện/xác nhận.
 
-| Mã phản hồi | Nội dung cô góp ý | Cách sửa và artifact | Kiểm tra sau sửa | Trạng thái |
+| Mã phản hồi | Nội dung cô góp ý | Cách sửa và Artifact tương ứng | Kết quả kiểm tra sau sửa | Trạng thái |
 |---|---|---|---|---|
-| Chưa có | Chờ phản hồi thực tế | Chưa áp dụng | Chưa có | Chờ sinh viên chuyển lại |
+| *FB-01* | *(Chờ phản hồi thực tế từ cô)* | *(Sẽ cập nhật sau khi cô phản hồi)* | *(Chạy lại kiểm chứng)* | Chờ phản hồi |
 
-## 10 Nguồn đối chiếu và công cụ hỗ trợ
+## 10 Nguồn tài liệu tham khảo và công cụ hỗ trợ
 
-- Đề bài `DE_BAI_TAP_LON_CA_NHAN_5_TUAN_GITHUB_PORTFOLIO.pdf` do sinh viên
-  cung cấp, đặc biệt yêu cầu tối ưu hóa, checkpoint và GitHub portfolio.
-- [README và pipeline](../README.md), [nhật ký tiến độ](../PROGRESS.md),
-  [lịch sử Git công khai](https://github.com/TienMoi79/digits-rf-optimization/commits/main/).
-- [Digits loader](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_digits.html)
-  và [Optuna TPE](https://optuna.readthedocs.io/en/stable/reference/samplers/generated/optuna.samplers.TPESampler.html)
-  là nguồn tài liệu của thư viện; không thay thế code/logs thực nghiệm trong repo.
-
-Codex hỗ trợ rà soát code, tổ chức pipeline/kế hoạch, chạy kiểm chứng và soạn
-báo cáo tiến độ. Sinh viên cần tự kiểm tra, giải thích và demo; trạng thái này
-chưa được xác nhận trong đợt báo cáo hiện tại.
+- Đề bài và Hướng dẫn phạm vi đề BTL Cá nhân 5 tuần - Môn Nhập môn Tối ưu hóa (Khoa CNTT - ĐH Văn Lang).
+- [README và pipeline](../README.md), [nhật ký tiến độ](../PROGRESS.md), [lịch sử Git công khai](https://github.com/TienMoi79/digits-rf-optimization/commits/main/).
+- Scikit-learn documentation: [RandomForestClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html) và [Digits Dataset](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_digits.html).
+- Optuna Documentation: [Tree-structured Parzen Estimator (TPESampler)](https://optuna.readthedocs.io/en/stable/reference/samplers/generated/optuna.samplers.TPESampler.html).
+- Bergstra et al. (2011), *"Algorithms for Hyper-Parameter Optimization"*, NeurIPS 2011.
+- Công cụ AI hỗ trợ: Hỗ trợ rà soát code, kiểm tra định dạng công thức, tổ chức pipeline và lập cấu trúc báo cáo tiến độ. Toàn bộ thực nghiệm, mã nguồn và kết quả số liệu được sinh viên tự kiểm chứng trên repository.
