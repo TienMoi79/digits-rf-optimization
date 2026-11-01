@@ -204,6 +204,33 @@ Forest không yêu cầu bước này. Không học preprocessing từ toàn b�
   single-request latency. `cv_seconds` chỉ tính ba fits CV và scoring;
   thời gian toàn pipeline train/evaluate nằm trong `run_manifest.json`.
 
+## Giải thích TPE và demo quá trình tối ưu
+
+Đã chuẩn bị nội dung cho checkpoint tuần học 9 vào **01/11/2026**:
+[nguyên lý TPE, đầu vào/đầu ra, liên hệ EI và kịch bản demo 5–7 phút](docs/tpe-va-demo-toi-uu.md).
+Theo Optuna 5.0.0 đang khóa trong repo, `multivariate=None` tự chọn chế độ
+multivariate cho single-objective; thí nghiệm gốc không truyền cờ này. Live
+demo mới ghi tường minh `multivariate=True`, dùng 5 startup trong 12 trials.
+Không đổi tham số hoặc kết quả của nghiên cứu gốc.
+
+```powershell
+# Xem lại prefix log cũ; không fit hoặc ghi file
+.\.venv\Scripts\python.exe -X utf8 demo_optimization.py replay --seed 11 --checkpoint 15
+
+# Chạy mới, chỉ development; luôn chọn thư mục đầu ra mới
+.\.venv\Scripts\python.exe -X utf8 demo_optimization.py live --trials 12 --startup 5 --seed 11 --output results/week9_demo/run-moi
+
+# Kiểm tra bản demo đã chạy ngày 01/11, không retrain
+.\.venv\Scripts\python.exe -X utf8 demo_optimization.py validate --output results/week9_demo/run-2026-11-01
+```
+
+Demo in từng trial, best-so-far, ngưỡng epsilon và cấu hình được chọn. Replay
+chỉ dùng prefix của seed yêu cầu; live demo có 24 trials mới trên một seed,
+lưu riêng ở `results/week9_demo/` và không thay model bàn giao hoặc đánh giá
+test. Đây là minh họa quy trình, không phải bằng chứng thuật toán nào tốt hơn.
+[Báo cáo chuẩn bị checkpoint tuần 9](report/checkpoint-tuan-9-2026-11-01.md)
+ghi nội dung đã làm và các mục sinh viên/cô còn cần xác nhận.
+
 ## Key Results
 
 <!-- RESULTS_START -->
@@ -422,6 +449,9 @@ digits-rf-optimization/
   src/robustness*.py               # Study runner, analysis and validation
   .github/workflows/ci.yml         # Windows and Ubuntu checks
   demo.py                          # Predict with the saved model
+  demo_optimization.py             # Replay/live development-only HPO demo
+  src/optimization_demo.py         # Prefix selection, live search, log validation
+  docs/tpe-va-demo-toi-uu.md        # TPE explanation and 5–7 minute demo script
   setup.ps1                        # Local Windows venv and installation
   run_demo.bat                     # Double-click demo after setup
   update_github.ps1                 # Check, commit and push each update
@@ -458,6 +488,7 @@ digits-rf-optimization/
       time_budget_per_seed.csv, time_comparison.json
       startup_ablation_pairs.csv, startup_ablation_summary.json
       metrics_table.md, validation.json
+    week9_demo/run-2026-11-01/      # Separate small teaching run, 24 search trials
   requirements.txt, requirements-lock.txt, requirements-notebook.txt
   .gitignore, LICENSE, README.md
 ```

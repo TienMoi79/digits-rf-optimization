@@ -43,6 +43,10 @@ jobs:
         run: python -m src.robustness_validation --if-exists
       - name: Verify report numeric evidence against saved logs
         run: python -m src.report_facts --check
+      - name: Verify recorded development-only teaching demo
+        run: python demo_optimization.py validate --output results/week9_demo/run-2026-11-01
+      - name: Exercise replay without retraining or test evaluation
+        run: python demo_optimization.py replay --seed 11 --checkpoint 15
       - name: Exercise the complete development-only pipeline with a small budget
         run: python run_robustness.py --config configs/robustness-smoke.json --output "${{ runner.temp }}/digits-rf-smoke"
       - name: Check the model demo

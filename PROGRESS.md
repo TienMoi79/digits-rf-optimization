@@ -51,7 +51,7 @@ File formulation riêng 1–2 trang không được tạo trong đợt này; ph�
 | Tuần học | Công việc sẽ thực hiện | Bằng chứng phải có sau khi làm | Trạng thái hiện tại |
 |---|---|---|---|
 | 8, hiện tại | Rà soát yêu cầu và bằng chứng cũ; bổ sung pipeline; giữ cố định protocol; sinh viên kiểm tra lại formulation và baseline | README có pipeline; nhật ký này; kết quả kiểm chứng; commit đúng ngày; phần sinh viên tự giải thích | Đã bổ sung pipeline và kế hoạch; phần tự chạy/giải thích của sinh viên chưa xác nhận |
-| 9 | Bổ sung giải thích TPE: đầu vào/đầu ra, nguyên lý, tham số, lý do phù hợp; xây demo quá trình tìm kiếm và quy tắc epsilon | Source/demo, ví dụ chạy, notebook/README cập nhật, kiểm tra phù hợp, commit thật | Dự kiến, chưa thực hiện trong đợt này |
+| 9 | Bổ sung giải thích TPE: đầu vào/đầu ra, nguyên lý, tham số, lý do phù hợp; xây demo quá trình tìm kiếm và quy tắc epsilon | Source/demo, ví dụ chạy, notebook/README cập nhật, kiểm tra phù hợp, commit thật | Đã chuẩn bị code/tài liệu và chạy thử ngày 01/11/2026; chưa xác nhận sinh viên demo hoặc cô duyệt |
 | 10 | Sinh viên chạy tái lập vào thư mục mới; đối chiếu kết quả; phân tích lỗi và hạn chế; rà soát log/bảng/hình | Log của lần chạy thực tế, đối chiếu metric; ví dụ dự đoán sai; mô tả dao động runtime; commit thật | Dự kiến, chưa thực hiện trong đợt này |
 | 11, hạn nộp | Chạy kiểm tra cuối; chốt code, cấu hình, model và demo; tạo tag/release v1.0 cho commit nộp; sinh viên tập bảo vệ và nộp link | Các checks đạt; repo public; tag/release đúng bản; demo phần tối ưu; xác nhận nộp của sinh viên | Dự kiến, chưa thực hiện trong đợt này |
 
@@ -131,3 +131,23 @@ Kiểm tra sau sửa: 16 unit tests đạt (thay cho 14 ở lần rà soát đ�
 tra kết quả gốc đạt, 3.278 kiểm tra nghiên cứu mở rộng đạt; lệnh
 `python -m src.report_facts --check` xác nhận vùng số liệu khớp logs/model.
 Không chạy lại HPO hoặc điều chỉnh kết quả thực nghiệm trong đợt này.
+
+## Khởi tạo báo cáo và kịch bản demo tuần học 9 ngày 01/11/2026
+
+1. Tạo báo cáo tuần học 9 tại `report/checkpoint-tuan-9-2026-11-01.md` tập trung vào lý thuyết toán học Optuna TPE và kịch bản demo tối ưu 5–7 phút.
+2. Mô hình hóa giải thích nguyên lý xác suất của TPE: input/output, phân bố $l(x)$ và $g(x)$, cực đại hóa Expected Improvement (EI) thông qua tỷ số Likelihood Ratio $l(x)/g(x)$, và phân tích vai trò của `n_startup_trials`.
+3. Kiểm thử `demo_optimization.py replay --seed 11` để đọc CV logs và minh họa quy tắc epsilon; replay không huấn luyện hoặc kiểm chứng test. Thêm live demo nhỏ chỉ dùng development và validator cho logs mới.
+4. Sửa cấu hình console UTF-8 trong `update_github.ps1` để tương thích xử lý đường dẫn tiếng Việt trên PowerShell.
+5. Đã chạy thử live demo 12 trials/method, startup 5, seed 11: 24 search trials và baseline, lưu riêng ở `results/week9_demo/run-2026-11-01/`. Mất khoảng 103,40 giây, không đánh giá test; 75 artifacts cũ được giữ nguyên theo hash.
+6. Thêm năm tests cho demo: prefix không nhìn tương lai, test scores không chi phối quyết định, chặn output/budget không hợp lệ, objective chỉ nhận development, phát hiện thiếu trial. Kiểm tra cuối được ghi trong báo cáo tuần 9.
+7. `docs/tpe-va-demo-toi-uu.md` và README hướng dẫn replay/live/validate; báo cáo tuần 9 ghi rõ phân biệt kết quả đã có từ tuần trước và phần mới làm.
+
+Sinh viên yêu cầu làm trước, ban đầu giữ local, sau đó cho phép commit/push
+ngay trong cùng phiên. Ghi đúng ngày thực hiện 01/11/2026; không đổi ngày
+commit theo ngày dự kiến bảo vệ. Việc sinh viên tự demo/giải thích và cô duyệt
+chưa được xác nhận. Nội dung chuẩn bị không đồng nghĩa buổi checkpoint đã
+hoàn thành; tuần 10–11 tiếp tục theo kế hoạch trước đó.
+
+Kiểm tra cuối ngày 01/11: 21 unit tests đạt, 401 checks kết quả gốc đạt,
+3.278 checks phần mở rộng đạt, report facts khớp và validator live demo đạt
+(24 trials, epsilon và 75 hashes). Kết quả demo được kiểm tra riêng khỏi HPO gốc.

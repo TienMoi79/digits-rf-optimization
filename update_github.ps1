@@ -4,6 +4,7 @@ param(
     [string]$Message
 )
 $ErrorActionPreference = 'Stop'
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $env:PYTHONUTF8 = '1'
 $env:GIT_TERMINAL_PROMPT = '0'
 Set-Location -LiteralPath $PSScriptRoot
@@ -25,8 +26,14 @@ if ($LASTEXITCODE -ne 0) { throw 'Result validation failed. Nothing was committe
 if ($LASTEXITCODE -ne 0) { throw 'Development study validation failed. Nothing was committed or pushed.' }
 & '.\.venv\Scripts\python.exe' -m src.report_facts --check
 if ($LASTEXITCODE -ne 0) { throw 'Report facts disagree with saved logs. Nothing was committed or pushed.' }
+& '.\.venv\Scripts\python.exe' demo_optimization.py validate --output results/week9_demo/run-2026-11-01
+if ($LASTEXITCODE -ne 0) { throw 'Teaching demo validation failed. Nothing was committed or pushed.' }
 
-& git add --all
+for ($attempt = 0; $attempt -lt 3; $attempt++) {
+    & git add --all
+    if ($LASTEXITCODE -eq 0) { break }
+    Start-Sleep -Milliseconds 600
+}
 if ($LASTEXITCODE -ne 0) { throw 'Git staging failed.' }
 & git diff --cached --quiet
 if ($LASTEXITCODE -eq 1) {
