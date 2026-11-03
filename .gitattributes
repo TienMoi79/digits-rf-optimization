@@ -9,3 +9,4 @@
 *.bat text eol=crlf
 *.png binary
 *.joblib binary
+*.docx binary

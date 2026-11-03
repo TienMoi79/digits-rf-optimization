@@ -9,9 +9,18 @@ mô hình nhỏ theo một giới hạn suy giảm Macro-F1 validation định t
 Repo gồm code, notebook có kết quả, log thực nghiệm và mô hình đã huấn luyện.
 Phần mở rộng so sánh 5 search seeds, TPE startup 5/10 và ngân sách trials/thời gian;
 kết quả test của thí nghiệm ban đầu được bảo toàn.
-Theo phạm vi nộp hiện tại, không tạo báo cáo Word/PDF hoặc slide. Theo yêu cầu
-của sinh viên, mỗi phần hoàn thành có báo cáo tiến độ `.md` trong `report/`
-để gửi giảng viên kiểm tra và phản hồi.
+Mỗi phần hoàn thành có báo cáo tiến độ `.md` trong `report/` để gửi giảng viên
+kiểm tra và phản hồi. Ngày **03/11/2026**, sinh viên cập nhật yêu cầu của cô:
+bổ sung **một báo cáo Word** có kết quả train, validation, test và so sánh
+baseline/phương pháp tìm kiếm. Không tạo slide hoặc PDF bàn giao.
+
+[Báo cáo Word train validation test và so sánh baseline](report/Bao_cao_Train_Validation_Test_Baselines_2026-11-03.docx)
+gồm bảng train trên 1.437 mẫu development, validation 3 folds (mean ± SD),
+test từ predictions đã công bố, so sánh RF mặc định/Random/TPE và quy tắc
+chọn model nhỏ. Các số bổ sung và provenance ở `results/report_evaluation_2026-11-03/`;
+code tính bảng là `src/report_evaluation.py`, script dựng Word là
+`scripts/build_train_validation_test_report.py`. Chỉ tính thêm trên cấu hình
+đã khóa; không tuning hoặc đổi model bàn giao bằng kết quả test.
 
 ## Tiến độ và checkpoint hiện tại
 

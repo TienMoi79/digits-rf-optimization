@@ -26,6 +26,8 @@ if ($LASTEXITCODE -ne 0) { throw 'Result validation failed. Nothing was committe
 if ($LASTEXITCODE -ne 0) { throw 'Development study validation failed. Nothing was committed or pushed.' }
 & '.\.venv\Scripts\python.exe' -m src.report_facts --check
 if ($LASTEXITCODE -ne 0) { throw 'Report facts disagree with saved logs. Nothing was committed or pushed.' }
+& '.\.venv\Scripts\python.exe' -m src.report_evaluation --check
+if ($LASTEXITCODE -ne 0) { throw 'Train/CV/test report tables failed validation. Nothing was committed or pushed.' }
 & '.\.venv\Scripts\python.exe' demo_optimization.py validate --output results/week9_demo/run-2026-11-01
 if ($LASTEXITCODE -ne 0) { throw 'Teaching demo validation failed. Nothing was committed or pushed.' }
 

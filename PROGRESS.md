@@ -151,3 +151,24 @@ hoàn thành; tuần 10–11 tiếp tục theo kế hoạch trước đó.
 Kiểm tra cuối ngày 01/11: 21 unit tests đạt, 401 checks kết quả gốc đạt,
 3.278 checks phần mở rộng đạt, report facts khớp và validator live demo đạt
 (24 trials, epsilon và 75 hashes). Kết quả demo được kiểm tra riêng khỏi HPO gốc.
+
+## Bổ sung báo cáo Word theo yêu cầu mới ngày 03/11/2026
+
+Sinh viên cập nhật cô yêu cầu một file Word có train, bảng validation, test
+và so sánh các baseline. Yêu cầu này thay thế giới hạn Markdown-only đối với
+báo cáo này; nhật ký các checkpoint cũ vẫn giữ định dạng `.md`.
+
+Đã bổ sung `src/report_evaluation.py`, tính train in-sample trên toàn bộ
+development và các metric CV cho ba cấu hình đại diện đã khóa (selected
+trùng default); 12 lần fit development, không chạy HPO. Test metric được
+tính từ `test_predictions.csv` cũ, không thêm inference trên features test
+trong đợt tính bảng. Fold F1 khớp log cũ; kiểm tra hash giữ nguyên 75 artifact.
+
+File Word và script dựng được lưu trong repo cùng CSV/JSON của phần bổ sung:
+`report/Bao_cao_Train_Validation_Test_Baselines_2026-11-03.docx`,
+`scripts/build_train_validation_test_report.py`,
+`results/report_evaluation_2026-11-03/`. Chi tiết công việc và kiểm tra ở
+[báo cáo cập nhật](report/update-word-2026-11-03.md).
+
+Không coi đây là checkpoint tuần 10 đã được bảo vệ. Trạng thái cô duyệt và
+sinh viên tự trình bày tiếp tục chờ xác nhận. Không tạo slide/PDF bàn giao.

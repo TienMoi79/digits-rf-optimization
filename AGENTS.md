@@ -25,8 +25,12 @@ work only. Use meaningful messages describing the actual change.
   approval and LMS submission require the student's confirmation.
 - After each completed part, provide a Markdown progress report in report/
   for the student to share with the instructor. Include new work, evidence,
-  actual validation, remaining gaps and review questions. Use .md only; do not
-  create Word/PDF reports or slides. Keep prior checkpoint reports available.
+  actual validation, remaining gaps and review questions. Default to .md;
+  create Word/PDF reports or slides only when requested. Keep prior checkpoint reports available.
+- On 2026-11-03 the user explicitly requested one Word report containing train,
+  validation, test and baseline comparisons. Maintain that DOCX and its source
+  builder/evidence as authorized; this supersedes the earlier .md-only scope
+  for that report. Do not infer that slides or additional PDFs were requested.
 - When the student provides instructor feedback, record the feedback and the
   corresponding fixes and validation. Never invent instructor feedback or
   mark a checkpoint approved without the student's confirmation.
