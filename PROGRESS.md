@@ -172,3 +172,18 @@ File Word và script dựng được lưu trong repo cùng CSV/JSON của phần
 
 Không coi đây là checkpoint tuần 10 đã được bảo vệ. Trạng thái cô duyệt và
 sinh viên tự trình bày tiếp tục chờ xác nhận. Không tạo slide/PDF bàn giao.
+
+## Kiểm tra thắc mắc train accuracy ngày 03/11/2026
+
+Sinh viên chuyển thắc mắc của cô về việc train accuracy 100% và khả năng dữ
+liệu bị sửa. Đã fit độc lập qua sklearn trực tiếp (không dùng helper model/split
+của repo), đối chiếu từng pixel/nhãn với UCI, tái tạo indices và lưu prediction
+từng mẫu. Ba cấu hình phân biệt đều đúng 1.437/1.437 mẫu in-sample; selected
+CV OOF đúng 1.395/1.437. Các kết quả này là đếm thật, không phải làm tròn lên.
+
+Code: `scripts/audit_train_accuracy.py`; bằng chứng:
+`results/train_accuracy_audit_2026-11-03/`;
+[giải thích và đối chiếu](report/kiem-tra-train-accuracy-2026-11-03.md).
+Không đổi model/dữ liệu/nhãn hoặc dự đoán mới trên features test. Báo cáo
+Word đã có nêu train in-sample; bản Word gốc được giữ nguyên trong lần này.
+Chưa có phản hồi chấp nhận giải thích hoặc duyệt checkpoint của cô.

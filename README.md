@@ -22,6 +22,13 @@ code tính bảng là `src/report_evaluation.py`, script dựng Word là
 `scripts/build_train_validation_test_report.py`. Chỉ tính thêm trên cấu hình
 đã khóa; không tuning hoặc đổi model bàn giao bằng kết quả test.
 
+Sau thắc mắc về train 100%, đã có
+[kiểm tra độc lập từng mẫu và đối chiếu UCI](report/kiem-tra-train-accuracy-2026-11-03.md).
+Train ở đây là **in-sample**: 1.437/1.437 mẫu được dự đoán đúng sau khi đã fit
+chính tập đó; selected CV OOF là 1.395/1.437 và test gốc 350/360. Không dùng
+train 100% để tuyên bố tổng quát hóa hoàn hảo. Số đếm và predictions riêng
+ở `results/train_accuracy_audit_2026-11-03/` giúp kiểm tra con số chưa làm tròn.
+
 ## Tiến độ và checkpoint hiện tại
 
 Theo thông tin sinh viên cung cấp ngày **27/10/2026**, lớp đang ở **tuần 8**,

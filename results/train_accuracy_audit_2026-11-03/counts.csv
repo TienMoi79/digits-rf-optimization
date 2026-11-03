@@ -1,0 +1,5 @@
+label,train_correct,train_total,train_errors,train_accuracy_exact,oof_validation_correct,oof_validation_total,oof_validation_accuracy
+default,1437,1437,0,1.0,1395,1437,0.9707724425887265
+random,1437,1437,0,1.0,1401,1437,0.9749478079331941
+tpe,1437,1437,0,1.0,1400,1437,0.9742519137091162
+selected,1437,1437,0,1.0,1395,1437,0.9707724425887265

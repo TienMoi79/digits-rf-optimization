@@ -1,0 +1,61 @@
+{
+  "created_at_utc": "2026-11-03T09:16:16.176284+00:00",
+  "status": "passed",
+  "official_source": "https://archive.ics.uci.edu/static/public/80/optical+recognition+of+handwritten+digits.zip",
+  "official_member": "optdigits.tes",
+  "official_member_sha256": "6ebb3d2fee246a4e99363262ddf8a00a3c41bee6014c373ed9d9216ba7f651b8",
+  "all_original_pixels_and_labels_equal_official_source": true,
+  "train_labels_and_features_unchanged_after_fit": true,
+  "prediction_array_is_separate_from_true_labels": true,
+  "saved_split_and_folds_reproduced_independently": true,
+  "development_test_index_overlap": 0,
+  "identical_feature_rows_across_development_test": 0,
+  "distinct_configs_refitted": 3,
+  "forest_fits": 12,
+  "new_test_predictions": 0,
+  "original_artifact_count_preserved": 85,
+  "dataset_sha256": "f6d9e39f37dc45d327f6db33428ee58970ccceabb2535a5c179de35886b70443",
+  "counts": [
+    {
+      "label": "default",
+      "train_correct": 1437,
+      "train_total": 1437,
+      "train_errors": 0,
+      "train_accuracy_exact": 1.0,
+      "oof_validation_correct": 1395,
+      "oof_validation_total": 1437,
+      "oof_validation_accuracy": 0.9707724425887265
+    },
+    {
+      "label": "random",
+      "train_correct": 1437,
+      "train_total": 1437,
+      "train_errors": 0,
+      "train_accuracy_exact": 1.0,
+      "oof_validation_correct": 1401,
+      "oof_validation_total": 1437,
+      "oof_validation_accuracy": 0.9749478079331941
+    },
+    {
+      "label": "tpe",
+      "train_correct": 1437,
+      "train_total": 1437,
+      "train_errors": 0,
+      "train_accuracy_exact": 1.0,
+      "oof_validation_correct": 1400,
+      "oof_validation_total": 1437,
+      "oof_validation_accuracy": 0.9742519137091162
+    },
+    {
+      "label": "selected",
+      "train_correct": 1437,
+      "train_total": 1437,
+      "train_errors": 0,
+      "train_accuracy_exact": 1.0,
+      "oof_validation_correct": 1395,
+      "oof_validation_total": 1437,
+      "oof_validation_accuracy": 0.9707724425887265
+    }
+  ],
+  "interpretation": "Train is resubstitution on fitted data. A perfect train score does not imply perfect generalization or rule out every form of error/bias."
+}
