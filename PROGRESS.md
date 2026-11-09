@@ -52,7 +52,7 @@ File formulation riêng 1–2 trang không được tạo trong đợt này; ph�
 |---|---|---|---|
 | 8, hiện tại | Rà soát yêu cầu và bằng chứng cũ; bổ sung pipeline; giữ cố định protocol; sinh viên kiểm tra lại formulation và baseline | README có pipeline; nhật ký này; kết quả kiểm chứng; commit đúng ngày; phần sinh viên tự giải thích | Đã bổ sung pipeline và kế hoạch; phần tự chạy/giải thích của sinh viên chưa xác nhận |
 | 9 | Bổ sung giải thích TPE: đầu vào/đầu ra, nguyên lý, tham số, lý do phù hợp; xây demo quá trình tìm kiếm và quy tắc epsilon | Source/demo, ví dụ chạy, notebook/README cập nhật, kiểm tra phù hợp, commit thật | Đã chuẩn bị code/tài liệu và chạy thử ngày 01/11/2026; chưa xác nhận sinh viên demo hoặc cô duyệt |
-| 10 | Sinh viên chạy tái lập vào thư mục mới; đối chiếu kết quả; phân tích lỗi và hạn chế; rà soát log/bảng/hình | Log của lần chạy thực tế, đối chiếu metric; ví dụ dự đoán sai; mô tả dao động runtime; commit thật | Dự kiến, chưa thực hiện trong đợt này |
+| 10 | Sinh viên chạy tái lập vào thư mục mới; đối chiếu kết quả; phân tích lỗi và hạn chế; rà soát log/bảng/hình | Log của lần chạy thực tế, đối chiếu metric; ví dụ dự đoán sai; mô tả dao động runtime; commit thật | Codex đã tái lập 180 trials và phân tích lỗi ngày 09/11/2026; chưa xác nhận sinh viên tự chạy hoặc cô duyệt |
 | 11, hạn nộp | Chạy kiểm tra cuối; chốt code, cấu hình, model và demo; tạo tag/release v1.0 cho commit nộp; sinh viên tập bảo vệ và nộp link | Các checks đạt; repo public; tag/release đúng bản; demo phần tối ưu; xác nhận nộp của sinh viên | Dự kiến, chưa thực hiện trong đợt này |
 
 Chưa gán ngày dương lịch cho tuần 9–11 vì chưa có lịch cụ thể của lớp.
@@ -187,3 +187,32 @@ Code: `scripts/audit_train_accuracy.py`; bằng chứng:
 Không đổi model/dữ liệu/nhãn hoặc dự đoán mới trên features test. Báo cáo
 Word đã có nêu train in-sample; bản Word gốc được giữ nguyên trong lần này.
 Chưa có phản hồi chấp nhận giải thích hoặc duyệt checkpoint của cô.
+
+## Thực hiện checkpoint tuần học 10 ngày 09/11/2026
+
+Đã thực hiện theo kế hoạch đã ghi, không điều chỉnh config/seed/epsilon:
+
+1. Chạy `run_experiment.py --config configs/experiment.json --output results/week10_2026-11-09/reproduction`.
+   Hoàn tất 180 search trials và baseline; 401 kiểm tra kết quả của pipeline đạt.
+2. Đối chiếu 181 bản ghi: toàn bộ tham số và fold scores khớp, delta CV tối đa
+   bằng 0; config/split/quyết định/predictions khớp, binary model selected khớp hash.
+3. Lưu 10 mẫu selected sai, cặp nhầm, recall từng lớp và khoảng cách train–val–test.
+   Random sửa đúng 2 lỗi selected nhưng sai thêm 1 mẫu selected đúng; có 8 lỗi chung.
+4. Giữ nguyên runtime: gốc 431,21 giây, tái lập 855,77 giây; không xem đây là
+   benchmark tốc độ có kiểm soát hoặc bằng chứng độ ổn định của thời gian huấn luyện.
+5. Sau HPO, đo riêng latency selected trên 256 development samples: 5 rounds,
+   75 số đo, median 20,8181 ms/batch, p95 84,0266 ms/batch. Giữ các giá trị cao;
+   biến động còn lớn, không tuyên bố latency ổn định trên nhiều phiên/máy.
+6. `src/week10.py` và bốn tests mới kiểm tra tái lập/phân tích lỗi; tổng 25 unit
+   tests đạt. Kết quả gốc và nghiên cứu mở rộng tiếp tục đạt 401/3.278 checks.
+7. Báo cáo `.md`, hướng dẫn tự chạy và Word cập nhật ngày 09/11 (giữ bản 03/11).
+   File Word có 11 trang, kiểm tra bố cục qua bản render; không bàn giao PDF/slide.
+
+Bằng chứng mới: `results/week10_2026-11-09/`, `figures/week10_2026-11-09/`,
+[báo cáo checkpoint](report/checkpoint-tuan-10-2026-11-09.md),
+[hướng dẫn tự chạy](docs/tu-chay-tai-lap-tuan-10.md).
+88 artifact cũ được kiểm tra giữ nguyên theo hash.
+
+Phiên chạy do Codex thực hiện; trạng thái sinh viên tự tái lập/giải thích và
+cô duyệt chưa được xác nhận. Test trong lần tái lập là cùng holdout đã biết,
+không phải test độc lập mới. Không tạo tag/release cuối hoặc đánh dấu đã nộp.

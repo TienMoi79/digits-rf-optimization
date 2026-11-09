@@ -1,0 +1,10 @@
+{
+  "test_samples": 360,
+  "selected_errors": 10,
+  "random_errors": 9,
+  "selected_errors_random_corrects": 2,
+  "random_errors_selected_corrects": 1,
+  "errors_shared_by_selected_and_random": 8,
+  "test_source": "original saved predictions; no model fit or new inference in error analysis",
+  "limitation": "These are observed mistakes on one known holdout; visual interpretation is not a proven causal explanation."
+}

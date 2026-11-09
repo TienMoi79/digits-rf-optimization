@@ -3,6 +3,7 @@
 Run with the bundled document runtime (python-docx), not the ML venv.
 """
 from pathlib import Path
+import argparse
 import csv
 import json
 
@@ -16,6 +17,12 @@ from docx.shared import Cm, Pt, RGBColor
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "results/report_evaluation_2026-11-03"
 DEST = ROOT / "report/Bao_cao_Train_Validation_Test_Baselines_2026-11-03.docx"
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument("--output", type=Path, default=DEST)
+parser.add_argument("--date", default="03/11/2026")
+parser.add_argument("--week10", action="store_true", help="Append verified week-10 reproduction and error analysis.")
+args = parser.parse_args()
+DEST = args.output if args.output.is_absolute() else ROOT / args.output
 
 
 def read_csv(path):
@@ -145,12 +152,14 @@ def image(path, caption, width=16.6):
 
 doc.add_paragraph("Báo cáo train validation test\nvà so sánh các mốc baseline", style="Title")
 doc.add_paragraph("Tối ưu siêu tham số Random Forest cho nhận dạng chữ số viết tay", style="Subtitle")
-p("Môn Nhập môn tối ưu hóa • Cập nhật 03/11/2026")
+p("Môn Nhập môn tối ưu hóa • Cập nhật " + args.date)
 p("Báo cáo trình bày kết quả học trên train, bảng validation bằng 3-fold CV và đánh giá test của các cấu hình đã chốt trong thí nghiệm gốc. RF mặc định được chọn theo ngưỡng epsilon để ưu tiên kích thước nhỏ; cấu hình có CV cao nhất thuộc Random Search.")
 heading("1 Tóm tắt kết quả", 2)
-table(["Cấu hình", "Train accuracy", "Validation F1", "Test accuracy"],
+table(["Cấu hình", "Train accuracy\nin-sample" if args.week10 else "Train accuracy", "Validation F1", "Test accuracy"],
       [[names[k], num(k, "train_accuracy", percent=True), num(k, "validation_f1_macro_mean"), num(k, "test_accuracy", percent=True)] for k in order], [4.3,4.3,4.3,4.3])
 p("Selected trùng cấu hình RF mặc định nên các dòng tương ứng không phải hai mô hình độc lập. Validation F1 là trung bình ba folds; train accuracy đo trên dữ liệu đã fit và thường lạc quan hơn validation/test.")
+if args.week10:
+    p("Bản cập nhật tuần 10 giữ các bảng gốc và bổ sung kết quả tái lập, runtime cùng phân tích đầy đủ các mẫu test nhận nhầm ở phần 9–11. Lần tái lập dùng cùng holdout đã biết; trạng thái sinh viên tự chạy và giảng viên duyệt chưa được xác nhận.")
 heading("Dữ liệu và vai trò các tập", 2)
 table(["Phần dữ liệu", "Số mẫu", "Vai trò"], [
     ["Toàn bộ Digits", "1.797", "10 lớp chữ số 0–9, ảnh 8×8"],
@@ -254,6 +263,45 @@ for text in [
     par=p(text)
     for r in par.runs:
         r.font.size=Pt(8.5)
+
+if args.week10:
+    WEEK10 = ROOT / "results/week10_2026-11-09"
+    reproduction = json.loads((WEEK10 / "reproduction_comparison.json").read_text(encoding="utf-8"))
+    metrics = read_csv(WEEK10 / "metric_comparison.csv")
+    timing = read_csv(WEEK10 / "runtime_by_method_seed.csv")
+    error_summary = json.loads((WEEK10 / "error_summary.json").read_text(encoding="utf-8"))
+    errors = read_csv(WEEK10 / "errors_by_class.csv")
+    page("9 Tái lập thí nghiệm trong tuần học 10")
+    p("Ngày 09/11/2026 chạy lại pipeline gốc trong thư mục mới, giữ nguyên config, folds, seed, budget 30 trials/method/seed và quy tắc epsilon. Codex chạy phiên này; chưa xác nhận sinh viên đã tự thực hiện. Toàn bộ logs mới được giữ riêng, không thay bộ kết quả gốc.")
+    table(["Đại diện", "CV F1 gốc", "CV F1 chạy lại", "Test acc gốc", "Test acc chạy lại"],
+          [[names[label]] + [f"{float(next(r['original'] for r in metrics if r['label']==label and r['metric']==m)):.5f}" if i%2==0 else f"{float(next(r['reproduction'] for r in metrics if r['label']==label and r['metric']==m)):.5f}"
+           for i,m in enumerate(["cv_f1","cv_f1","test_accuracy","test_accuracy"])] for label in order], [4.4,3.2,3.2,3.2,3.2])
+    p(f"Đối chiếu {reproduction['trial_records_compared']} bản ghi, gồm baseline và 180 search trials: tham số/fold score khớp, delta CV tối đa {reproduction['max_absolute_trial_cv_delta']:.3g}. Split, lựa chọn và toàn bộ predictions test tái tạo khớp; binary model selected khớp hash: {reproduction['selected_model_binary_sha256_matches']}.")
+    heading("Thời gian đo trong hai phiên", 2)
+    table(["Phương pháp", "Seed", "CV search gốc giây", "CV search chạy lại giây"],
+          [[r["method"],r["seed"],f"{float(r['original_cv_search_seconds']):.2f}",f"{float(r['reproduction_cv_search_seconds']):.2f}"] for r in timing], [4.4,2.4,5.2,5.2])
+    p(f"Runtime toàn pipeline gốc {reproduction['original_runtime_seconds']:.2f} giây; chạy lại {reproduction['reproduction_runtime_seconds']:.2f} giây (tỷ số {reproduction['runtime_ratio_new_over_original']:.2f}). Runtime gồm CV, refit, profiling và logging; bảng CV search chỉ cộng phần CV. Chi phí phân tích/vẽ hình sau pipeline không nằm trong runtime này.")
+    p("Hai phiên khác ngày và tải nền, mỗi phiên chạy một lần; chênh lệch chỉ là mô tả phép đo, không đủ để kết luận tốc độ hoặc độ ổn định. Bảng latency median/p95 riêng lưu tại latency_comparison.csv. Đánh giá test trong lần chạy lại là trên cùng 360 mẫu đã công bố, không cung cấp một holdout độc lập mới hoặc cho phép đổi cấu hình theo test.")
+    p("Bằng chứng: results/week10_2026-11-09/reproduction/ và reproduction_comparison.json. Có thể chạy python -m src.week10 validate để kiểm tra mà không train lại.")
+
+    page("10 Độ biến thiên thời gian dự đoán")
+    bench = json.loads((WEEK10 / "latency_benchmark.json").read_text(encoding="utf-8"))
+    rounds = read_csv(WEEK10 / "latency_rounds.csv")
+    p("Sau khi tìm kiếm tái lập kết thúc, dùng nguyên model selected đã bàn giao để đo trên batch 256 mẫu development cố định. Thực hiện năm rounds, mỗi round ba warmups rồi 15 phép đo; tổng 75 số đo thời gian thực. Không fit thêm hoặc dùng features test trong benchmark này.")
+    table(["Round", "Median ms", "Mean ms", "SD ms", "p95 ms"],
+          [[r["round"]]+[f"{float(r[k]):.4f}" for k in ["median_ms","mean_ms","sd_ms","p95_ms"]] for r in rounds], [3.2,3.5,3.5,3.5,3.5])
+    p(f"Median chung {bench['overall_median_ms']:.4f} ms/batch; p95 chung {bench['overall_p95_ms']:.4f} ms/batch. Mean ± SD của năm median là {bench['round_median_mean_ms']:.4f} ± {bench['round_median_sd_ms']:.4f} ms; hệ số biến thiên của các median {bench['round_median_cv_percent']:.2f}%.")
+    image("figures/week10_2026-11-09/latency_stability.png", "Hình 3  Toàn bộ số đo latency của batch cố định, giữ cả các giá trị cao", width=16.2)
+    p("Các giá trị là latency của cả batch, không phải thời gian một yêu cầu đơn lẻ hoặc train. Không tính chi phí đọc file/model, nhưng vẫn chịu ảnh hưởng CPU/tải nền. Năm rounds liên tiếp trên một máy không đủ chứng minh ổn định trên nhiều phiên hoặc thiết bị. Dự đoán ở mọi lần đo khớp reference; không loại số đo chậm để làm bảng đẹp.")
+    p("Số đo thô: latency_measurements.csv; bảng từng round: latency_rounds.csv; điều kiện và thống kê: latency_benchmark.json trong thư mục kết quả tuần 10.")
+
+    page("11 Phân tích các trường hợp nhận dạng sai")
+    p("Selected sai 10/360 mẫu. Hình dưới hiển thị đầy đủ 10 ảnh từ test gốc cùng global index, nhãn thật và nhãn dự đoán. Chỉ sử dụng predictions đã lưu để phân tích, không tuning hoặc đánh giá thêm model từ các lỗi này.")
+    image("figures/week10_2026-11-09/selected_test_errors.png", "Hình 4  Toàn bộ mẫu selected nhận nhầm trên test gốc", width=16.5)
+    table(["Nhãn thật", "Support", "Số sai", "Recall"],
+          [[r["class"],r["support"],r["errors"],f"{float(r['recall']):.4f}"] for r in errors if int(r["errors"])>0], [4.3]*4)
+    p(f"Trong 10 lỗi selected, Random sửa đúng {error_summary['selected_errors_random_corrects']} mẫu, nhưng sai thêm {error_summary['random_errors_selected_corrects']} mẫu mà selected đúng; có {error_summary['errors_shared_by_selected_and_random']} lỗi chung. Vì vậy Random chỉ hơn một dự đoán đúng ở test hiện tại, không phải sửa được tất cả lỗi baseline.")
+    p("Nhầm lặp nhiều nhất là nhãn thật 8 thành 1, ba mẫu; lớp 8 có recall thấp nhất. Ảnh 8×8 chỉ có ít điểm ảnh, một số nét/khép vòng khó phân biệt bằng mắt; đây là quan sát trực quan, chưa phải nguyên nhân đã được chứng minh. Cần dữ liệu/kiểm tra phát triển riêng nếu sau này muốn thiết kế sửa lỗi; không điều chỉnh model bằng test này.")
 
 DEST.parent.mkdir(exist_ok=True)
 doc.save(DEST)

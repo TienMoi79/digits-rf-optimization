@@ -45,6 +45,8 @@ jobs:
         run: python -m src.report_facts --check
       - name: Verify train validation test report tables
         run: python -m src.report_evaluation --check
+      - name: Verify week 10 reproduction and error analysis
+        run: python -m src.week10 validate
       - name: Verify recorded development-only teaching demo
         run: python demo_optimization.py validate --output results/week9_demo/run-2026-11-01
       - name: Exercise replay without retraining or test evaluation

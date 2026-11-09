@@ -1,0 +1,35 @@
+{
+  "config_matches": true,
+  "split_matches": true,
+  "trial_records_compared": 181,
+  "search_trials_reproduced": 180,
+  "max_absolute_trial_cv_delta": 0.0,
+  "all_trial_params_and_fold_scores_match": true,
+  "decision_matches": true,
+  "all_test_predictions_match": true,
+  "representative_metrics_match": true,
+  "selected_model_binary_sha256_matches": true,
+  "original_runtime_seconds": 431.20692449994385,
+  "reproduction_runtime_seconds": 855.7733630000148,
+  "runtime_ratio_new_over_original": 1.9846002333854595,
+  "original_versions": {
+    "numpy": "2.2.2",
+    "pandas": "2.2.3",
+    "scikit-learn": "1.8.0",
+    "optuna": "5.0.0",
+    "matplotlib": "3.10.0",
+    "joblib": "1.5.3"
+  },
+  "reproduction_versions": {
+    "numpy": "2.2.2",
+    "pandas": "2.2.3",
+    "scikit-learn": "1.8.0",
+    "optuna": "5.0.0",
+    "matplotlib": "3.10.0",
+    "joblib": "1.5.3"
+  },
+  "versions_match": true,
+  "heldout_interpretation": "Predictions were recomputed on the same already known split after replaying the fixed decision protocol; no independent new test evidence.",
+  "executor": "Codex executed this run; student-run reproduction is not confirmed",
+  "timing_interpretation": "One original and one rerun session; descriptive runtime differences, not a controlled speed benchmark or stability estimate."
+}

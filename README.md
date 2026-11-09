@@ -247,6 +247,29 @@ test. Đây là minh họa quy trình, không phải bằng chứng thuật toá
 [Báo cáo chuẩn bị checkpoint tuần 9](report/checkpoint-tuan-9-2026-11-01.md)
 ghi nội dung đã làm và các mục sinh viên/cô còn cần xác nhận.
 
+## Checkpoint tuần học 10
+
+Ngày **09/11/2026** thực hiện tái lập protocol gốc vào thư mục riêng,
+đối chiếu từng trial và phân tích toàn bộ 10 mẫu selected sai trên test.
+Kết quả mới nằm ở `results/week10_2026-11-09/`; hình minh họa ở
+`figures/week10_2026-11-09/`. Quyết định/model/dữ liệu gốc được giữ nguyên.
+Tái lập cùng test là kiểm tra nhất quán trên holdout đã biết, không phải
+một đánh giá độc lập mới hoặc cơ sở chọn lại cấu hình bằng test.
+
+```powershell
+# Kiểm tra kết quả tuần 10 đã lưu, không train lại
+.\.venv\Scripts\python.exe -X utf8 -m src.week10 validate
+```
+
+[Báo cáo checkpoint tuần 10](report/checkpoint-tuan-10-2026-11-09.md) trình bày
+kết quả đối chiếu, thời gian, lỗi từng mẫu và giới hạn. Các bước sinh viên
+tự chạy nằm trong [hướng dẫn tái lập](docs/tu-chay-tai-lap-tuan-10.md).
+Trạng thái sinh viên tự chạy và cô duyệt chưa được xác nhận.
+
+[Báo cáo Word cập nhật tuần 10](report/Bao_cao_Train_Validation_Test_Baselines_2026-11-09.docx)
+giữ các bảng train/validation/test, bổ sung tái lập, benchmark latency và
+phân tích lỗi; bản Word ngày 03/11 tiếp tục được giữ để đối chiếu lịch sử.
+
 ## Key Results
 
 <!-- RESULTS_START -->

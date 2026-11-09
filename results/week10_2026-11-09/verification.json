@@ -1,0 +1,21 @@
+{
+  "date": "2026-11-09",
+  "executor": "Codex",
+  "unit_tests_passed": 25,
+  "original_result_checks_passed": 401,
+  "reproduction_result_checks_passed": 401,
+  "robustness_checks_passed": 3278,
+  "report_facts": "passed",
+  "report_evaluation": "passed",
+  "week9_demo": "passed",
+  "week10_validator": "passed",
+  "original_artifacts_preserved": 88,
+  "word_pages": 11,
+  "word_all_pages_visually_reviewed": true,
+  "word_renderer": "Microsoft Word COM read-only export to temporary PDF; Poppler PNG",
+  "word_qa_note": "Pages 1-10 are pixel-identical to the reviewed render; revised page 11 was reviewed again.",
+  "word_sha256": "793d970dde3d2de886e924aaac758180e7cee14578c01b84de2e0f6967295796",
+  "student_self_reproduction_confirmed": false,
+  "instructor_approval_confirmed": false,
+  "github_ci_status": "Not asserted in this local verification record."
+}
