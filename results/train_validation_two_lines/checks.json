@@ -1,0 +1,13 @@
+{
+  "source": "results/curve_audit/all_tree_metrics_per_fold.csv",
+  "source_sha256_lf": "2aecb8c194fe25579b71c48a2055e7b7902e31372934edf5e8ee4b697d072611",
+  "source_rows": 600,
+  "mean_rows": 200,
+  "lines_per_figure": 2,
+  "tree_counts": "all integers 1 through 100",
+  "averaging": "arithmetic mean over the three original CV folds",
+  "smoothing": false,
+  "training_or_test_evaluations": 0,
+  "saved_checkpoint_means_match": true,
+  "source_unchanged": true
+}

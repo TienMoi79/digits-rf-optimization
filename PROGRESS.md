@@ -216,3 +216,12 @@ Bằng chứng mới: `results/week10_2026-11-09/`, `figures/week10_2026-11-09/`
 Phiên chạy do Codex thực hiện; trạng thái sinh viên tự tái lập/giải thích và
 cô duyệt chưa được xác nhận. Test trong lần tái lập là cùng holdout đã biết,
 không phải test độc lập mới. Không tạo tag/release cuối hoặc đánh dấu đã nộp.
+
+## Điều chỉnh trình bày biểu đồ ngày 13/11/2026
+
+Theo ảnh mẫu sinh viên gửi, bổ sung mỗi hình đúng hai đường train/validation
+cho accuracy và log loss. Dùng lại toàn bộ số đo 1–100 cây đã kiểm tra; lấy
+trung bình ba folds, không làm mượt hoặc huấn luyện lại. Script đối chiếu
+600 dòng nguồn và các checkpoint đã công bố; nguồn giữ nguyên. Đã xem hình
+để kiểm tra nhãn và bố cục. Chi tiết và bằng chứng ở
+[báo cáo hình hai đường](report/bieu-do-hai-duong-2026-11-13.md).
