@@ -6,6 +6,7 @@ __pycache__/
 results/reproduction*/
 results/smoke*/
 *.tmp
+~$*.docx
 .DS_Store
 Thumbs.db
 desktop.ini

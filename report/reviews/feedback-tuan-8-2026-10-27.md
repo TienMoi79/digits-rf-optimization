@@ -2,7 +2,7 @@
 
 - **Ngày xử lý:** 27/10/2026.
 - **Nguồn tiếp nhận:** văn bản sinh viên chuyển trong cuộc trò chuyện, ghi nhận là cô gửi nhận xét.
-- **Bản được cập nhật:** [Báo cáo checkpoint tuần 8](checkpoint-tuan-8-2026-10-27.md).
+- **Bản được cập nhật:** [Báo cáo checkpoint tuần 8](../checkpoints/checkpoint-tuan-8-2026-10-27.md).
 - **Trạng thái:** đã rà soát nội dung và sửa báo cáo theo bằng chứng; chưa có xác nhận cô duyệt checkpoint.
 
 ## 1 Nội dung đã nhận và phạm vi xử lý

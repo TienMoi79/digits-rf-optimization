@@ -2,275 +2,51 @@
 
 [![Project checks](https://github.com/TienMoi79/digits-rf-optimization/actions/workflows/ci.yml/badge.svg)](https://github.com/TienMoi79/digits-rf-optimization/actions/workflows/ci.yml)
 
-**Đồ án cá nhân môn Nhập môn tối ưu hóa.** Tối ưu siêu tham số Random Forest
-cho nhận dạng chữ số viết tay, so sánh Random Search với Optuna TPE và chọn
-mô hình nhỏ theo một giới hạn suy giảm Macro-F1 validation định trước.
+Đồ án cá nhân môn **Nhập môn tối ưu hóa**: tối ưu siêu tham số Random Forest
+để nhận dạng chữ số Digits, so sánh Random Search với Optuna TPE, rồi chọn
+mô hình nhỏ trong ngưỡng giảm Macro-F1 validation đã định trước.
 
-Repo gồm code, notebook có kết quả, log thực nghiệm và mô hình đã huấn luyện.
-Phần mở rộng so sánh 5 search seeds, TPE startup 5/10 và ngân sách trials/thời gian;
-kết quả test của thí nghiệm ban đầu được bảo toàn.
-Mỗi phần hoàn thành có báo cáo tiến độ `.md` trong `report/` để gửi giảng viên
-kiểm tra và phản hồi. Ngày **03/11/2026**, sinh viên cập nhật yêu cầu của cô:
-bổ sung **một báo cáo Word** có kết quả train, validation, test và so sánh
-baseline/phương pháp tìm kiếm. Không tạo slide hoặc PDF bàn giao.
+## Mở đúng phần cần dùng
 
-[Báo cáo Word train validation test và so sánh baseline](report/Bao_cao_Train_Validation_Test_Baselines_2026-11-03.docx)
-gồm bảng train trên 1.437 mẫu development, validation 3 folds (mean ± SD),
-test từ predictions đã công bố, so sánh RF mặc định/Random/TPE và quy tắc
-chọn model nhỏ. Các số bổ sung và provenance ở `results/report_evaluation_2026-11-03/`;
-code tính bảng là `src/report_evaluation.py`, script dựng Word là
-`scripts/build_train_validation_test_report.py`. Chỉ tính thêm trên cấu hình
-đã khóa; không tuning hoặc đổi model bàn giao bằng kết quả test.
+| Bạn muốn xem | Mở file |
+|---|---|
+| Báo cáo Word mới nhất, 11 trang | [Bản ngày 09/11/2026](report/Bao_cao_Train_Validation_Test_Baselines_2026-11-09.docx) |
+| Biểu đồ có hai đường train/validation | [Accuracy](figures/train_validation_two_lines/accuracy.png), [Loss](figures/train_validation_two_lines/log_loss.png) |
+| Checkpoint và phản hồi của cô | [Mục lục báo cáo](report/README.md) |
+| Lịch sử thực hiện và việc còn lại | [PROGRESS.md](PROGRESS.md) |
+| Giải thích TPE và tập demo | [Hướng dẫn demo tối ưu](docs/tpe-va-demo-toi-uu.md) |
+| Tự chạy tái lập | [Hướng dẫn tuần 10](docs/tu-chay-tai-lap-tuan-10.md) |
+| Công thức, protocol, ablation, giới hạn | [Hướng dẫn kỹ thuật đầy đủ](docs/huong-dan-ky-thuat.md) |
+| Vị trí code và các bộ kết quả | [Bản đồ thư mục](docs/README.md) |
 
-Sau thắc mắc về train 100%, đã có
-[kiểm tra độc lập từng mẫu và đối chiếu UCI](report/kiem-tra-train-accuracy-2026-11-03.md).
-Train ở đây là **in-sample**: 1.437/1.437 mẫu được dự đoán đúng sau khi đã fit
-chính tập đó; selected CV OOF là 1.395/1.437 và test gốc 350/360. Không dùng
-train 100% để tuyên bố tổng quát hóa hoàn hảo. Số đếm và predictions riêng
-ở `results/train_accuracy_audit_2026-11-03/` giúp kiểm tra con số chưa làm tròn.
+## Bài toán và pipeline
 
-## Tiến độ và checkpoint hiện tại
+Biến quyết định là `x = (n_estimators, max_depth, min_samples_leaf, max_features)`:
+50–200 cây với bước 25; độ sâu 5/10/15/20/None; số mẫu tối thiểu ở lá 1–4;
+số đặc trưng sqrt/log2/half/all. Có 560 cấu hình trong [config gốc](configs/experiment.json).
 
-Theo thông tin sinh viên cung cấp ngày **27/10/2026**, lớp đang ở **tuần 8**,
-hạn nộp là **tuần 11**. [PROGRESS.md](PROGRESS.md) ghi các bằng chứng có sẵn,
-phần vừa bổ sung và kế hoạch còn lại theo tuần học. Đây là đợt rà soát và hoàn
-thiện từ bản đã có, không phải khởi tạo một đồ án chưa từng chạy.
-Lịch sử hiện có không tự chứng minh đã được giảng viên duyệt đủ checkpoint
-5 tuần. Các mốc dự kiến chỉ được ghi hoàn thành sau khi thực hiện thực tế.
-
-Báo cáo phần vừa hoàn thành:
-[Rà soát và tổ chức checkpoint tuần 8](report/checkpoint-tuan-8-2026-10-27.md).
-Báo cáo ghi riêng nội dung mới, bằng chứng có sẵn, kết quả kiểm tra và các
-điểm cần cô góp ý. Đã nhận bản biên tập do sinh viên chuyển ngày 27/10 và ghi
-nhận là cô gửi; [bảng đối chiếu và xử lý](report/feedback-tuan-8-2026-10-27.md)
-lưu các chỉnh sửa cùng bằng chứng. Chưa có xác nhận duyệt checkpoint.
-
-Phần số liệu trong báo cáo tuần 8 được sinh trực tiếp từ logs/model đã lưu:
-
-```powershell
-.\.venv\Scripts\python.exe -m src.report_facts --check
-```
-
-Lệnh kiểm tra không train hoặc thay đổi kết quả. Nếu cần đồng bộ phần số
-liệu sau khi rà soát logs, dùng `--write`; chỉ vùng giữa hai marker số liệu
-được thay, các nhận xét và trạng thái duyệt bên ngoài vùng đó được giữ nguyên.
-
-## Sơ đồ pipeline
+Mục tiêu: **tối đa mean Macro-F1 qua 3 folds development** trong ngân sách
+30 trials/phương pháp/search seed. So sánh RF mặc định, Random Search và TPE
+(startup 10), dùng cùng dữ liệu, folds, miền biến và RF seed. Có ba search seeds
+11/22/33, tổng 180 search trials. Sau tìm kiếm, chọn model nhỏ nhất trong các
+cấu hình khả thi có CV F1 ≥ best CV F1 − **0.005**, bao gồm baseline.
 
 ```mermaid
-flowchart TD
-    A[Digits: 1797 ảnh, 64 đặc trưng, 10 lớp] --> B[Stratified split, seed 42]
-    B --> C[Development: 1437 mẫu]
-    B --> D[Test: 360 mẫu được giữ riêng]
-    C --> E[3 stratified CV folds, seed 42]
-    E --> F[Baseline RF mặc định]
-    E --> G[Random Search và TPE]
-    G --> H[30 trials mỗi phương pháp và search seed]
-    F --> I[Log CV Macro-F1 và kích thước model]
-    H --> I
-    I --> J[Kiểm tra miền khả thi và ngân sách]
-    J --> K[Chọn model nhỏ nhất trong ngưỡng epsilon 0.005]
-    K --> L[Lưu selection.json, khóa cấu hình và các đại diện]
-    L --> M[Refit đại diện trên development]
-    D --> N[Đánh giá test sau khi khóa lựa chọn]
-    M --> N
-    N --> O[Lưu predictions, model, bảng và hình]
-    O --> P[Kiểm chứng kết quả và demo]
-    E --> Q[Phần mở rộng: 5 seeds, TPE startup 5 và 10]
-    Q --> R[Chỉ CV: ablation và phân tích ngân sách]
+flowchart LR
+    A[Digits 1797 ảnh 8x8] --> B[Development 1437 mẫu]
+    A --> C[Test 360 mẫu giữ riêng]
+    B --> D[CV 3 folds: baseline, Random, TPE]
+    D --> E[Khóa lựa chọn theo CV và epsilon]
+    E --> F[Refit trên development]
+    F --> G[Đánh giá test, lưu model và predictions]
+    C --> G
 ```
 
-Sơ đồ mô tả pipeline đã cài đặt trong `run_experiment.py` và `src/experiment.py`.
-Trong thí nghiệm gốc, các trials còn refit trên development để đo kích thước
-và thời gian dự đoán; phần mở rộng chỉ chạy CV. Kết quả test gốc đã được xem
-và công bố nên đợt rà soát không coi đó là một tập test mới chưa từng quan sát.
-Giữ nguyên lựa chọn mô hình và số liệu gốc; không dùng điểm test đã biết để
-điều chỉnh cấu hình hoặc epsilon.
+Không chọn hyperparameter bằng test. Seed split/CV là 42, RF seed là 123.
+Dataset có 64 đặc trưng pixel, 10 lớp; không cần API key hay GPU.
+[Nguồn dữ liệu và tiền xử lý](data/README.md).
 
-## Chạy nhanh trên Windows
-
-Cần Python 3.12 và Internet cho lần cài thư viện đầu tiên. Sau khi cài thư viện,
-dataset có sẵn trong scikit-learn, không cần tài khoản/API key hoặc GPU.
-
-Mở PowerShell tại thư mục chứa README này và chạy:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\setup.ps1 -Notebook
-.\.venv\Scripts\python.exe demo.py --index 123
-.\.venv\Scripts\python.exe -m src.validation
-.\.venv\Scripts\python.exe -m unittest discover -s tests -v
-```
-
-`-ExecutionPolicy Bypass` chỉ áp dụng cho tiến trình chạy script này, không sửa
-chính sách máy. Có thể bỏ `-Notebook` nếu chỉ chạy các script Python.
-Sau khi setup, nhấp đúp `run_demo.bat` cũng chạy demo được.
-
-Mở notebook:
-
-```powershell
-.\.venv\Scripts\jupyter-lab.exe notebooks\robustness_study.ipynb
-```
-
-Chọn kernel **Python (Digits RF)**. Notebook `optimization_walkthrough.ipynb`
-lưu thí nghiệm ban đầu; `robustness_study.ipynb` trình bày phần mở rộng.
-Run All đọc kết quả có sẵn và kiểm chứng;
-không tự chạy lại toàn bộ quá trình tìm kiếm.
-
-Chạy lại thực nghiệm đầy đủ vào một thư mục MỚI:
-
-```powershell
-.\.venv\Scripts\python.exe run_experiment.py --output results/reproduction-01
-```
-
-Lần sau dùng `results/reproduction-02` hoặc tên mới. Script từ chối ghi đè một
-thư mục kết quả không trống. Lịch sử JSON được lưu sau từng trial, nhưng pipeline
-không hỗ trợ resume: một lần chạy bị gián đoạn cần chạy lại vào thư mục mới.
-Thời gian thực tế phụ thuộc CPU. Không cần chạy lại HPO để sử dụng demo.
-
-Trên Linux/macOS, tạo venv bằng `python3.12 -m venv .venv`, cài
-`pip install -r requirements-notebook.txt` bằng Python trong venv và đăng ký
-kernel với `python -m ipykernel install --prefix .venv --name digits-rf`.
-Các script Python giữ nguyên, riêng hai script tiện ích Windows chỉ dùng trên Windows.
-
-## Problem
-
-Ảnh đầu vào là ảnh chữ số 8x8 có 64 đặc trưng cường độ. Mục tiêu là chọn cấu
-hình Random Forest dự đoán tốt trong ngân sách tìm kiếm hữu hạn, rồi xác định
-mô hình nhỏ có chất lượng gần điểm validation tốt nhất đã quan sát.
-
-Hai câu hỏi thực nghiệm:
-
-1. Cùng 30 trials mỗi run, Random Search và TPE đạt Macro-F1 CV và độ ổn định ra sao?
-2. Chấp nhận giảm tối đa 0.005 Macro-F1 CV tuyệt đối, có thể chọn mô hình nhỏ đến mức nào?
-
-## Optimization Formulation
-
-Biến quyết định `x = (n_estimators, max_depth, min_samples_leaf, max_features)`.
-
-| Biến | Miền tìm kiếm | Ý nghĩa |
-|---|---|---|
-| n_estimators | 50, 75, 100, 125, 150, 175, 200 | Số cây |
-| max_depth | 5, 10, 15, 20, None | Độ sâu tối đa, None là không giới hạn |
-| min_samples_leaf | 1, 2, 3, 4 | Số mẫu tối thiểu ở lá |
-| max_features | sqrt, log2, half, all | Số đặc trưng xét khi chia nhánh |
-
-`half` ánh xạ sang 0.5, `all` ánh xạ sang 1.0 của scikit-learn. Miền này có
-7 x 5 x 4 x 4 = **560 cấu hình**. Mỗi phương pháp chỉ dùng 30 trials/run,
-bao gồm cả những cấu hình lấy mẫu trùng nhau.
-
-Hàm mục tiêu chính:
-
-```text
-maximize f(x) = (1/K) * sum(MacroF1(y_validation_k, prediction_k(x))), K = 3
-subject to x in the search space and 30 completed evaluations per run
-```
-
-Macro-F1 là trung bình F1 của 10 lớp, cho mỗi lớp trọng số bằng nhau.
-Hàm mục tiêu không dùng độ chính xác test, kích thước hoặc latency để hướng
-dẫn TPE. Kích thước và latency được đo để phân tích và ra quyết định tiếp theo.
-
-Quy tắc chọn mô hình cuối, **định trước khi đánh giá test**:
-
-```text
-minimize model_bytes(x)
-subject to x being an observed feasible candidate
-           f(x) >= max_observed_CV_F1 - epsilon
-epsilon = 0.005
-```
-
-Nếu bằng kích thước, ưu tiên điểm CV cao hơn, sau đó dùng thứ tự cố định để
-chọn nhất quán. Baseline cũng thuộc tập ứng viên. Đây là quyết định theo epsilon
-trên các cấu hình đã quan sát, không phải chứng minh tìm được tối ưu toàn cục.
-0.005 nghĩa là 0.5 điểm phần trăm F1 tuyệt đối, không phải giảm 0.5% tương đối.
-
-## Dataset
-
-`sklearn.datasets.load_digits()` cung cấp 1.797 mẫu, 10 lớp, 64 đặc trưng,
-cường độ trong [0,16]. Đây là Digits 8x8, không phải MNIST. Nguồn và attribution
-ở [data/README.md](data/README.md). Không cần tải raw data riêng.
-
-Tiền xử lý chỉ dùng vector 64 pixel do loader trả về. Không chuẩn hóa vì Random
-Forest không yêu cầu bước này. Không học preprocessing từ toàn bộ dataset.
-
-## Method and Experimental Protocol
-
-- Baseline: tham số học mặc định của `RandomForestClassifier`, chỉ cố định
-  `random_state=123`, `n_jobs=1`.
-- Random Search: `optuna.samplers.RandomSampler`.
-- Phương pháp chính: `optuna.samplers.TPESampler`, 10 startup trials ngẫu nhiên.
-  TPE phân chia kết quả lịch sử theo chất lượng và dùng ước lượng mật độ của
-  hai nhóm để đề xuất vùng cấu hình triển vọng cho trial tiếp theo.
-- Giữ riêng 20% dữ liệu test bằng stratified split, seed 42. Development có
-  1.437 mẫu, test có 360 mẫu. Tạo 3 stratified folds trong development, CV seed 42.
-- Hai phương pháp dùng cùng folds, metric, miền biến, 30 trials, không pruning.
-  Thực hiện mỗi phương pháp với search seeds 11,22,33, tổng **180 search trials**.
-- RF seed giữ nguyên 123 ở mọi cấu hình. Mean ± SD qua search seeds mô tả
-  độ biến thiên của tìm kiếm, không bao gồm bất định do chia dữ liệu/RF seed.
-- Trong mỗi trial: train/evaluate 3 folds, refit trên development để đo kích
-  thước và thời gian predict. Tổng 540 lần fit CV cho search, cộng 180 refits,
-  baseline và các lần fit đại diện cuối.
-- Chọn trước 4 đại diện: default, Random tốt nhất theo CV, TPE tốt nhất theo CV,
-  và mô hình nhỏ theo epsilon. Lưu `selection.json` trước khi đọc giá trị test.
-  Đánh giá test của 4 đại diện một lần sau khi khóa quyết định. Không thay
-  cấu hình hoặc chọn phương pháp bằng điểm test.
-- Kích thước: byte stream joblib không nén, MB = 1.000.000 bytes. Đây là dung
-  lượng serialized model, không phải RAM peak hoặc tổng kích thước thư viện.
-- Profiling: batch 256 mẫu development cố định, 3 warmups, 15 lần lặp,
-  ghi median và p95. `ms_per_sample` là batch time chia 256, không phải
-  single-request latency. `cv_seconds` chỉ tính ba fits CV và scoring;
-  thời gian toàn pipeline train/evaluate nằm trong `run_manifest.json`.
-
-## Giải thích TPE và demo quá trình tối ưu
-
-Đã chuẩn bị nội dung cho checkpoint tuần học 9 vào **01/11/2026**:
-[nguyên lý TPE, đầu vào/đầu ra, liên hệ EI và kịch bản demo 5–7 phút](docs/tpe-va-demo-toi-uu.md).
-Theo Optuna 5.0.0 đang khóa trong repo, `multivariate=None` tự chọn chế độ
-multivariate cho single-objective; thí nghiệm gốc không truyền cờ này. Live
-demo mới ghi tường minh `multivariate=True`, dùng 5 startup trong 12 trials.
-Không đổi tham số hoặc kết quả của nghiên cứu gốc.
-
-```powershell
-# Xem lại prefix log cũ; không fit hoặc ghi file
-.\.venv\Scripts\python.exe -X utf8 demo_optimization.py replay --seed 11 --checkpoint 15
-
-# Chạy mới, chỉ development; luôn chọn thư mục đầu ra mới
-.\.venv\Scripts\python.exe -X utf8 demo_optimization.py live --trials 12 --startup 5 --seed 11 --output results/week9_demo/run-moi
-
-# Kiểm tra bản demo đã chạy ngày 01/11, không retrain
-.\.venv\Scripts\python.exe -X utf8 demo_optimization.py validate --output results/week9_demo/run-2026-11-01
-```
-
-Demo in từng trial, best-so-far, ngưỡng epsilon và cấu hình được chọn. Replay
-chỉ dùng prefix của seed yêu cầu; live demo có 24 trials mới trên một seed,
-lưu riêng ở `results/week9_demo/` và không thay model bàn giao hoặc đánh giá
-test. Đây là minh họa quy trình, không phải bằng chứng thuật toán nào tốt hơn.
-[Báo cáo chuẩn bị checkpoint tuần 9](report/checkpoint-tuan-9-2026-11-01.md)
-ghi nội dung đã làm và các mục sinh viên/cô còn cần xác nhận.
-
-## Checkpoint tuần học 10
-
-Ngày **09/11/2026** thực hiện tái lập protocol gốc vào thư mục riêng,
-đối chiếu từng trial và phân tích toàn bộ 10 mẫu selected sai trên test.
-Kết quả mới nằm ở `results/week10_2026-11-09/`; hình minh họa ở
-`figures/week10_2026-11-09/`. Quyết định/model/dữ liệu gốc được giữ nguyên.
-Tái lập cùng test là kiểm tra nhất quán trên holdout đã biết, không phải
-một đánh giá độc lập mới hoặc cơ sở chọn lại cấu hình bằng test.
-
-```powershell
-# Kiểm tra kết quả tuần 10 đã lưu, không train lại
-.\.venv\Scripts\python.exe -X utf8 -m src.week10 validate
-```
-
-[Báo cáo checkpoint tuần 10](report/checkpoint-tuan-10-2026-11-09.md) trình bày
-kết quả đối chiếu, thời gian, lỗi từng mẫu và giới hạn. Các bước sinh viên
-tự chạy nằm trong [hướng dẫn tái lập](docs/tu-chay-tai-lap-tuan-10.md).
-Trạng thái sinh viên tự chạy và cô duyệt chưa được xác nhận.
-
-[Báo cáo Word cập nhật tuần 10](report/Bao_cao_Train_Validation_Test_Baselines_2026-11-09.docx)
-giữ các bảng train/validation/test, bổ sung tái lập, benchmark latency và
-phân tích lỗi; bản Word ngày 03/11 tiếp tục được giữ để đối chiếu lịch sử.
-
-## Key Results
+## Kết quả gốc
 
 <!-- RESULTS_START -->
 
@@ -296,302 +72,70 @@ Thời gian train/evaluate thực tế: **431.2 giây** trên máy được ghi 
 
 <!-- RESULTS_END -->
 
-![Search history](figures/search_history.png)
+[Search history](figures/search_history.png) · [Quality/size trade-off](figures/quality_size_tradeoff.png) · [Bảng kết quả CSV](results/final_metrics.csv).
+Phần mở rộng 450 trials/5 seeds chỉ dùng development. Lần tái lập tuần 10
+khớp kết quả của 180 trials gốc; dùng lại cùng test nên không phải đánh giá
+độc lập mới. Các hình train/validation dùng số cây, không phải epoch.
 
-![Quality size trade off](figures/quality_size_tradeoff.png)
+## Chạy trên Windows
 
-![Held out confusion matrix](figures/confusion_matrix.png)
-
-## Development-only extension
-
-Thiết kế phần mở rộng được lưu trong `configs/robustness.json` trước khi chạy:
-Random Search, TPE startup 5, TPE startup 10; seeds 11,22,33,44,55;
-30 trials/method/seed, tổng 450 trials và 1.350 lần fit CV, cộng 3 fits baseline.
-Miền tìm kiếm, development, folds, Macro-F1 và RF seed giữ nguyên như thí nghiệm gốc.
-
-Mọi study chạy mới, tuần tự, n_jobs=1 trong cùng phiên. Thứ tự phương pháp xoay
-vòng theo seed để tránh luôn chạy một phương pháp cuối cùng. Không ghép thời gian
-của lần chạy cũ với lần chạy mới. Chỉ thực hiện CV, không refit/profiling mô hình
-hoặc đánh giá thêm trên test. Mô hình demo vẫn là model của thí nghiệm gốc.
-
-Các checkpoint 10,20,30 chỉ dùng prefix trials tương ứng. Đường theo thời gian
-sử dụng thời điểm hoàn tất trial trong miền thời gian giao nhau của tất cả runs,
-không nội suy score, điền ngược hoặc ngoại suy sau khi study kết thúc.
-Elapsed time gồm sampler, CV, bookkeeping và chi phí ghi log trước đó.
-Không so trực tiếp thời gian CV-only này với tổng runtime pipeline ban đầu.
-
-Ablation ghép startup 5 và 10 theo cùng seed. Delta là best CV F1 của startup 5
-trừ startup 10 tại cùng ngân sách 30. Mean và SD qua search seeds mang tính mô tả,
-không phải khoảng tin cậy trên các dataset hoặc kiểm định ý nghĩa thống kê.
-
-Các artifact gốc được kiểm tra SHA-256 trước/sau studies và khi xác thực kết quả.
-Hash văn bản chuẩn hóa CRLF thành LF để tương thích checkout Windows/Linux;
-model nhị phân được hash nguyên bytes. `results/validation.json` là chẩn đoán
-có thể ghi lại khi kiểm tra nên không nằm trong tập kết quả đóng băng.
-
-<!-- ROBUSTNESS_RESULTS_START -->
-
-| Method | Trials/run | Seeds | Best CV F1 mean ± SD | Elapsed mean ± SD (s) | Elapsed median (s) |
-|---|---:|---:|---:|---:|---:|
-| random | 10 | 5 | 0.96751 ± 0.00157 | 13.74 ± 3.95 | 11.74 |
-| random | 20 | 5 | 0.97118 ± 0.00253 | 32.32 ± 17.94 | 26.41 |
-| random | 30 | 5 | 0.97231 ± 0.00207 | 53.72 ± 41.34 | 35.45 |
-| tpe_startup_10 | 10 | 5 | 0.96751 ± 0.00157 | 13.56 ± 4.29 | 11.28 |
-| tpe_startup_10 | 20 | 5 | 0.97228 ± 0.00223 | 27.55 ± 18.08 | 20.72 |
-| tpe_startup_10 | 30 | 5 | 0.97282 ± 0.00210 | 138.27 ± 200.84 | 28.31 |
-| tpe_startup_5 | 10 | 5 | 0.97159 ± 0.00375 | 11.81 ± 4.64 | 10.67 |
-| tpe_startup_5 | 20 | 5 | 0.97385 ± 0.00083 | 28.12 ± 18.21 | 21.35 |
-| tpe_startup_5 | 30 | 5 | 0.97442 ± 0.00039 | 48.90 ± 39.84 | 33.27 |
-
-Ở 30 trials/run, **tpe_startup_5** có điểm CV trung bình cao nhất trong năm search seeds của lần chạy này. TPE startup 5 hơn startup 10 ở **3/5 seed**, hòa **2/5**; chênh lệch CV F1 trung bình là **0.00160** (0.160 điểm phần trăm tuyệt đối). Đây là bằng chứng mô tả cho protocol và ngân sách hiện tại, chưa phải kết luận tổng quát hoặc kiểm định ý nghĩa thống kê.
-
-Thêm hai search seeds làm thứ hạng CV trung bình của Random Search và TPE startup 10 đổi so với thí nghiệm ba seeds ban đầu. Điều này cho thấy cần xem độ ổn định qua nhiều seed thay vì chỉ dựa vào một nhóm nhỏ.
-
-**Giới hạn phép đo thời gian:** TPE startup 10 ở seed 44 mất 490.17 giây, trong khi các seed còn lại của cùng phương pháp mất khoảng 24.79 đến 120.37 giây. Phần thời gian CV cũng biến động lớn. Logs không đủ để xác định nguyên nhân; vì vậy thời gian là kết quả đo của phiên chạy này, cần lặp trên môi trường ít biến động để đánh giá tốc độ chắc chắn hơn. Bảng giữ nguyên mọi run, kèm SD và median để thể hiện mức biến động.
-
-Phiên chạy hoàn tất mất **1205.6 giây**. Kiểm chứng đạt **3278 checks**, bảo toàn **26 artifacts gốc**, và không đánh giá thêm mô hình mới trên test.
-
-<!-- ROBUSTNESS_RESULTS_END -->
-
-![Five seed trial budget](figures/robustness/search_budget.png)
-
-![Common elapsed time budget](figures/robustness/time_budget.png)
-
-![Paired startup ablation](figures/robustness/startup_ablation.png)
-
-## Accuracy and loss curves
-
-Two diagnostic plots use the fixed selected Random Forest in the original
-three development folds. The horizontal axis is the number of trees averaged
-in the forest, not epochs or hyperparameter-search trials. Bands show one SD
-across folds. Log loss measures predictive probabilities; the trees themselves
-use the default Gini split criterion. No new test evaluation is performed.
+Mở PowerShell trong folder này. Cần Python 3.12; lần setup đầu cần Internet:
 
 ```powershell
-.\.venv\Scripts\python.exe -m src.tree_diagnostics
-```
-
-Logs: `results/tree_diagnostics/metrics_per_fold.csv` and `metrics_summary.csv`.
-The script checks that prefix probability accumulation matches the full forest
-and that final CV Macro-F1 reproduces the originally published fold scores.
-At 100 trees, mean training accuracy is 1.00000 and validation accuracy 0.97077;
-mean train/validation log losses are 0.10277/0.35004. These are development CV
-metrics, separate from the frozen 97.22% held-out test accuracy.
-
-![Training and validation accuracy](figures/tree_diagnostics/accuracy.png)
-
-![Training and validation log loss](figures/tree_diagnostics/log_loss.png)
-
-### Kiểm tra độc lập dữ liệu và đường cong
-
-Biểu đồ trên chỉ vẽ 21 mốc số cây và trung bình của 3 folds. Không dùng spline,
-bộ lọc hoặc sửa điểm số, nhưng phép lấy trung bình và thang loss toàn dải làm
-dao động nhỏ khó nhìn thấy. Đây là đường theo **số cây**, không phải lịch sử
-accuracy/loss theo epoch của mạng nơ-ron. Log loss là chỉ số đánh giá xác suất,
-không phải hàm mà Random Forest trực tiếp tối ưu khi xây cây.
-
-Chạy kiểm tra độc lập (cần Internet để đối chiếu nguồn UCI):
-
-```powershell
-.\.venv\Scripts\python.exe -m src.curve_audit
-```
-
-`src/curve_audit.py` tải file gốc `optdigits.tes` từ
-[UCI](https://archive.ics.uci.edu/dataset/80/optical+recognition+of+handwritten+digits),
-đối chiếu từng pixel và nhãn với `load_digits()`, tái tạo split/folds không qua
-helper chia dữ liệu của project, rồi fit mới 63 Random Forest tại các mốc đã
-công bố. Accuracy được tính bằng tỷ lệ nhãn đúng, log loss bằng công thức
-trực tiếp từ xác suất nhãn thật. Toàn bộ 126 dòng kết quả theo fold/split và
-mean/SD đều tái tạo khớp; sai lệch số thực lớn nhất là **1.78e-15**.
-Hash trước/sau xác nhận bộ kết quả, model và hai biểu đồ ban đầu được giữ nguyên.
-Không đánh giá thêm trên test.
-
-Bản chi tiết dưới đây giữ đủ 100 mốc và đường của từng fold. Accuracy validation
-trung bình có **31 bước giảm**, loss validation có **34 bước tăng**: đường thực
-tế có dao động. Loss ở một cây lớn vì lần lượt 122/118/142 mẫu validation có
-xác suất lớp thật bằng 0; phép tính log loss chặn xác suất ở machine epsilon.
-Khung zoom hiển thị rõ vùng loss nhỏ sau 20 cây, bên cạnh khung toàn dải.
-
-Training accuracy 100% ở cuối là điểm trên chính dữ liệu đã fit, với cây không
-giới hạn độ sâu và `min_samples_leaf=1`; không có nghĩa validation/test đạt
-100% hay không có overfitting. Đối chứng bổ sung fit trên **bản sao nhãn train
-được hoán vị**, chỉ để kiểm tra pipeline: accuracy validation trung bình 11.48%,
-gần mức đoán ngẫu nhiên 10 lớp. Dữ liệu và nhãn của thí nghiệm chính không đổi.
-
-![Accuracy at every tree count and each fold](figures/curve_audit/accuracy_all_folds.png)
-
-![Full range and zoomed log loss](figures/curve_audit/log_loss_full_and_zoom.png)
-
-Chi tiết kiểm tra và hashes: `results/curve_audit/audit_checks.json`.
-Các CSV đi kèm lưu điểm fit độc lập, điểm tại mỗi số cây và đối chứng riêng.
-Đây là bằng chứng kiểm tra khả năng tái tạo, không phải bảo đảm mọi dạng sai
-lệch đều đã bị loại trừ. CV đã được dùng khi chọn cấu hình nên các đường này
-là chẩn đoán trên development, không phải ước lượng mới trên tập test độc lập.
-
-## Automated checks
-
-GitHub Actions chạy trên Windows và Ubuntu, Python 3.12 trong venv riêng, sau
-mỗi push/pull request. Workflow cài dependencies đã khóa, chạy `pip check`,
-unit tests, xác thực kết quả gốc và phần mở rộng đã công bố, rồi chạy smoke test
-18 trials bằng `configs/robustness-smoke.json`. Smoke results nằm trong thư mục
-tạm của runner, không thay thế bộ kết quả chính thức 450 trials.
-Workflow cũng đối chiếu vùng số liệu tự sinh của báo cáo tuần 8 với logs và
-kích thước model; kiểm tra này không xác thực toàn bộ diễn giải ngoài vùng đó.
-
-## How to Run
-
-```powershell
-# Đọc và kiểm tra bộ kết quả đã có
-.\.venv\Scripts\python.exe -m src.validation
-
-# Vẽ lại biểu đồ, tính lại bảng từ logs, không retrain
-.\.venv\Scripts\python.exe -m src.analysis
-
-# Chạy lại phần mở rộng development-only vào thư mục mới
-.\.venv\Scripts\python.exe run_robustness.py --output results/robustness-reproduction-01
-
-# Kiểm tra phần mở rộng đã lưu
-.\.venv\Scripts\python.exe -m src.robustness_validation
-
-# Tìm kiếm pipeline ban đầu trong một thư mục mới
-.\.venv\Scripts\python.exe run_experiment.py --config configs/experiment.json --output results/reproduction-01
-
-# Kiểm tra một bộ thực nghiệm chạy lại
-.\.venv\Scripts\python.exe -m src.validation --output results/reproduction-01
-
-# Demo từ sample hoặc CSV ma trận pixel 8x8 với giá trị 0..16
+powershell -ExecutionPolicy Bypass -File .\setup.ps1 -Notebook
 .\.venv\Scripts\python.exe demo.py --index 123
-.\.venv\Scripts\python.exe demo.py --pixels my_digit.csv
-
-# Bộ kiểm tra protocol
-.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe -X utf8 demo_optimization.py replay --seed 11 --checkpoint 15
+.\.venv\Scripts\python.exe -m src.validation
 ```
 
-`demo.py --pixels` giả định CSV đã được biến đổi đúng thành ảnh Digits 8x8.
-Script không thực hiện OCR trên ảnh chụp. CLI in ảnh ASCII, lớp dự đoán và top 3
-xác suất của RF; các xác suất chưa được calibration.
+Sau setup, có thể nhấp đúp `run_demo.bat`. Bỏ `-Notebook` nếu không dùng notebook.
+Replay đọc log đã lưu; không huấn luyện lại. Demo nhận ma trận pixel Digits 8×8,
+không nhận trực tiếp ảnh chụp điện thoại.
 
-## Repository Structure
+Hai notebook: [thí nghiệm gốc](notebooks/optimization_walkthrough.ipynb) và
+[nghiên cứu mở rộng](notebooks/robustness_study.ipynb). Run All mặc định đọc
+kết quả có sẵn; hướng dẫn mở kernel và chạy thí nghiệm mới ở
+[hướng dẫn kỹ thuật](docs/huong-dan-ky-thuat.md#chạy-nhanh-trên-windows).
+
+Kiểm tra toàn bộ trước khi cập nhật GitHub:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\update_github.ps1 -Message "Mo ta thay doi thuc te"
+```
+
+Lệnh trên kiểm tra rồi commit/push thay đổi; không chạy lại HPO.
+Muốn chỉ kiểm tra, chạy từng lệnh ở [mục CI trong tài liệu kỹ thuật](docs/huong-dan-ky-thuat.md#automated-checks).
+
+## Cấu trúc chính
 
 ```text
-digits-rf-optimization/
-  configs/experiment.json           # Original three-seed experiment
-  configs/robustness.json           # Five-seed comparison and startup treatments
-  configs/robustness-smoke.json     # Small CI integration budget
-  src/common.py                    # Config, data split, RF construction
-  src/experiment.py                # CV, Random/TPE, locked selection, test
-  src/analysis.py                  # Summaries, observed Pareto, figures
-  src/validation.py                # Independent result integrity checks
-  src/report_facts.py              # Generate/check report evidence from saved logs
-  run_experiment.py                # Original train/select/test pipeline
-  run_robustness.py                # Development-only extension CLI
-  src/robustness*.py               # Study runner, analysis and validation
-  .github/workflows/ci.yml         # Windows and Ubuntu checks
-  demo.py                          # Predict with the saved model
-  demo_optimization.py             # Replay/live development-only HPO demo
-  src/optimization_demo.py         # Prefix selection, live search, log validation
-  docs/tpe-va-demo-toi-uu.md        # TPE explanation and 5–7 minute demo script
-  setup.ps1                        # Local Windows venv and installation
-  run_demo.bat                     # Double-click demo after setup
-  update_github.ps1                 # Check, commit and push each update
-  AGENTS.md                        # Project workflow for future code updates
-  PROGRESS.md                      # Actual checkpoints and academic-week 8–11 plan
-  report/*.md                      # Completed-part updates for instructor feedback
-  figures/*.png                    # Original figures
-  figures/robustness/*.png         # Budget and startup ablation figures
-  notebooks/optimization_walkthrough.ipynb  # Original experiment
-  notebooks/robustness_study.ipynb           # Five-seed extension
-  scripts/build_notebook.py         # Rebuild original notebook source
-  scripts/build_robustness_notebook.py
-  tests/test_robustness.py          # Pairing, prefixes, time, provenance, logging
-  tests/test_protocol.py            # Isolation, selection, baseline, Pareto
-  data/README.md                   # Provenance and preprocessing
-  results/
-    run_manifest.json              # Actual environment, config, timestamps
-    split_indices.json             # Auditable global split/CV indices
-    trials.json, trials.csv         # All 180 trials plus baseline
-    optuna_*.csv                   # Native per-study trial histories
-    baseline.json
-    selection.json                 # Locked decision before test evaluation
-    final_metrics.csv
-    test_predictions.csv           # Source of final test metrics
-    best_per_seed.csv, search_summary.csv
-    pareto_candidates.csv, epsilon_sensitivity.csv
-    classification_*.json, confusion_matrix.csv
-    key_results.json, metrics_table.md, validation.json
-    models/selected.joblib
-    robustness/                   # New CV-only logs and analysis
-      run_manifest.json, baseline_cv.json
-      trials.json, trials.csv, optuna_*.csv
-      budget_per_seed.csv, budget_summary.csv
-      time_budget_per_seed.csv, time_comparison.json
-      startup_ablation_pairs.csv, startup_ablation_summary.json
-      metrics_table.md, validation.json
-    week9_demo/run-2026-11-01/      # Separate small teaching run, 24 search trials
-  requirements.txt, requirements-lock.txt, requirements-notebook.txt
-  .gitignore, LICENSE, README.md
+src/          thuật toán, phân tích và kiểm chứng
+configs/      cấu hình thí nghiệm đã khóa
+notebooks/    hai notebook có kết quả
+results/      logs, bảng số liệu, predictions, model và các lần chạy
+figures/      biểu đồ sinh từ số liệu
+report/       Word mới nhất, checkpoints/, reviews/, updates/, maintenance/
+docs/         hướng dẫn kỹ thuật, demo và tái lập
+scripts/      dựng notebook, Word, biểu đồ và kiểm tra train accuracy
+tests/        kiểm tra protocol, provenance, demo và phân tích
 ```
 
-## Limitations
+Các CLI `run_experiment.py`, `run_robustness.py`, `demo.py`,
+`demo_optimization.py` ở gốc để giữ lệnh chạy đơn giản. `.venv/` là môi trường
+cục bộ và `.git/` là lịch sử; không phải file nộp hay file rác để xóa.
+Chi tiết bộ kết quả nào phục vụ phần nào ở [bản đồ thư mục](docs/README.md).
 
-Thí nghiệm gốc có 3 search seeds; phần mở rộng có 5 search seeds trên cùng
-development và folds. Một dataset nhỏ và một test split chưa đủ để khẳng định
-một phương pháp tốt hơn trên mọi bài toán. HPO có thể thích nghi quá mức với CV;
-test chỉ cung cấp một đánh giá held-out cho protocol hiện tại. Dải ±SD không
-phải confidence interval. Quy tắc epsilon thể hiện ưu tiên triển khai, không
-chứng minh tương đương thống kê. Sensitivity chỉ tái chọn trên các logs đã lưu,
-không điều chỉnh epsilon theo điểm test. Thời gian chạy/latency thay đổi theo
-phần cứng, tải nền và phiên bản thư viện. Kết quả trên ảnh điện thoại hoặc chữ
-viết tay ngoài phân phối Digits chưa được kiểm chứng. Mô hình giữ nguyên train
-development 80% để các dự đoán test và model bàn giao khớp nhau.
+## Tiến độ và giới hạn
 
-## GitHub Portfolio
+Phần kỹ thuật tuần 10 đã hoàn thành ngày 09/11; cập nhật cách vẽ hình ngày
+13/11; sắp xếp folder ngày 16/11/2026. Chưa xác nhận sinh viên tự tái lập,
+cô duyệt checkpoint hoặc nộp bài. Các việc tuần 11 còn lại ở [PROGRESS.md](PROGRESS.md).
 
-Repository public: **https://github.com/TienMoi79/digits-rf-optimization**.
-Thư mục hiện tại là Git checkout của repo này. Mã nguồn, notebook, logs và
-biểu đồ được quản lý trong cùng repo; môi trường `.venv` và cache được bỏ qua.
+Train accuracy 100% là điểm in-sample, không đồng nghĩa dự đoán hoàn hảo trên
+dữ liệu mới. Có [kiểm tra độc lập train accuracy](report/reviews/kiem-tra-train-accuracy-2026-11-03.md).
+Một dataset nhỏ và một test split chưa đủ để kết luận TPE/Random tốt hơn nói chung;
+runtime phụ thuộc máy và tải nền. Không sửa số liệu hoặc viết lại lịch sử Git.
 
-Cấu trúc cấp gốc theo hướng dẫn của môn: `src/`, `notebooks/`, `results/`,
-`figures/`, `data/`, `README.md`, `requirements.txt` và `.gitignore`.
-Phạm vi nộp hiện tại là code và kết quả thực nghiệm.
-
-Mỗi lần hoàn thành một cập nhật, commit và push để GitHub phản ánh đúng bản
-đang làm. Lệnh tiện ích trên Windows kiểm tra tests và kết quả trước khi push:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\update_github.ps1 -Message "Describe the actual update"
-```
-
-Hoặc thực hiện thủ công:
-
-```bash
-git status
-git add .
-git commit -m "Describe the actual update"
-git push
-```
-
-Lịch sử Git bắt đầu từ ngày 13/10/2026. Các commit phản ánh thay đổi thực tế,
-không giả lập tiến độ của các tuần trước. Các mốc cập nhật tiếp theo cần tiếp
-tục ghi nhận trong quá trình làm project. Cấu trúc và nội dung đã chuẩn bị
-không tự thay thế yêu cầu tiến độ mà giảng viên đánh giá.
-
-Topics: `optimization`, `machine-learning`, `random-forest`, `optuna`,
-`hyperparameter-optimization`, `reproducibility`.
-
-## AI assistance
-
-Codex hỗ trợ tổ chức mã nguồn, viết notebook, thiết lập thực nghiệm và kiểm tra
-kết quả. Số liệu trong repo sinh từ các lần chạy Python thực tế và được kiểm
-tra lại từ logs, predictions và model. Người nộp cần tự chạy, đọc và giải thích
-được từng phần. Kiểm chứng tự động không thay thế việc hiểu nguyên lý TPE,
-Macro-F1, ràng buộc, trade off và thiết kế đánh giá.
-
-## References
-
-- [Digits loader](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_digits.html)
-- [UCI Optical Recognition of Handwritten Digits](https://archive.ics.uci.edu/dataset/80/optical+recognition+of+handwritten+digits)
-- [RandomForestClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html)
-- [Optuna samplers](https://optuna.readthedocs.io/en/stable/reference/samplers/index.html)
-
-Code license: MIT. Dataset attribution and license remain separate.
+Codex hỗ trợ code, thực nghiệm và kiểm tra; sinh viên cần tự chạy và giải thích
+được bài toán, thuật toán và kết quả. Code có giấy phép [MIT](LICENSE);
+nguồn và giấy phép dataset được ghi riêng ở [data/README.md](data/README.md).

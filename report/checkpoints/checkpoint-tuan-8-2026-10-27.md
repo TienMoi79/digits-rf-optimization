@@ -7,7 +7,7 @@
 - **Mốc hiện tại:** tuần học 8; hạn nộp theo thông tin sinh viên là tuần học 11.
 - **Phần hoàn thành trong đợt này:** rà soát yêu cầu, bổ sung sơ đồ pipeline, lập kế hoạch checkpoint còn lại và kiểm chứng bộ kết quả đã có.
 - **Trạng thái phản hồi:** đã nhận bản biên tập do sinh viên chuyển ngày 27/10 và ghi nhận là cô gửi; đã đối chiếu với logs và sửa các điểm chưa khớp. Chưa có xác nhận duyệt checkpoint.
-- **Chi tiết xử lý:** [Đối chiếu bản biên tập và sửa báo cáo](feedback-tuan-8-2026-10-27.md).
+- **Chi tiết xử lý:** [Đối chiếu bản biên tập và sửa báo cáo](../reviews/feedback-tuan-8-2026-10-27.md).
 
 ## 1 Phạm vi gửi cô kiểm tra
 
@@ -35,7 +35,7 @@ cáo, không phải thay đổi thuật toán tối ưu hoặc chạy thêm th�
 
 ## 3 Bài toán và formulation tối ưu hóa
 
-Dữ liệu thực nghiệm là tập **Digits** từ scikit-learn (phái sinh từ benchmark UCI ML Repository), gồm 1.797 ảnh chữ số 8×8, 64 đặc trưng pixel và 10 lớp gần cân bằng, không bằng nhau tuyệt đối. Chi tiết provenance được lưu tại [`data/README.md`](../data/README.md).
+Dữ liệu thực nghiệm là tập **Digits** từ scikit-learn (phái sinh từ benchmark UCI ML Repository), gồm 1.797 ảnh chữ số 8×8, 64 đặc trưng pixel và 10 lớp gần cân bằng, không bằng nhau tuyệt đối. Chi tiết provenance được lưu tại [`data/README.md`](../../data/README.md).
 
 ### 3.1 Giai đoạn 1: Tìm kiếm cấu hình cực đại chất lượng dự đoán
 
@@ -184,7 +184,7 @@ những điểm đã tiếp thu/đối chiếu, không gán các phát hiện ki
 ## 10 Nguồn tài liệu tham khảo và công cụ hỗ trợ
 
 - Đề bài và Hướng dẫn phạm vi đề BTL Cá nhân 5 tuần - Môn Nhập môn Tối ưu hóa (Khoa CNTT - ĐH Văn Lang).
-- [README và pipeline](../README.md), [nhật ký tiến độ](../PROGRESS.md), [lịch sử Git công khai](https://github.com/TienMoi79/digits-rf-optimization/commits/main/).
+- [README và pipeline](../../README.md), [nhật ký tiến độ](../../PROGRESS.md), [lịch sử Git công khai](https://github.com/TienMoi79/digits-rf-optimization/commits/main/).
 - Scikit-learn documentation: [RandomForestClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html) và [Digits Dataset](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_digits.html).
 - Optuna Documentation: [Tree-structured Parzen Estimator (TPESampler)](https://optuna.readthedocs.io/en/stable/reference/samplers/generated/optuna.samplers.TPESampler.html).
 - Bergstra et al. (2011), *"Algorithms for Hyper-Parameter Optimization"*, NeurIPS 2011.

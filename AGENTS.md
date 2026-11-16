@@ -27,6 +27,14 @@ work only. Use meaningful messages describing the actual change.
   for the student to share with the instructor. Include new work, evidence,
   actual validation, remaining gaps and review questions. Default to .md;
   create Word/PDF reports or slides only when requested. Keep prior checkpoint reports available.
+- Report folders: report/checkpoints/ for weekly reports, report/reviews/ for
+  feedback and audits, report/updates/ for document/chart updates, and
+  report/maintenance/ for repository housekeeping. Keep report/README.md as
+  the index. Existing DOCX paths are protected by hashes; do not relocate them.
+- README.md is the short entry point. Keep detailed technical guidance in
+  docs/huong-dan-ky-thuat.md and folder navigation in docs/README.md.
+- When moving documentation, update readers/writers and relative links;
+  preserve generated numeric sections and frozen result/model/notebook bytes.
 - On 2026-11-03 the user explicitly requested one Word report containing train,
   validation, test and baseline comparisons. Maintain that DOCX and its source
   builder/evidence as authorized; this supersedes the earlier .md-only scope

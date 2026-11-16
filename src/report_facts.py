@@ -13,7 +13,7 @@ from pathlib import Path
 from statistics import fmean
 
 ROOT = Path(__file__).resolve().parents[1]
-REPORT = ROOT / "report/checkpoint-tuan-8-2026-10-27.md"
+REPORT = ROOT / "report/checkpoints/checkpoint-tuan-8-2026-10-27.md"
 START = "<!-- EXPERIMENT_FACTS_START -->"
 END = "<!-- EXPERIMENT_FACTS_END -->"
 

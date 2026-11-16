@@ -3,7 +3,7 @@
 - **Ngày thực hiện:** 09/11/2026.
 - **Nội dung:** tái lập protocol đã khóa, đối chiếu kết quả và phân tích lỗi/giới hạn.
 - **Người chạy phiên này:** Codex; chưa có xác nhận sinh viên đã tự chạy hoặc cô duyệt.
-- **Báo cáo Word cập nhật:** `Bao_cao_Train_Validation_Test_Baselines_2026-11-09.docx`.
+- **Báo cáo Word cập nhật:** [Bản 09/11/2026](../Bao_cao_Train_Validation_Test_Baselines_2026-11-09.docx).
 
 ## 1 Việc mới thực hiện
 
@@ -45,7 +45,7 @@ Runtime toàn pipeline bao gồm CV, refit, profiling/logging; bảng trên ch�
 
 Sau khi HPO kết thúc, đo riêng latency selected trên batch cố định 256 mẫu development: 5 rounds, 3 warmups/round và 15 phép đo/round (75 số đo). Median chung **20.8181 ms/batch**, p95 **84.0266 ms/batch**; mean ± SD của năm median **25.4926 ± 13.1721 ms**. Toàn bộ số đo được giữ, không loại outlier. Đây không phải single-request latency hay bằng chứng ổn định trên nhiều phiên/máy.
 
-![Latency từng lần đo](../figures/week10_2026-11-09/latency_stability.png)
+![Latency từng lần đo](../../figures/week10_2026-11-09/latency_stability.png)
 
 ## 4 Toàn bộ lỗi selected trên test gốc
 
@@ -62,7 +62,7 @@ Sau khi HPO kết thúc, đo riêng latency selected trên batch cố định 25
 | 125 | 9 | 3 | 3 | False |
 | 1790 | 8 | 1 | 1 | False |
 
-![Toàn bộ 10 mẫu selected sai](../figures/week10_2026-11-09/selected_test_errors.png)
+![Toàn bộ 10 mẫu selected sai](../../figures/week10_2026-11-09/selected_test_errors.png)
 
 | Nhãn thật | Nhãn dự đoán | Số lần |
 |---:|---:|---:|
@@ -77,7 +77,7 @@ Sau khi HPO kết thúc, đo riêng latency selected trên batch cố định 25
 
 Random sửa đúng **2** lỗi selected nhưng sai thêm **1** mẫu selected đúng; có **8** lỗi chung. Các ảnh 8×8 cho thấy thông tin nét hữu hạn; nhận xét trực quan không phải chứng minh nguyên nhân sai.
 
-![Confusion matrix test gốc](../figures/week10_2026-11-09/confusion_matrix.png)
+![Confusion matrix test gốc](../../figures/week10_2026-11-09/confusion_matrix.png)
 
 ## 5 Khoảng cách train validation test
 
@@ -104,7 +104,7 @@ Nguồn: thư mục `results/week10_2026-11-09/`, `src/week10.py`, `tests/test_w
 
 ## 7 Phần sinh viên và giảng viên cần xác nhận
 
-Sinh viên làm theo [hướng dẫn tự chạy](../docs/tu-chay-tai-lap-tuan-10.md), đọc log và giải thích kết quả. Phiên do trợ lý chạy không tự xác nhận sinh viên đã tự tái lập. Chưa có feedback hoặc duyệt checkpoint tuần 10 từ cô.
+Sinh viên làm theo [hướng dẫn tự chạy](../../docs/tu-chay-tai-lap-tuan-10.md), đọc log và giải thích kết quả. Phiên do trợ lý chạy không tự xác nhận sinh viên đã tự tái lập. Chưa có feedback hoặc duyệt checkpoint tuần 10 từ cô.
 
 Tuần 11 còn kiểm tra cuối, chốt bản nộp/tag v1.0, tập demo/bảo vệ và nộp link. Chưa tạo release cuối hoặc đánh dấu nộp bài trong checkpoint này.
 

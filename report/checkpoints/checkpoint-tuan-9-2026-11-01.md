@@ -93,7 +93,7 @@ là một Gaussian. Nguồn: [TPE gốc, mục 4](https://papers.nips.cc/paper_f
 Phiên bản đã cài là Optuna 5.0.0: `multivariate=None` tự chọn True cho
 single-objective. Thí nghiệm gốc không truyền cờ này; demo live ghi tường minh
 True, `n_ei_candidates=24`, startup 5. Chi tiết input/output, lý do chọn TPE
-và phiên bản ở [tài liệu kèm theo](../docs/tpe-va-demo-toi-uu.md).
+và phiên bản ở [tài liệu kèm theo](../../docs/tpe-va-demo-toi-uu.md).
 
 ---
 
@@ -109,9 +109,9 @@ Nhằm đáp ứng yêu cầu bảo vệ cá nhân và tránh lỗi bị trừ �
 
 | Mốc thời gian | Nội dung trình bày | Thao tác minh chứng trực tiếp |
 |---|---|---|
-| **Phút 0:00 – 1:30** | **Đặt vấn đề & Không gian tối ưu**<br>- Trình bày bài toán nhận dạng chữ số Digits (1.797 ảnh, 64 features).<br>- Giới thiệu vector 4 biến quyết định $x$ và không gian 560 cấu hình.<br>- Trình bày cấu hình Baseline (`n_estimators=100`, Macro-F1 $\approx 0.9706$, kích thước $4.98\text{ MB}$). | Mở file [`configs/experiment.json`](../configs/experiment.json) và chỉ rõ tham số cấu hình. |
+| **Phút 0:00 – 1:30** | **Đặt vấn đề & Không gian tối ưu**<br>- Trình bày bài toán nhận dạng chữ số Digits (1.797 ảnh, 64 features).<br>- Giới thiệu vector 4 biến quyết định $x$ và không gian 560 cấu hình.<br>- Trình bày cấu hình Baseline (`n_estimators=100`, Macro-F1 $\approx 0.9706$, kích thước $4.98\text{ MB}$). | Mở file [`configs/experiment.json`](../../configs/experiment.json) và chỉ rõ tham số cấu hình. |
 | **Phút 1:30 – 3:30** | Giải thích tỷ số $l/g$; chạy replay checkpoint 5 rồi 15 và phân biệt điểm trial với best-so-far. Nếu đủ thời gian, chạy live nhỏ hoặc nói rõ đang xem log live đã chạy. | Replay chỉ đọc log; live thực sự fit. Không gọi replay là search đang huấn luyện. |
-| **Phút 3:30 – 5:00** | **Cân bằng đa mục tiêu qua bài toán $\epsilon$-Constraint**<br>- Trình bày điểm cao nhất tìm được ($f^* \approx 0.9748$ của Random trial 21).<br>- Áp dụng ngưỡng $\epsilon = 0.005 \implies$ Ngưỡng chấp nhận $\ge 0.9698$.<br>- Lọc danh sách các mô hình khả thi thỏa mãn điều kiện.<br>- Giải thích quyết định chọn Baseline vì tiết kiệm **40.28% dung lượng** so với mô hình Random tốt nhất (4.98 MB vs 8.33 MB). | Mở file [`results/selection.json`](../results/selection.json) và đối chiếu bảng so sánh kích thước/hiệu năng. |
+| **Phút 3:30 – 5:00** | **Cân bằng đa mục tiêu qua bài toán $\epsilon$-Constraint**<br>- Trình bày điểm cao nhất tìm được ($f^* \approx 0.9748$ của Random trial 21).<br>- Áp dụng ngưỡng $\epsilon = 0.005 \implies$ Ngưỡng chấp nhận $\ge 0.9698$.<br>- Lọc danh sách các mô hình khả thi thỏa mãn điều kiện.<br>- Giải thích quyết định chọn Baseline vì tiết kiệm **40.28% dung lượng** so với mô hình Random tốt nhất (4.98 MB vs 8.33 MB). | Mở file [`results/selection.json`](../../results/selection.json) và đối chiếu bảng so sánh kích thước/hiệu năng. |
 | **Phút 5:00 – 6:30** | Kiểm tra log demo: budget, fold mean, epsilon và bảo toàn kết quả. Bảng test gốc đã công bố chỉ là kết quả cũ, không đánh giá độc lập mới. | Chạy `demo_optimization.py validate`; `demo.py --index 123` nếu dùng chỉ minh họa dự đoán một mẫu, không chứng minh test accuracy. |
 | **Phút 6:30 – 7:00** | Nêu giới hạn ngân sách, một seed demo và CV selection bias; không kết luận miền đã bão hòa. | Trả lời câu hỏi về TPE, epsilon và RF. |
 
@@ -173,7 +173,7 @@ mở rộng CV-only. Replay chỉ một seed/prefix không tái hiện tập ứ
 ba seeds của `results/selection.json`; kịch bản mở selection gốc phải nói rõ
 đang xem quyết định cũ, không phải quyết định riêng từ replay.
 
-![Điểm từng trial và best so far trong demo](../results/week9_demo/run-2026-11-01/search_history.png)
+![Điểm từng trial và best so far trong demo](../../results/week9_demo/run-2026-11-01/search_history.png)
 
 Đường bậc dùng cumulative maximum nên không giảm; các chấm giữ nguyên dao
 động trial thật. Validator không refit tất cả trial, chỉ kiểm tra tính nhất

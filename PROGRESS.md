@@ -1,5 +1,10 @@
 # Theo dõi checkpoint và kế hoạch hoàn thiện
 
+Tra cứu hiện tại: [mục lục báo cáo](report/README.md),
+[Word mới nhất ngày 09/11](report/Bao_cao_Train_Validation_Test_Baselines_2026-11-09.docx),
+[bản đồ thư mục](docs/README.md). Các mục bên dưới ghi lịch sử theo ngày;
+yêu cầu Word ngày 03/11 bổ sung cho phạm vi chỉ Markdown ban đầu.
+
 ## Mốc thời gian và phạm vi
 
 - Cập nhật kế hoạch ngày **27/10/2026** theo thông tin sinh viên: hiện là
@@ -68,7 +73,7 @@ Công việc thực hiện trong lần cập nhật này:
    chỉ dùng development; giữ nguyên các quyết định và số liệu đã công bố.
 3. Ghi lịch sử có thật và kế hoạch tuần học 8–11 trong file này.
 4. Bổ sung quy tắc cập nhật checkpoint cho các lần làm việc tiếp theo.
-5. Tạo `report/checkpoint-tuan-8-2026-10-27.md` để sinh viên gửi cô kiểm tra
+5. Tạo `report/checkpoints/checkpoint-tuan-8-2026-10-27.md` để sinh viên gửi cô kiểm tra
    phần vừa làm và phản hồi các điểm còn thiếu.
 
 Đã chạy các lệnh kiểm tra sau ngày 27/10 trước khi commit (dùng Python của
@@ -109,7 +114,7 @@ bằng chứng từ lần chạy cũ, không ghi thành kết quả mới ngày 
 Sinh viên chuyển một bản biên tập và ghi nhận là cô gửi nhận xét. Bản này
 vẫn có phần chờ phản hồi, chưa có xác nhận duyệt checkpoint. Đã đối chiếu với
 code/logs và ghi rõ từng điểm trong
-[báo cáo xử lý](report/feedback-tuan-8-2026-10-27.md).
+[báo cáo xử lý](report/reviews/feedback-tuan-8-2026-10-27.md).
 
 Công việc mới:
 
@@ -134,7 +139,7 @@ Không chạy lại HPO hoặc điều chỉnh kết quả thực nghiệm trong
 
 ## Khởi tạo báo cáo và kịch bản demo tuần học 9 ngày 01/11/2026
 
-1. Tạo báo cáo tuần học 9 tại `report/checkpoint-tuan-9-2026-11-01.md` tập trung vào lý thuyết toán học Optuna TPE và kịch bản demo tối ưu 5–7 phút.
+1. Tạo báo cáo tuần học 9 tại `report/checkpoints/checkpoint-tuan-9-2026-11-01.md` tập trung vào lý thuyết toán học Optuna TPE và kịch bản demo tối ưu 5–7 phút.
 2. Mô hình hóa giải thích nguyên lý xác suất của TPE: input/output, phân bố $l(x)$ và $g(x)$, cực đại hóa Expected Improvement (EI) thông qua tỷ số Likelihood Ratio $l(x)/g(x)$, và phân tích vai trò của `n_startup_trials`.
 3. Kiểm thử `demo_optimization.py replay --seed 11` để đọc CV logs và minh họa quy tắc epsilon; replay không huấn luyện hoặc kiểm chứng test. Thêm live demo nhỏ chỉ dùng development và validator cho logs mới.
 4. Sửa cấu hình console UTF-8 trong `update_github.ps1` để tương thích xử lý đường dẫn tiếng Việt trên PowerShell.
@@ -168,7 +173,7 @@ File Word và script dựng được lưu trong repo cùng CSV/JSON của phần
 `report/Bao_cao_Train_Validation_Test_Baselines_2026-11-03.docx`,
 `scripts/build_train_validation_test_report.py`,
 `results/report_evaluation_2026-11-03/`. Chi tiết công việc và kiểm tra ở
-[báo cáo cập nhật](report/update-word-2026-11-03.md).
+[báo cáo cập nhật](report/updates/update-word-2026-11-03.md).
 
 Không coi đây là checkpoint tuần 10 đã được bảo vệ. Trạng thái cô duyệt và
 sinh viên tự trình bày tiếp tục chờ xác nhận. Không tạo slide/PDF bàn giao.
@@ -183,7 +188,7 @@ CV OOF đúng 1.395/1.437. Các kết quả này là đếm thật, không phả
 
 Code: `scripts/audit_train_accuracy.py`; bằng chứng:
 `results/train_accuracy_audit_2026-11-03/`;
-[giải thích và đối chiếu](report/kiem-tra-train-accuracy-2026-11-03.md).
+[giải thích và đối chiếu](report/reviews/kiem-tra-train-accuracy-2026-11-03.md).
 Không đổi model/dữ liệu/nhãn hoặc dự đoán mới trên features test. Báo cáo
 Word đã có nêu train in-sample; bản Word gốc được giữ nguyên trong lần này.
 Chưa có phản hồi chấp nhận giải thích hoặc duyệt checkpoint của cô.
@@ -209,7 +214,7 @@ Chưa có phản hồi chấp nhận giải thích hoặc duyệt checkpoint c�
    File Word có 11 trang, kiểm tra bố cục qua bản render; không bàn giao PDF/slide.
 
 Bằng chứng mới: `results/week10_2026-11-09/`, `figures/week10_2026-11-09/`,
-[báo cáo checkpoint](report/checkpoint-tuan-10-2026-11-09.md),
+[báo cáo checkpoint](report/checkpoints/checkpoint-tuan-10-2026-11-09.md),
 [hướng dẫn tự chạy](docs/tu-chay-tai-lap-tuan-10.md).
 88 artifact cũ được kiểm tra giữ nguyên theo hash.
 
@@ -224,4 +229,23 @@ cho accuracy và log loss. Dùng lại toàn bộ số đo 1–100 cây đã ki�
 trung bình ba folds, không làm mượt hoặc huấn luyện lại. Script đối chiếu
 600 dòng nguồn và các checkpoint đã công bố; nguồn giữ nguyên. Đã xem hình
 để kiểm tra nhãn và bố cục. Chi tiết và bằng chứng ở
-[báo cáo hình hai đường](report/bieu-do-hai-duong-2026-11-13.md).
+[báo cáo hình hai đường](report/updates/bieu-do-hai-duong-2026-11-13.md).
+
+## Rà soát và dọn folder ngày 16/11/2026
+
+Theo yêu cầu sinh viên, kiểm kê 194 file trước khi dọn; tổ chức lại bảy báo
+cáo Markdown vào `report/checkpoints/`, `report/reviews/`, `report/updates/`.
+README gốc trở thành trang bắt đầu ngắn; phần hướng dẫn đầy đủ chuyển sang
+`docs/huong-dan-ky-thuat.md`. Thêm mục lục báo cáo và bản đồ code/kết quả,
+cập nhật các liên kết cùng hai module đọc/sinh báo cáo cho vị trí mới.
+
+Sau dọn, audit 198 file và liên kết nội bộ/heading anchors đạt; 143 artifact
+kết quả, hình, config, notebook và Word giữ nguyên hash. Vùng số liệu tự sinh
+của README và báo cáo tuần 8 không đổi. Đã chuyển 19 file bytecode và hai
+thư mục cache ra thư mục tạm ngoài đồ án để có thể khôi phục; giữ `.venv` và `.git`.
+
+25 unit tests, 401 kiểm tra kết quả gốc, 3.278 kiểm tra phần mở rộng,
+report facts/evaluation, validator tuần 10 và demo validate/replay/predict đạt.
+Không chạy lại HPO hoặc thay model, dữ liệu hay cấu hình; không coi việc dọn
+folder là xác nhận duyệt checkpoint hoặc nộp bài. Chi tiết tại
+[báo cáo dọn folder](report/maintenance/don-folder-2026-11-16.md).

@@ -356,7 +356,7 @@ def write_report():
              "- **Ngày thực hiện:** 09/11/2026.",
              "- **Nội dung:** tái lập protocol đã khóa, đối chiếu kết quả và phân tích lỗi/giới hạn.",
              "- **Người chạy phiên này:** Codex; chưa có xác nhận sinh viên đã tự chạy hoặc cô duyệt.",
-             "- **Báo cáo Word cập nhật:** `Bao_cao_Train_Validation_Test_Baselines_2026-11-09.docx`.", "",
+             "- **Báo cáo Word cập nhật:** [Bản 09/11/2026](../Bao_cao_Train_Validation_Test_Baselines_2026-11-09.docx).", "",
              "## 1 Việc mới thực hiện", "",
              "1. Chạy lại 180 search trials vào `results/week10_2026-11-09/reproduction/`, cùng config/seed/folds và quy tắc epsilon.",
              "2. Đối chiếu toàn bộ trials, đại diện, model và predictions với bộ gốc; giữ nguyên các số đo runtime thay vì ép khớp.",
@@ -387,20 +387,20 @@ def write_report():
               f"3 warmups/round và 15 phép đo/round (75 số đo). Median chung **{bench['overall_median_ms']:.4f} ms/batch**, "
               f"p95 **{bench['overall_p95_ms']:.4f} ms/batch**; mean ± SD của năm median **{bench['round_median_mean_ms']:.4f} ± {bench['round_median_sd_ms']:.4f} ms**. "
               "Toàn bộ số đo được giữ, không loại outlier. Đây không phải single-request latency hay bằng chứng ổn định trên nhiều phiên/máy.", "",
-              "![Latency từng lần đo](../figures/week10_2026-11-09/latency_stability.png)", "",
+              "![Latency từng lần đo](../../figures/week10_2026-11-09/latency_stability.png)", "",
               "## 4 Toàn bộ lỗi selected trên test gốc", "",
               "| Global index | Nhãn thật | Selected dự đoán | Random dự đoán | Random đúng |",
               "|---:|---:|---:|---:|---|"]
     for row in errors.itertuples():
         lines.append(f"| {row.dataset_index} | {row.y_true} | {row.selected_prediction} | {row.random} | {bool(row.random_correct)} |")
-    lines += ["", "![Toàn bộ 10 mẫu selected sai](../figures/week10_2026-11-09/selected_test_errors.png)", "",
+    lines += ["", "![Toàn bộ 10 mẫu selected sai](../../figures/week10_2026-11-09/selected_test_errors.png)", "",
               "| Nhãn thật | Nhãn dự đoán | Số lần |", "|---:|---:|---:|"]
     for row in pair.itertuples():
         lines.append(f"| {row.y_true} | {row.selected_prediction} | {row.count} |")
     lines += ["", f"Random sửa đúng **{info['selected_errors_random_corrects']}** lỗi selected nhưng sai thêm "
               f"**{info['random_errors_selected_corrects']}** mẫu selected đúng; có **{info['errors_shared_by_selected_and_random']}** lỗi chung. "
               "Các ảnh 8×8 cho thấy thông tin nét hữu hạn; nhận xét trực quan không phải chứng minh nguyên nhân sai.", "",
-              "![Confusion matrix test gốc](../figures/week10_2026-11-09/confusion_matrix.png)", "",
+              "![Confusion matrix test gốc](../../figures/week10_2026-11-09/confusion_matrix.png)", "",
               "## 5 Khoảng cách train validation test", "",
               "| Đại diện | Train accuracy | Validation accuracy | Test accuracy | Train trừ val điểm phần trăm |",
               "|---|---:|---:|---:|---:|"]
@@ -418,7 +418,7 @@ def write_report():
               "Nguồn: thư mục `results/week10_2026-11-09/`, `src/week10.py`, `tests/test_week10.py`. "
               "Không chạy lại phần mở rộng 450 trials chỉ để bổ sung tài liệu tuần 10.", "",
               "## 7 Phần sinh viên và giảng viên cần xác nhận", "",
-              "Sinh viên làm theo [hướng dẫn tự chạy](../docs/tu-chay-tai-lap-tuan-10.md), đọc log và giải thích kết quả. "
+              "Sinh viên làm theo [hướng dẫn tự chạy](../../docs/tu-chay-tai-lap-tuan-10.md), đọc log và giải thích kết quả. "
               "Phiên do trợ lý chạy không tự xác nhận sinh viên đã tự tái lập. Chưa có feedback hoặc duyệt checkpoint tuần 10 từ cô.", "",
               "Tuần 11 còn kiểm tra cuối, chốt bản nộp/tag v1.0, tập demo/bảo vệ và nộp link. "
               "Chưa tạo release cuối hoặc đánh dấu nộp bài trong checkpoint này.", ""]
@@ -433,7 +433,7 @@ def write_report():
                   "export PDF tạm và Poppler render PNG để kiểm tra. PDF/PNG QA ở ngoài repo, không phải file bàn giao.", "",
                   "Kết quả xác minh nằm trong `verification.json`; việc kiểm chứng của trợ lý không thay xác nhận "
                   "sinh viên tự chạy hoặc giảng viên duyệt.", ""]
-    (ROOT / "report/checkpoint-tuan-10-2026-11-09.md").write_text("\n".join(lines), encoding="utf-8")
+    (ROOT / "report/checkpoints/checkpoint-tuan-10-2026-11-09.md").write_text("\n".join(lines), encoding="utf-8")
     print("Wrote week10 checkpoint report from verified evidence.")
 
 
