@@ -1,0 +1,6 @@
+{
+  "name": "digits-rf-lab",
+  "private": true,
+  "type": "module",
+  "scripts": {"test": "node tests/check-model.mjs"}
+}

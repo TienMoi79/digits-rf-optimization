@@ -7,6 +7,7 @@ Từ [trang bắt đầu](../README.md), chọn phần cần đọc:
 - [TPE và kịch bản demo tối ưu](tpe-va-demo-toi-uu.md).
 - [Tự chạy tái lập tuần 10](tu-chay-tai-lap-tuan-10.md).
 - [Mục lục Word, checkpoint và phản hồi](../report/README.md).
+- [Giao diện web và hướng dẫn mở trên máy](../web/README.md).
 
 ## Code nằm ở đâu?
 
@@ -21,6 +22,7 @@ Từ [trang bắt đầu](../README.md), chọn phần cần đọc:
 | Phân tích tái lập và lỗi tuần 10 | [src/week10.py](../src/week10.py) |
 | Dựng Word, notebook, biểu đồ | [scripts](../scripts) |
 | Kiểm tra và CI | [tests](../tests), [workflow](../.github/workflows/ci.yml) |
+| Web dashboard và suy luận trong trình duyệt | [web](../web), [export dữ liệu](../scripts/export_web_data.py) |
 
 ## Vì sao có nhiều thư mục kết quả?
 

@@ -249,3 +249,27 @@ report facts/evaluation, validator tuần 10 và demo validate/replay/predict đ
 Không chạy lại HPO hoặc thay model, dữ liệu hay cấu hình; không coi việc dọn
 folder là xác nhận duyệt checkpoint hoặc nộp bài. Chi tiết tại
 [báo cáo dọn folder](report/maintenance/don-folder-2026-11-16.md).
+
+## Bổ sung giao diện web ngày 16/11/2026
+
+Theo yêu cầu sinh viên, xây Digits Lab gồm tổng quan, so sánh baseline,
+phát lại Random/TPE theo seed và prefix trial, hai đường train/validation,
+và nhận dạng chữ số bằng mẫu development hoặc lưới vẽ 8×8. Code nằm trong
+`web/`, có launcher Windows và server static cục bộ; source xuất bản Sites
+ở checkout riêng. Giao diện v0.1 là bản để sinh viên xem và góp ý.
+
+Xuất 100 cây từ model gốc để suy luận bằng JavaScript, không train lại.
+1.471 fixtures development/tổng hợp JS/Python khớp, sai số xác suất tối đa 0;
+không dùng test features cho kiểm tra inference mới. 143 artifact gốc giữ
+nguyên hash; thêm kiểm chứng web exports và JS vào CI/tiện ích cập nhật GitHub.
+
+25 unit tests, 401/3.278 checks, report facts/evaluation và validator tuần 10
+đạt. UI local đã kiểm tra các màn hình, seed/slider/replay, accuracy/loss/zoom,
+mẫu/vẽ/xóa/nhận dạng và bố cục desktop/mobile. CSV static trả HTTP 200;
+chưa xác nhận thao tác lưu Downloads trong trình duyệt của sinh viên.
+
+Site đã xuất bản native succeeded tại
+[Digits Lab](https://digits-rf-lab-tienmoi79.flowypheasant16.chatgpt.site),
+giữ quyền xem riêng của chủ sở hữu; online cần đăng nhập ChatGPT. Bản local
+không cần đăng nhập. Không thay dữ liệu, model, protocol hoặc lịch sử cũ.
+Chi tiết tại [báo cáo web](report/updates/giao-dien-web-2026-11-16.md).

@@ -35,6 +35,12 @@ work only. Use meaningful messages describing the actual change.
   docs/huong-dan-ky-thuat.md and folder navigation in docs/README.md.
 - When moving documentation, update readers/writers and relative links;
   preserve generated numeric sections and frozen result/model/notebook bytes.
+- Web demo source is in web/. Export data with scripts/export_web_data.py;
+  verify with --check and node web/tests/check-model.mjs. Never alter frozen
+  experiment results to improve the web presentation. Gallery samples are
+  development-only; drawn digits are not a new accuracy benchmark. Preserve
+  the Site ID in web/.openai/hosting.json and keep publication credentials out
+  of Git. Sites publishing uses a separate checkout, not the project remote.
 - On 2026-11-03 the user explicitly requested one Word report containing train,
   validation, test and baseline comparisons. Maintain that DOCX and its source
   builder/evidence as authorized; this supersedes the earlier .md-only scope

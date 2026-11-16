@@ -24,6 +24,7 @@
 
 - [Bổ sung Word train/validation/test — 03/11](updates/update-word-2026-11-03.md).
 - [Mỗi hình có hai đường train/validation — 13/11](updates/bieu-do-hai-duong-2026-11-13.md).
+- [Giao diện web để xem và góp ý — 16/11](updates/giao-dien-web-2026-11-16.md).
 - [Rà soát và dọn folder — 16/11](maintenance/don-folder-2026-11-16.md).
 
 Ngày trong mỗi báo cáo là ngày công việc thực sự được ghi nhận. Sắp xếp lại

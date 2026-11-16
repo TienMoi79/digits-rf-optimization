@@ -30,6 +30,17 @@ if ($LASTEXITCODE -ne 0) { throw 'Report facts disagree with saved logs. Nothing
 if ($LASTEXITCODE -ne 0) { throw 'Train/CV/test report tables failed validation. Nothing was committed or pushed.' }
 & '.\.venv\Scripts\python.exe' -m src.week10 validate
 if ($LASTEXITCODE -ne 0) { throw 'Week 10 reproduction/error analysis validation failed. Nothing was committed or pushed.' }
+& '.\.venv\Scripts\python.exe' scripts/export_web_data.py --check
+if ($LASTEXITCODE -ne 0) { throw 'Web exports disagree with frozen evidence. Nothing was committed or pushed.' }
+$webNodeCommand = Get-Command node -ErrorAction SilentlyContinue
+if ($webNodeCommand) {
+    & $webNodeCommand.Source --check web/dist/app.js
+    if ($LASTEXITCODE -ne 0) { throw 'Web JavaScript syntax check failed.' }
+    & $webNodeCommand.Source web/tests/check-model.mjs
+    if ($LASTEXITCODE -ne 0) { throw 'Browser inference fixtures failed.' }
+} else {
+    Write-Host 'Node.js is optional locally; GitHub CI verifies the JavaScript inference fixtures.'
+}
 & '.\.venv\Scripts\python.exe' demo_optimization.py validate --output results/week9_demo/run-2026-11-01
 if ($LASTEXITCODE -ne 0) { throw 'Teaching demo validation failed. Nothing was committed or pushed.' }
 

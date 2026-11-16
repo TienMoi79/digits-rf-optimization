@@ -10,6 +10,7 @@ mô hình nhỏ trong ngưỡng giảm Macro-F1 validation đã định trước
 
 | Bạn muốn xem | Mở file |
 |---|---|
+| Giao diện web để xem và thử nhận dạng | [Mở Digits Lab](https://digits-rf-lab-tienmoi79.flowypheasant16.chatgpt.site) · [Cách chạy trên máy](web/README.md) |
 | Báo cáo Word mới nhất, 11 trang | [Bản ngày 09/11/2026](report/Bao_cao_Train_Validation_Test_Baselines_2026-11-09.docx) |
 | Biểu đồ có hai đường train/validation | [Accuracy](figures/train_validation_two_lines/accuracy.png), [Loss](figures/train_validation_two_lines/log_loss.png) |
 | Checkpoint và phản hồi của cô | [Mục lục báo cáo](report/README.md) |
@@ -118,6 +119,7 @@ report/       Word mới nhất, checkpoints/, reviews/, updates/, maintenance/
 docs/         hướng dẫn kỹ thuật, demo và tái lập
 scripts/      dựng notebook, Word, biểu đồ và kiểm tra train accuracy
 tests/        kiểm tra protocol, provenance, demo và phân tích
+web/          dashboard, biểu đồ tương tác và nhận dạng chữ số trong trình duyệt
 ```
 
 Các CLI `run_experiment.py`, `run_robustness.py`, `demo.py`,
