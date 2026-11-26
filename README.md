@@ -6,6 +6,10 @@
 để nhận dạng chữ số Digits, so sánh Random Search với Optuna TPE, rồi chọn
 mô hình nhỏ trong ngưỡng giảm Macro-F1 validation đã định trước.
 
+**Chuẩn bị nộp ngày 26/11/2026:** [Cách mở web, demo và lấy bản nộp sạch](docs/nop-bai.md).
+Trên máy đã có Python, nhấp đúp `web/start_web.bat` để xem giao diện;
+không cần cài thư viện ML chỉ để mở web.
+
 ## Mở đúng phần cần dùng
 
 | Bạn muốn xem | Mở file |
@@ -130,8 +134,9 @@ Chi tiết bộ kết quả nào phục vụ phần nào ở [bản đồ thư m
 ## Tiến độ và giới hạn
 
 Phần kỹ thuật tuần 10 đã hoàn thành ngày 09/11; cập nhật cách vẽ hình ngày
-13/11; sắp xếp folder ngày 16/11/2026. Chưa xác nhận sinh viên tự tái lập,
-cô duyệt checkpoint hoặc nộp bài. Các việc tuần 11 còn lại ở [PROGRESS.md](PROGRESS.md).
+13/11; sắp xếp folder ngày 16/11 và rà soát trước hạn nộp ngày 26/11/2026.
+Chưa xác nhận sinh viên tự tái lập, cô duyệt checkpoint hoặc nộp bài.
+Trạng thái từng việc được ghi ở [PROGRESS.md](PROGRESS.md).
 
 Train accuracy 100% là điểm in-sample, không đồng nghĩa dự đoán hoàn hảo trên
 dữ liệu mới. Có [kiểm tra độc lập train accuracy](report/reviews/kiem-tra-train-accuracy-2026-11-03.md).

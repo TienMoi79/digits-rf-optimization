@@ -273,3 +273,24 @@ Site đã xuất bản native succeeded tại
 giữ quyền xem riêng của chủ sở hữu; online cần đăng nhập ChatGPT. Bản local
 không cần đăng nhập. Không thay dữ liệu, model, protocol hoặc lịch sử cũ.
 Chi tiết tại [báo cáo web](report/updates/giao-dien-web-2026-11-16.md).
+
+## Rà soát trước hạn nộp ngày 26/11/2026
+
+Theo cập nhật mới của sinh viên, hạn nộp là ngày 27/11/2026. Đã rà soát
+checkout Digits/Random Forest và repo GitHub tương ứng. Thư mục đang đồng bộ,
+không có source rác theo dõi trong Git; giữ `.venv` cục bộ để demo và loại
+môi trường/cache/ZIP khỏi bản nguồn được quản lý.
+
+Bổ sung hướng dẫn nộp ngắn, sửa launcher web dùng Python hệ thống khi chưa
+có venv, thêm đóng gói Git ZIP từ commit sạch và kiểm tra từng file/checksum.
+Giữ nguyên cấu trúc checkpoint, kết quả gốc, 450 trials mở rộng, bản tái lập,
+hai notebook và hai Word. Snapshot 149 artifact dùng để đối chiếu trước/sau.
+
+25 unit tests, 401/3.278 checks, facts/evaluation/tuần 10, 1.471 fixtures web
+và demo validate/replay/predict đạt. Bản copy web không venv đã phục vụ được
+HTML/CSS/JS/model/CSV bằng Python hệ thống `-I -S`. ZIP được tạo ngoài repo
+sau khi commit; CI cũng kiểm tra đóng gói ở Windows và Linux.
+
+Không thay model/dữ liệu hoặc tạo lại lịch sử, không chạy HPO mới và không
+đánh dấu đã nộp bài/cô duyệt. Không tự tạo release trong đợt dọn folder này.
+Chi tiết: [báo cáo trước hạn nộp](report/maintenance/truoc-han-nop-2026-11-26.md).

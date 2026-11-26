@@ -15,3 +15,9 @@ desktop.ini
 !.env.example
 *.pem
 *.key
+
+# Submission archives and local QA are not project source.
+/submission/
+/tmp/
+*.zip
+*.zip.sha256.txt

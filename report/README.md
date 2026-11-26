@@ -1,5 +1,8 @@
 # Mục lục báo cáo
 
+Đợt chốt gần nhất: [Rà soát trước hạn nộp — 26/11/2026](maintenance/truoc-han-nop-2026-11-26.md).
+Mở [hướng dẫn nộp và chạy demo](../docs/nop-bai.md) để lấy đúng file.
+
 ## Bản Word để gửi cô
 
 - **Bản mới nhất:** [09/11/2026 — 11 trang](Bao_cao_Train_Validation_Test_Baselines_2026-11-09.docx).

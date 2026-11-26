@@ -41,6 +41,10 @@ work only. Use meaningful messages describing the actual change.
   development-only; drawn digits are not a new accuracy benchmark. Preserve
   the Site ID in web/.openai/hosting.json and keep publication credentials out
   of Git. Sites publishing uses a separate checkout, not the project remote.
+- Submission archives are generated from a clean committed tree by
+  scripts/package_submission.py --output <path-outside-repo>. Keep archives,
+  checksums and temporary extraction folders outside the checkout. Do not
+  delete checkpoint logs, reproducibility runs or prior reports as "duplicates".
 - On 2026-11-03 the user explicitly requested one Word report containing train,
   validation, test and baseline comparisons. Maintain that DOCX and its source
   builder/evidence as authorized; this supersedes the earlier .md-only scope

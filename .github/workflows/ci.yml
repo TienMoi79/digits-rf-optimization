@@ -61,3 +61,5 @@ jobs:
         run: python run_robustness.py --config configs/robustness-smoke.json --output "${{ runner.temp }}/digits-rf-smoke"
       - name: Check the model demo
         run: python demo.py --index 123
+      - name: Package and verify the clean submission archive
+        run: python scripts/package_submission.py --output "${{ runner.temp }}/digits-rf-submission.zip"

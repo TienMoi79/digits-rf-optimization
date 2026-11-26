@@ -5,11 +5,16 @@ không huấn luyện lại hoặc chọn model bằng test.
 
 ## Mở trên máy
 
-Nhấp đúp **`start_web.bat`** trong thư mục này. Hoặc từ gốc đồ án:
+Nhấp đúp **`start_web.bat`** trong thư mục này. Launcher ưu tiên `.venv` của
+đồ án; khi tải ZIP sang máy mới chưa có `.venv`, dùng Python hệ thống qua
+`py -3` hoặc `python`. Chỉ cần cài Python 3.12 để mở web, không phải cài toàn
+bộ thư viện ML. Hoặc từ gốc đồ án:
 
 ```powershell
 .\.venv\Scripts\python.exe -X utf8 web/serve.py
 ```
+
+Máy chưa có `.venv` có thể chạy `py -3 -X utf8 web/serve.py`.
 
 Mở [http://127.0.0.1:8765](http://127.0.0.1:8765). Giữ terminal đang chạy;
 Ctrl+C để dừng. Có thể chọn cổng khác bằng `--port 8766`. Không cần cài thêm

@@ -2,6 +2,8 @@
 
 Từ [trang bắt đầu](../README.md), chọn phần cần đọc:
 
+- [Hướng dẫn mở và nộp bài](nop-bai.md): link GitHub, ZIP sạch, web và demo.
+
 - [Hướng dẫn kỹ thuật đầy đủ](huong-dan-ky-thuat.md): formulation, protocol,
   kết quả, mở rộng, kiểm chứng dữ liệu/biểu đồ, lệnh chạy và giới hạn.
 - [TPE và kịch bản demo tối ưu](tpe-va-demo-toi-uu.md).
