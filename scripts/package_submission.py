@@ -19,6 +19,18 @@ def canonical(data, path):
     return data.replace(b"\r\n", b"\n") if path.suffix in TEXT_SUFFIXES or path.name in {".gitignore", ".gitattributes", "LICENSE"} else data
 
 
+def require_clean_tree(root):
+    # Windows can report a modified stat entry after a validator rewrites LF as
+    # CRLF, even when Git's content diff is empty. Check actual source changes;
+    # every packed file is still compared to the working tree below.
+    diff = subprocess.run(["git", "diff", "--quiet", "HEAD", "--"], cwd=root)
+    if diff.returncode not in (0, 1):
+        raise RuntimeError("Cannot inspect committed source changes.")
+    untracked = subprocess.check_output(["git", "ls-files", "--others", "--exclude-standard", "-z"], cwd=root)
+    if diff.returncode or untracked:
+        raise ValueError("Commit the project changes before packaging.")
+
+
 def package(output):
     output = Path(output).resolve()
     if output.is_relative_to(ROOT):
@@ -26,8 +38,7 @@ def package(output):
     checksum = output.with_name(output.name + ".sha256.txt")
     if output.exists() or output.is_symlink() or checksum.exists():
         raise FileExistsError("Submission archive/checksum already exists; use a new output name.")
-    if git("status", "--porcelain").strip():
-        raise ValueError("Commit the project changes before packaging.")
+    require_clean_tree(ROOT)
     commit = git("rev-parse", "HEAD").decode().strip()
     tracked = {name for name in git("ls-tree", "-r", "--name-only", "-z", "HEAD").decode().split("\0") if name}
     for name in tracked:

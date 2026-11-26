@@ -28,7 +28,7 @@
 | Hạng mục | Kết quả |
 |---|---|
 | `pip check` | Không có dependency hỏng |
-| Python unit tests | 25 tests đạt |
+| Python unit tests | 27 tests đạt, gồm kiểm tra xuống dòng Windows và chặn source chưa commit |
 | Kết quả gốc | 401 checks đạt |
 | Nghiên cứu mở rộng | 3.278 checks đạt |
 | Report facts/evaluation | Đạt |
@@ -38,6 +38,13 @@
 | Demo validate/replay/predict | Đạt |
 | Web bản copy sạch | HTTP thành công cho HTML/CSS/JS/model/JSON/CSV bằng Python hệ thống `-I -S`, không có venv hay thư viện ML |
 | Bảo toàn artifact | Đối chiếu hash trước/sau cho 149 file kết quả/hình/config/notebook/Word và bằng chứng web |
+
+Trong CI Windows, validator ghi hai `validation.json` bằng CRLF khiến
+`git status` báo modified dù `git diff` không có thay đổi nội dung. Đã tái
+hiện trên clone sạch với `core.autocrlf=true`, chuyển kiểm tra sang content
+diff của Git và danh sách file chưa theo dõi. Việc so sánh từng file trong
+ZIP vẫn bắt buộc; thêm tests cho thay đổi thật, đã stage và file chưa commit.
+Bản clone Windows sau kiểm chứng đã đóng gói đạt, giữ nguyên số liệu.
 
 ZIP cuối được tạo **sau commit** ở ngoài folder đồ án. Script kiểm chứng
 thành công mới ghi checksum; SHA256 và commit chính xác nằm trong file

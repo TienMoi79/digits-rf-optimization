@@ -286,11 +286,16 @@ có venv, thêm đóng gói Git ZIP từ commit sạch và kiểm tra từng fil
 Giữ nguyên cấu trúc checkpoint, kết quả gốc, 450 trials mở rộng, bản tái lập,
 hai notebook và hai Word. Snapshot 149 artifact dùng để đối chiếu trước/sau.
 
-25 unit tests, 401/3.278 checks, facts/evaluation/tuần 10, 1.471 fixtures web
+27 unit tests, 401/3.278 checks, facts/evaluation/tuần 10, 1.471 fixtures web
 và demo validate/replay/predict đạt. Bản copy web không venv đã phục vụ được
 HTML/CSS/JS/model/CSV bằng Python hệ thống `-I -S`. ZIP được tạo ngoài repo
 sau khi commit; CI cũng kiểm tra đóng gói ở Windows và Linux.
 
 Không thay model/dữ liệu hoặc tạo lại lịch sử, không chạy HPO mới và không
 đánh dấu đã nộp bài/cô duyệt. Không tự tạo release trong đợt dọn folder này.
+
+CI Windows phát hiện khác biệt CRLF/LF sau validator. Đã tái hiện trên clone
+sạch, sửa guard đóng gói dùng content diff và kiểm tra file chưa commit,
+bổ sung regression tests; clone Windows sau kiểm chứng đóng gói đạt. So
+sánh từng file ZIP vẫn giữ nguyên, không bỏ kiểm tra bảo toàn kết quả.
 Chi tiết: [báo cáo trước hạn nộp](report/maintenance/truoc-han-nop-2026-11-26.md).
