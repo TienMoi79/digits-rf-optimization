@@ -23,7 +23,8 @@ from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = ROOT / 'scripts/templates/van_lang_report_base.docx'
-DEFAULT = ROOT / 'report/Bao_cao_Do_an_Toi_uu_Random_Forest_Le_Quyet_Tien_2026-11-27.docx'
+DEFAULT = ROOT / 'report/Bao_cao_Do_an_Toi_uu_Random_Forest_Le_Quyet_Tien_2026-11-27_GitHub_Public.docx'
+REPOSITORY_URL = 'https://github.com/TienMoi79/digits-rf-optimization'
 FIG = ROOT / 'figures/report_2026-11-27'
 DATE = '27/11/2026'
 AUTHOR = 'Lê Quyết Tiến'
@@ -136,6 +137,15 @@ class Report:
         end = OxmlElement('w:bookmarkEnd');end.set(qn('w:id'),str(self.uid))
         p._p.insert(1 if p._p.pPr is not None else 0,start);p._p.append(end)
         return name
+
+    def hyperlink(self, p, url):
+        from docx.opc.constants import RELATIONSHIP_TYPE as RT
+        link=OxmlElement('w:hyperlink')
+        link.set(qn('r:id'),self.doc.part.relate_to(url,RT.HYPERLINK,is_external=True))
+        run=OxmlElement('w:r');props=OxmlElement('w:rPr')
+        color=OxmlElement('w:color');color.set(qn('w:val'),'0563C1');props.append(color)
+        underline=OxmlElement('w:u');underline.set(qn('w:val'),'single');props.append(underline)
+        run.append(props);text=OxmlElement('w:t');text.text=url;run.append(text);link.append(run);p._p.append(link)
 
     def h(self, text, level=1, page=False):
         p=self.p(text,style=f'Heading {level}')
@@ -321,6 +331,9 @@ def build(output):
     r.p('Học phần: Nhập môn Tối ưu hóa.')
     r.p('Đề tài: Tối ưu siêu tham số Random Forest cho nhận dạng chữ số viết tay.')
     r.p('Ngày hoàn thiện báo cáo: '+DATE+'.')
+    label=r.p('Kho mã nguồn GitHub công khai (Public)',left=True,keep=True)
+    for run_ in label.runs:run_.bold=True
+    r.hyperlink(r.p(left=True),REPOSITORY_URL)
     r.p('Phạm vi thực hiện cá nhân gồm mô hình hóa bài toán, mã nguồn, tổ chức thí nghiệm, kiểm chứng kết quả và trình diễn. Công cụ Codex được sử dụng để hỗ trợ lập trình, kiểm tra và biên soạn; sinh viên chịu trách nhiệm giải thích và xác nhận nội dung khi bảo vệ.')
     r.page('LỜI MỞ ĐẦU',1)
     r.p('Đề tài nghiên cứu cách tìm cấu hình Random Forest nhận dạng chữ số viết tay trong một ngân sách đánh giá hữu hạn. Trọng tâm của môn học được thể hiện qua biến quyết định, hàm mục tiêu, miền ràng buộc, thuật toán tìm kiếm và quy tắc chọn nghiệm có xét kích thước mô hình.')
@@ -599,7 +612,7 @@ def build(output):
         'template_parts_restored_before_word_refresh':PRESERVE,
         'finalization':'Microsoft Word updates native TOCs/page caches and normalizes style IDs; see scripts/finalize_report_word.ps1.',
     }
-    manifest_path=ROOT/'report/updates/final-report-sources-2026-11-27.json'
+    manifest_path=ROOT/'report/updates/final-report-sources-2026-11-27-github-public.json'
     manifest_path.write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     print(json.dumps(manifest,ensure_ascii=False,indent=2))
 

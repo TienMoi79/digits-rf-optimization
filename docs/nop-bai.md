@@ -7,10 +7,10 @@ là **27/11/2026**. Việc nộp LMS, tự trình bày và cô duyệt do sinh v
 
 - Repo public: [TienMoi79/digits-rf-optimization](https://github.com/TienMoi79/digits-rf-optimization).
   Lịch sử commit và các checkpoint được giữ nguyên.
-- Nếu cần nộp file ZIP, dùng bản `BAN_NOP_DIGITS_RF_2026-11-27.zip` đặt cạnh
+- Nếu cần nộp file ZIP, dùng bản `BAN_NOP_DIGITS_RF_2026-11-27_GITHUB_PUBLIC.zip` đặt cạnh
   folder đồ án trên Desktop. ZIP được tạo từ commit đã chốt, có file SHA256
   đi kèm và không chứa `.venv`, `.git`, cache hay file tạm.
-- Word theo mẫu sinh viên cung cấp: [bản hoàn chỉnh 27/11](../report/Bao_cao_Do_an_Toi_uu_Random_Forest_Le_Quyet_Tien_2026-11-27.docx).
+- Word theo mẫu sinh viên cung cấp: [bản có link GitHub Public 27/11](../report/Bao_cao_Do_an_Toi_uu_Random_Forest_Le_Quyet_Tien_2026-11-27_GitHub_Public.docx).
   Hai Word 03/11 và 09/11 giữ nguyên ở thư mục `report/` để đối chiếu.
 - Checkpoint, phản hồi và các đợt kiểm chứng: [mục lục báo cáo](../report/README.md).
 

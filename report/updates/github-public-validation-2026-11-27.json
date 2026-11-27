@@ -1,0 +1,27 @@
+{
+  "checked_on": "2026-11-27",
+  "status": "passed",
+  "repository": {
+    "html_url": "https://github.com/TienMoi79/digits-rf-optimization",
+    "private": false,
+    "visibility": "public"
+  },
+  "anonymous_http_status": 200,
+  "report": "report/Bao_cao_Do_an_Toi_uu_Random_Forest_Le_Quyet_Tien_2026-11-27_GitHub_Public.docx",
+  "sha256": "e6621e9a58889304fa65ef74b8043f73411be66264251c385ae0a1adb8c2ccb6",
+  "previous_report_sha256": "36c0323b301fdf1723298bac48caac1493c7f8a75d75f7fc8b820123556e635e",
+  "pages": 34,
+  "link_page": 3,
+  "clickable_hyperlink_target": "https://github.com/TienMoi79/digits-rf-optimization",
+  "existing_content_preserved_after_removing_two_inserted_paragraphs": true,
+  "existing_zip_parts_changed": [
+    "word/document.xml",
+    "word/_rels/document.xml.rels",
+    "docProps/core.xml"
+  ],
+  "old_artifacts_preserved": 148,
+  "toc_bookmark_pages_unchanged": 75,
+  "pixel_identical_previously_inspected_pages": 33,
+  "visually_inspected_changed_page": 3,
+  "new_training_or_test_inference": false
+}

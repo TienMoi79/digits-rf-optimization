@@ -1,14 +1,16 @@
 # Mục lục báo cáo
 
-Đợt cập nhật gần nhất: [Báo cáo Word theo mẫu — 27/11/2026](updates/bao-cao-hoan-chinh-2026-11-27.md).
+Đợt cập nhật gần nhất: [Bổ sung link GitHub Public — 27/11/2026](updates/github-public-2026-11-27.md).
 Mở [hướng dẫn nộp và chạy demo](../docs/nop-bai.md) để lấy đúng file.
 
 ## Bản Word để gửi cô
 
-- **Bản mới nhất:** [Báo cáo đồ án hoàn chỉnh — 27/11/2026, 34 trang](Bao_cao_Do_an_Toi_uu_Random_Forest_Le_Quyet_Tien_2026-11-27.docx).
+- **Bản mới nhất:** [Báo cáo có link GitHub Public — 27/11/2026, 34 trang](Bao_cao_Do_an_Toi_uu_Random_Forest_Le_Quyet_Tien_2026-11-27_GitHub_Public.docx).
   Theo khung mẫu sinh viên cung cấp; tác giả Lê Quyết Tiến, MSSV 2474802010386.
   Có bốn chương, công thức tối ưu, train/validation/test, baseline, các nghiên cứu
   gốc/mở rộng, hình, tài liệu tham khảo đánh số và nguồn kiểm chứng.
+- [Bản trước khi bổ sung link ở đầu báo cáo — 27/11/2026](Bao_cao_Do_an_Toi_uu_Random_Forest_Le_Quyet_Tien_2026-11-27.docx)
+  giữ nguyên để đối chiếu lịch sử.
 - [09/11/2026 — 11 trang](Bao_cao_Train_Validation_Test_Baselines_2026-11-09.docx).
   Có train, validation, test, so sánh baseline, tái lập, latency và 10 mẫu sai.
 - [Bản 03/11/2026](Bao_cao_Train_Validation_Test_Baselines_2026-11-03.docx)
@@ -29,6 +31,7 @@ Mở [hướng dẫn nộp và chạy demo](../docs/nop-bai.md) để lấy đú
 
 ## Các lần cập nhật
 
+- [Link GitHub Public ở trang thông tin sinh viên — 27/11](updates/github-public-2026-11-27.md).
 - [Báo cáo Word hoàn chỉnh theo mẫu — 27/11](updates/bao-cao-hoan-chinh-2026-11-27.md).
 - [Bổ sung Word train/validation/test — 03/11](updates/update-word-2026-11-03.md).
 - [Mỗi hình có hai đường train/validation — 13/11](updates/bieu-do-hai-duong-2026-11-13.md).

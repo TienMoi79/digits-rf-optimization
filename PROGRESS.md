@@ -322,3 +322,17 @@ Chi tiết: [báo cáo cập nhật](report/updates/bao-cao-hoan-chinh-2026-11-2
 
 Chưa xác nhận sinh viên tự chạy, cô duyệt hoặc nộp LMS. Chỉ giữ các mốc làm
 thật và lịch sử Git đã có; không tạo lùi ngày, tag/release hoặc checkpoint giả.
+
+## Bổ sung link GitHub Public vào báo cáo ngày 27/11/2026
+
+Theo yêu cầu bổ sung của cô do sinh viên chuyển lại, thêm link GitHub bấm được
+ngay trang thông tin sinh viên của bản Word mới. GitHub API xác nhận repo đã
+public (`private=false`), truy cập ẩn danh HTTP 200; không cần đổi quyền.
+Giữ bản Word trước đó, thêm hậu tố GitHub_Public và cập nhật link bản mới
+trong README, mục lục báo cáo, hướng dẫn nộp cùng source builder.
+
+Chỉ thêm hai đoạn và quan hệ hyperlink; nội dung thực nghiệm, dữ liệu, model,
+styles và các báo cáo trước không đổi. Kiểm tra bản in 34 trang, số trang mục
+lục, hyperlink và hash các artifact cũ; đóng gói bản nộp mới từ commit sạch.
+Chi tiết: [cập nhật GitHub Public](report/updates/github-public-2026-11-27.md).
+Chưa xác nhận giảng viên đã duyệt hoặc sinh viên đã nộp bài.

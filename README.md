@@ -15,7 +15,7 @@ không cần cài thư viện ML chỉ để mở web.
 | Bạn muốn xem | Mở file |
 |---|---|
 | Giao diện web để xem và thử nhận dạng | [Mở Digits Lab](https://digits-rf-lab-tienmoi79.flowypheasant16.chatgpt.site) · [Cách chạy trên máy](web/README.md) |
-| Báo cáo Word hoàn chỉnh theo mẫu | [Bản ngày 27/11/2026](report/Bao_cao_Do_an_Toi_uu_Random_Forest_Le_Quyet_Tien_2026-11-27.docx) |
+| Báo cáo Word hoàn chỉnh theo mẫu | [Bản có link GitHub Public — 27/11/2026](report/Bao_cao_Do_an_Toi_uu_Random_Forest_Le_Quyet_Tien_2026-11-27_GitHub_Public.docx) |
 | Biểu đồ có hai đường train/validation | [Accuracy](figures/train_validation_two_lines/accuracy.png), [Loss](figures/train_validation_two_lines/log_loss.png) |
 | Checkpoint và phản hồi của cô | [Mục lục báo cáo](report/README.md) |
 | Lịch sử thực hiện và việc còn lại | [PROGRESS.md](PROGRESS.md) |
