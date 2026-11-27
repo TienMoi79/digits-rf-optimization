@@ -299,3 +299,26 @@ sạch, sửa guard đóng gói dùng content diff và kiểm tra file chưa com
 bổ sung regression tests; clone Windows sau kiểm chứng đóng gói đạt. So
 sánh từng file ZIP vẫn giữ nguyên, không bỏ kiểm tra bảo toàn kết quả.
 Chi tiết: [báo cáo trước hạn nộp](report/maintenance/truoc-han-nop-2026-11-26.md).
+
+## Báo cáo Word theo mẫu ngày 27/11/2026
+
+Theo yêu cầu mới, biên soạn báo cáo hoàn chỉnh cho Lê Quyết Tiến,
+MSSV 2474802010386, dùng khung mẫu Word sinh viên cung cấp. Nội dung lấy
+từ thí nghiệm Digits/RF đã lưu; không sao chép đề tài hoặc số liệu mẫu.
+Bản mới 34 trang, 11 hình, 22 bảng nội dung, bốn chương, tham khảo đánh số,
+phụ lục nguồn kiểm chứng và sáu công thức Word có thể chỉnh sửa.
+
+Trình bày train in-sample/validation/test, baseline, thuật toán tối ưu,
+epsilon, nghiên cứu 180/450 trials, kiểm chứng 100% train, tái lập, lỗi,
+runtime và giao diện. Nêu đúng Selected trùng baseline; không tuyên bố cải
+thiện mô hình cuối so với RF mặc định. Hai Word cũ và 144 artifact đã đối
+chiếu giữ nguyên hash; không chạy HPO hay suy luận test mới.
+
+Đã xem đủ 34 trang render, kiểm tra 215 ô số liệu và 75 tham chiếu số trang;
+report facts/evaluation đạt. Word lưu native sau cập nhật mục lục, giữ font,
+lề, khung bìa và header/footer theo mẫu. Thêm builder/template đã bỏ nội dung
+tham khảo, tiện ích Word và manifest nguồn/kiểm tra; cập nhật link bản mới.
+Chi tiết: [báo cáo cập nhật](report/updates/bao-cao-hoan-chinh-2026-11-27.md).
+
+Chưa xác nhận sinh viên tự chạy, cô duyệt hoặc nộp LMS. Chỉ giữ các mốc làm
+thật và lịch sử Git đã có; không tạo lùi ngày, tag/release hoặc checkpoint giả.

@@ -1,11 +1,15 @@
 # Mục lục báo cáo
 
-Đợt chốt gần nhất: [Rà soát trước hạn nộp — 26/11/2026](maintenance/truoc-han-nop-2026-11-26.md).
+Đợt cập nhật gần nhất: [Báo cáo Word theo mẫu — 27/11/2026](updates/bao-cao-hoan-chinh-2026-11-27.md).
 Mở [hướng dẫn nộp và chạy demo](../docs/nop-bai.md) để lấy đúng file.
 
 ## Bản Word để gửi cô
 
-- **Bản mới nhất:** [09/11/2026 — 11 trang](Bao_cao_Train_Validation_Test_Baselines_2026-11-09.docx).
+- **Bản mới nhất:** [Báo cáo đồ án hoàn chỉnh — 27/11/2026, 34 trang](Bao_cao_Do_an_Toi_uu_Random_Forest_Le_Quyet_Tien_2026-11-27.docx).
+  Theo khung mẫu sinh viên cung cấp; tác giả Lê Quyết Tiến, MSSV 2474802010386.
+  Có bốn chương, công thức tối ưu, train/validation/test, baseline, các nghiên cứu
+  gốc/mở rộng, hình, tài liệu tham khảo đánh số và nguồn kiểm chứng.
+- [09/11/2026 — 11 trang](Bao_cao_Train_Validation_Test_Baselines_2026-11-09.docx).
   Có train, validation, test, so sánh baseline, tái lập, latency và 10 mẫu sai.
 - [Bản 03/11/2026](Bao_cao_Train_Validation_Test_Baselines_2026-11-03.docx)
   được giữ để đối chiếu lịch sử. Hai Word giữ vị trí cũ vì đã được ghi hash kiểm chứng.
@@ -25,6 +29,7 @@ Mở [hướng dẫn nộp và chạy demo](../docs/nop-bai.md) để lấy đú
 
 ## Các lần cập nhật
 
+- [Báo cáo Word hoàn chỉnh theo mẫu — 27/11](updates/bao-cao-hoan-chinh-2026-11-27.md).
 - [Bổ sung Word train/validation/test — 03/11](updates/update-word-2026-11-03.md).
 - [Mỗi hình có hai đường train/validation — 13/11](updates/bieu-do-hai-duong-2026-11-13.md).
 - [Giao diện web để xem và góp ý — 16/11](updates/giao-dien-web-2026-11-16.md).

@@ -1,0 +1,36 @@
+{
+  "created_date": "2026-11-27",
+  "author": "Lê Quyết Tiến",
+  "student_id": "2474802010386",
+  "template": "scripts/templates/van_lang_report_base.docx",
+  "template_sha256": "222377c3622a132cfd7ff67e8bf3940eb7ec024c273a1a0d2ce0824fa16a1039",
+  "output": "report/Bao_cao_Do_an_Toi_uu_Random_Forest_Le_Quyet_Tien_2026-11-27.docx",
+  "figure_sources": [
+    "figures/quality_size_tradeoff.png",
+    "figures/report_2026-11-27/digits_examples.png",
+    "figures/report_2026-11-27/experiment_pipeline.png",
+    "figures/robustness/search_budget.png",
+    "figures/robustness/startup_ablation.png",
+    "figures/search_history.png",
+    "figures/train_validation_two_lines/accuracy.png",
+    "figures/train_validation_two_lines/log_loss.png",
+    "figures/week10_2026-11-09/confusion_matrix.png",
+    "figures/week10_2026-11-09/latency_stability.png",
+    "figures/week10_2026-11-09/selected_test_errors.png"
+  ],
+  "tables": 22,
+  "figures": 11,
+  "scope": "Report-only compilation from frozen results; no model fitting or new test inference.",
+  "template_parts_restored_before_word_refresh": [
+    "word/styles.xml",
+    "word/numbering.xml",
+    "word/fontTable.xml",
+    "word/theme/theme1.xml",
+    "word/header1.xml",
+    "word/webSettings.xml",
+    "word/media/image1.png",
+    "word/media/image2.svg",
+    "word/media/image3.png"
+  ],
+  "finalization": "Microsoft Word updates native TOCs/page caches and normalizes style IDs; see scripts/finalize_report_word.ps1."
+}

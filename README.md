@@ -6,7 +6,7 @@
 để nhận dạng chữ số Digits, so sánh Random Search với Optuna TPE, rồi chọn
 mô hình nhỏ trong ngưỡng giảm Macro-F1 validation đã định trước.
 
-**Chuẩn bị nộp ngày 26/11/2026:** [Cách mở web, demo và lấy bản nộp sạch](docs/nop-bai.md).
+**Cập nhật báo cáo ngày 27/11/2026:** [Cách mở web, demo và lấy bản nộp sạch](docs/nop-bai.md).
 Trên máy đã có Python, nhấp đúp `web/start_web.bat` để xem giao diện;
 không cần cài thư viện ML chỉ để mở web.
 
@@ -15,7 +15,7 @@ không cần cài thư viện ML chỉ để mở web.
 | Bạn muốn xem | Mở file |
 |---|---|
 | Giao diện web để xem và thử nhận dạng | [Mở Digits Lab](https://digits-rf-lab-tienmoi79.flowypheasant16.chatgpt.site) · [Cách chạy trên máy](web/README.md) |
-| Báo cáo Word mới nhất, 11 trang | [Bản ngày 09/11/2026](report/Bao_cao_Train_Validation_Test_Baselines_2026-11-09.docx) |
+| Báo cáo Word hoàn chỉnh theo mẫu | [Bản ngày 27/11/2026](report/Bao_cao_Do_an_Toi_uu_Random_Forest_Le_Quyet_Tien_2026-11-27.docx) |
 | Biểu đồ có hai đường train/validation | [Accuracy](figures/train_validation_two_lines/accuracy.png), [Loss](figures/train_validation_two_lines/log_loss.png) |
 | Checkpoint và phản hồi của cô | [Mục lục báo cáo](report/README.md) |
 | Lịch sử thực hiện và việc còn lại | [PROGRESS.md](PROGRESS.md) |

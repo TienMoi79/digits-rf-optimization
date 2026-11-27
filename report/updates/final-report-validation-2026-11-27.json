@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-27",
+  "status": "passed",
+  "report": "report/Bao_cao_Do_an_Toi_uu_Random_Forest_Le_Quyet_Tien_2026-11-27.docx",
+  "report_sha256": "36c0323b301fdf1723298bac48caac1493c7f8a75d75f7fc8b820123556e635e",
+  "pages": 34,
+  "numbered_figures": 11,
+  "numbered_tables": 22,
+  "all_pages_visually_inspected": true,
+  "numeric_table_cells_compared": 215,
+  "toc_page_references_checked": 75,
+  "old_artifacts_preserved": 144,
+  "reference_unchanged": true,
+  "donor_content_removed": true,
+  "page_geometry_matches_reference": true,
+  "native_equations": 6,
+  "fresh_training_or_test_inference": false,
+  "render_method": "Microsoft Word COM in PowerShell 7 and bundled Poppler. Bundled renderer could not find soffice. Word normalized internal style IDs while refreshing fields."
+}
